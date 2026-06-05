@@ -1,0 +1,25 @@
+# Flutter / Dart build artifacts
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+
+# Obfuscation maps
+app.*.symbols
+
+# Android / iOS build outputs
+*.apk
+*.aab
+*.app
+*.ipa
+
+# OS / Tool generated
+.DS_Store
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
