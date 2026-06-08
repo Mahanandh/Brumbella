@@ -17,6 +17,28 @@ This application is built using **Flutter** and **Dart**.
 - **RAG-Powered Support Copilot:** AI diagnostics console interface for semantic retrieval of digital manuals.
 - **Operational Telemetry:** Real-time dashboard grid displaying active warranties, open service tickets, and inventory maps.
 - **After-Sales Marketplace:** Segmented routing for OEM spare parts, service partners, and extended coverage.
+- **Dynamic Category Filtering:** Real-time sorting of registered assets by technical segments (Medical & Health, Wearables, etc.).
+
+## Visuals
+
+Here is a preview of the completed Enterprise B2B UI screens:
+
+### Landing & Copilot Screen
+<p float="left">
+  <img src="assets/screenshots/01_landing.png" width="400" />
+  <img src="assets/screenshots/04_copilot.png" width="400" /> 
+</p>
+
+### Dashboard Home & Marketplace
+<p float="left">
+  <img src="assets/screenshots/02_home.png" width="400" />
+  <img src="assets/screenshots/03_marketplace.png" width="400" />
+</p>
+
+### Settings & Configuration
+<p float="left">
+  <img src="assets/screenshots/05_settings.png" width="400" />
+</p>
 
 ## Enterprise Design System
 

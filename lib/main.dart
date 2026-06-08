@@ -20,7 +20,11 @@ class BrumBellaApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           elevation: 0,
           backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
           centerTitle: false,
+        ),
+        cardTheme: const CardThemeData(
+          surfaceTintColor: Colors.transparent,
         ),
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF0F172A),
@@ -209,220 +213,274 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Column(
-      children: [
-        // Header Row
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 80.0,
+        centerTitle: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/logo.png',
+              height: 40,
+              width: 40,
+            ),
+            const SizedBox(width: 12),
+            RichText(
+              text: TextSpan(
+                text: 'Brum',
+                style: GoogleFonts.poppins(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                  color: const Color(0xFF0F172A),
+                ),
                 children: [
-                  RichText(
-                    text: TextSpan(
-                      text: 'Brum',
-                      style: theme.textTheme.headlineLarge?.copyWith(
-                        color: const Color(0xFF0F172A),
-                        fontWeight: FontWeight.w900,
-                      ),
-                      children: const [
-                        TextSpan(
-                          text: 'Bella',
-                          style: TextStyle(
-                            color: Color(0xFF059669),
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    'One Product · One Identity · One Platform',
-                    style: TextStyle(
-                      color: Color(0xFF64748B),
-                      fontSize: 12,
-                      letterSpacing: 0.2,
+                  TextSpan(
+                    text: 'Bella',
+                    style: GoogleFonts.poppins(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF059669),
                     ),
                   ),
                 ],
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFD1FAE5),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: const Text(
-                  'v1.0',
-                  style: TextStyle(
-                    color: Color(0xFF065F46),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-        const Divider(color: Color(0xFFF1F5F9), height: 1),
-
-        // Content Scroll Area
-        Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Hero presentation block
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFECFDF5),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: const Text(
-                    'UNIFIED CLOUD',
-                    style: TextStyle(
-                      color: Color(0xFF059669),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.0,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 24),
+                  Text(
+                    'All your products, digitally organized.',
+                    style: GoogleFonts.poppins(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF0F172A),
+                      height: 1.2,
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'One SaaS platform connecting customers, enterprises, and developers through a single intelligent cloud.',
-                  style: theme.textTheme.headlineLarge,
-                ),
-                const SizedBox(height: 12),
-                const Text(
-                  'Replace physical warranty cards, manuals, and service history with a universal digital layer.',
-                  style: TextStyle(
-                    color: Color(0xFF64748B),
-                    fontSize: 14,
-                    height: 1.5,
+                  const SizedBox(height: 16),
+                  Text(
+                    'Say goodbye to lost receipts, paper manuals, and expired warranties. Scan any product to instantly add it to your digital vault.',
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      color: const Color(0xFF64748B),
+                      height: 1.5,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 32),
-
-                // Industry segment matrix container
-                const Text(
-                  'BUILT FOR EVERY INDUSTRY',
-                  style: TextStyle(
-                    color: Color(0xFF64748B),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.2,
+                  const SizedBox(height: 40),
+                  SizedBox(
+                    height: 180,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      clipBehavior: Clip.none,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      children: [
+                        _buildFeatureCard(
+                          icon: Icons.inventory_2_outlined,
+                          title: '1-Tap Registration',
+                          subtitle: 'Scan a QR code to instantly sync your item.',
+                        ),
+                        const SizedBox(width: 16),
+                        _buildFeatureCard(
+                          icon: Icons.shield_outlined,
+                          title: 'Track Warranties',
+                          subtitle: 'Get alerts before your coverage expires.',
+                        ),
+                        const SizedBox(width: 16),
+                        _buildFeatureCard(
+                          icon: Icons.build_outlined,
+                          title: 'Easy Repairs',
+                          subtitle: 'Book verified service with one click.',
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color(0xFFF1F5F9)),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0x050F172A),
-                        blurRadius: 10,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
+                  const SizedBox(height: 48),
+                  Text(
+                    'How it works',
+                    style: GoogleFonts.poppins(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF0F172A),
+                    ),
                   ),
-                  child: Column(
-                    children: [
-                      _buildIndustryTile(
-                        icon: Icons.phone_android_outlined,
-                        title: 'Consumer Electronics',
-                        tag: 'B2C',
-                      ),
-                      const Divider(color: Color(0xFFF1F5F9), height: 1),
-                      _buildIndustryTile(
-                        icon: Icons.favorite_border,
-                        title: 'Medical Devices',
-                        tag: 'Regulated',
-                      ),
-                      const Divider(color: Color(0xFFF1F5F9), height: 1),
-                      _buildIndustryTile(
-                        icon: Icons.business_outlined,
-                        title: 'Institute / Office',
-                        tag: 'B2B',
-                      ),
-                    ],
+                  const SizedBox(height: 24),
+                  _buildStepItem(
+                    step: 1,
+                    icon: Icons.camera_alt_outlined,
+                    text: 'Scan the code on your product.',
                   ),
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  _buildStepItem(
+                    step: 2,
+                    icon: Icons.cloud_sync_outlined,
+                    text: 'We fetch the manuals and warranty.',
+                  ),
+                  const SizedBox(height: 16),
+                  _buildStepItem(
+                    step: 3,
+                    icon: Icons.phone_iphone_outlined,
+                    text: 'Manage everything in one place.',
+                  ),
+                  const SizedBox(height: 40),
+                ],
+              ),
             ),
           ),
-        ),
-
-        // Navigation Actions
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              ElevatedButton(
-                onPressed: onLoginPressed,
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Login'),
-                    SizedBox(width: 8),
-                    Icon(Icons.arrow_forward, size: 16),
-                  ],
+          SafeArea(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              decoration: const BoxDecoration(
+                color: Color(0xFFF8FAFC),
+                border: Border(
+                  top: BorderSide(color: Color(0xFFE2E8F0)),
                 ),
               ),
-              const SizedBox(height: 12),
-              OutlinedButton(
-                onPressed: onCreateAccountPressed,
-                child: const Text('Create account'),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedButton(
+                    onPressed: onCreateAccountPressed,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF059669),
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      minimumSize: const Size.fromHeight(56),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: Text(
+                      'Get Started',
+                      style: GoogleFonts.inter(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextButton(
+                    onPressed: onLoginPressed,
+                    style: TextButton.styleFrom(
+                      foregroundColor: const Color(0xFF64748B),
+                      minimumSize: const Size.fromHeight(48),
+                    ),
+                    child: Text(
+                      'I already have an account. Log in.',
+                      style: GoogleFonts.inter(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFeatureCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
+    return Container(
+      width: 220,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.0),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: const BoxDecoration(
+              color: Color(0xFFECFDF5),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: const Color(0xFF059669), size: 28),
+          ),
+          const Spacer(),
+          Text(
+            title,
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xFF0F172A),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            subtitle,
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              color: const Color(0xFF64748B),
+              height: 1.4,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStepItem({
+    required int step,
+    required IconData icon,
+    required String text,
+  }) {
+    return Row(
+      children: [
+        Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+          ),
+          child: Icon(icon, color: const Color(0xFF0F172A), size: 24),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Text(
+            text,
+            style: GoogleFonts.inter(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xFF334155),
+            ),
           ),
         ),
       ],
     );
   }
-
-  Widget _buildIndustryTile({
-    required IconData icon,
-    required String title,
-    required String tag,
-  }) {
-    return ListTile(
-      leading: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF1F5F9),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Icon(icon, color: const Color(0xFF475569), size: 20),
-      ),
-      title: Text(
-        title,
-        style: const TextStyle(
-          color: Color(0xFF0F172A),
-          fontWeight: FontWeight.w600,
-          fontSize: 14,
-        ),
-      ),
-      trailing: Text(
-        tag,
-        style: const TextStyle(
-          color: Color(0xFF94A3B8),
-          fontWeight: FontWeight.w500,
-          fontSize: 12,
-        ),
-      ),
-    );
-  }
 }
+
 
 // ==========================================
 // 2. LOGIN & ACCESS SCREEN
@@ -866,35 +924,44 @@ class DashboardShell extends StatelessWidget {
         activeView = const MockScannerView();
         break;
       case 3:
+        activeView = const CopilotScreen();
+        break;
+      case 4:
         activeView = SettingsView(onLogoutPressed: onLogoutPressed);
         break;
       default:
         activeView = const DashboardHomeView();
     }
 
-    return Column(
-      children: [
-        // Main view content
-        Expanded(child: activeView),
-
-        // Custom Bottom Navigation Bar with top active indicator line
-        Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            border: Border(
-              top: BorderSide(color: Color(0xFFF1F5F9), width: 1),
-            ),
-          ),
-          child: Row(
-            children: [
-              _buildBottomTab(0, Icons.home_outlined, 'Home'),
-              _buildBottomTab(1, Icons.storefront_outlined, 'Marketplace'),
-              _buildBottomTab(2, Icons.qr_code_scanner_outlined, 'Scanner'),
-              _buildBottomTab(3, Icons.settings_outlined, 'Settings'),
-            ],
-          ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: activeView,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => onTabChanged(2), // Scanner
+        backgroundColor: const Color(0xFF059669),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
         ),
-      ],
+        elevation: 0,
+        child: const Icon(Icons.qr_code_scanner, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildBottomTab(0, Icons.home_outlined, 'Home'),
+            _buildBottomTab(1, Icons.storefront_outlined, 'Market'),
+            const SizedBox(width: 48), // Space for FAB
+            _buildBottomTab(3, Icons.auto_awesome_outlined, 'Copilot'),
+            _buildBottomTab(4, Icons.settings_outlined, 'Settings'),
+          ],
+        ),
+      ),
     );
   }
 
@@ -902,35 +969,26 @@ class DashboardShell extends StatelessWidget {
     final bool isActive = currentTab == index;
     final color = isActive ? const Color(0xFF059669) : const Color(0xFF64748B);
 
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => onTabChanged(index),
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: isActive ? const Color(0xFF059669) : Colors.transparent,
-                width: 2.5,
+    return InkWell(
+      onTap: () => onTabChanged(index),
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color, size: 24),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: color,
+                fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                fontSize: 11,
               ),
             ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, color: color, size: 22),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                style: TextStyle(
-                  color: color,
-                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-                  fontSize: 11,
-                ),
-              ),
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -938,42 +996,355 @@ class DashboardShell extends StatelessWidget {
 }
 
 // ------------------------------------------
-// D. POST-AUTHENTICATION DASHBOARD (HOME)
+// D-1. COPILOT SCREEN (AI SUPPORT)
 // ------------------------------------------
-class DashboardHomeView extends StatelessWidget {
-  const DashboardHomeView({super.key});
+class CopilotScreen extends StatelessWidget {
+  const CopilotScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Column(
       children: [
-        // Workspace Identification Header
+        // Header
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          color: const Color(0xFFF8FAFC),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Support Copilot',
+                      style: GoogleFonts.manrope(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF0F172A),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF059669),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Connected to digital manuals',
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            color: const Color(0xFF64748B),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                ),
+                child: const Icon(Icons.history, color: Color(0xFF64748B), size: 20),
+              ),
+            ],
+          ),
+        ),
+        const Divider(height: 1, color: Color(0xFFE2E8F0)),
+
+        // Chat Area
+        Expanded(
+          child: Container(
+            color: const Color(0xFFF8FAFC),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  // AI Avatar + Greeting Bubble
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF059669),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(Icons.auto_awesome, color: Colors.white, size: 18),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(16),
+                              bottomLeft: Radius.circular(16),
+                              bottomRight: Radius.circular(16),
+                            ),
+                            border: Border.all(color: const Color(0xFFE2E8F0)),
+                          ),
+                          child: Text(
+                            'Hi User, I\'m your BrumBella Copilot. I have loaded the manuals for your Smart Water Flosser and Smart Fitness Watch. How can I help you today?',
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              color: const Color(0xFF334155),
+                              height: 1.5,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Suggestion Chips
+                  Text(
+                    'SUGGESTIONS',
+                    style: GoogleFonts.manrope(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                      color: const Color(0xFF94A3B8),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _buildSuggestionChip('How do I clean the AquaPro X2?'),
+                        const SizedBox(width: 8),
+                        _buildSuggestionChip('Check my RO Purifier warranty'),
+                        const SizedBox(width: 8),
+                        _buildSuggestionChip('Order replacement filters'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+
+                  // Capabilities Section
+                  Text(
+                    'CAPABILITIES',
+                    style: GoogleFonts.manrope(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                      color: const Color(0xFF94A3B8),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildCapabilityItem(
+                    Icons.menu_book_outlined,
+                    'Manual Retrieval',
+                    'Instantly search through your product manuals',
+                  ),
+                  const SizedBox(height: 8),
+                  _buildCapabilityItem(
+                    Icons.build_outlined,
+                    'Troubleshooting',
+                    'Step-by-step diagnostic assistance',
+                  ),
+                  const SizedBox(height: 8),
+                  _buildCapabilityItem(
+                    Icons.shopping_bag_outlined,
+                    'Parts & Ordering',
+                    'Find and order replacement components',
+                  ),
+                  const SizedBox(height: 100), // Pushes the last card completely above the navigation bar
+                ],
+              ),
+            ),
+          ),
+        ),
+
+        // Input Area
+        Container(
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 80),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            border: Border(top: BorderSide(color: Color(0xFFE2E8F0))),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F5F9),
+                    borderRadius: BorderRadius.circular(24.0),
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Ask about your registered products...',
+                      hintStyle: GoogleFonts.inter(
+                        color: const Color(0xFF94A3B8),
+                        fontSize: 14,
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                      suffixIcon: Container(
+                        margin: const EdgeInsets.only(right: 4),
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF059669),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.send, color: Colors.white, size: 18),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSuggestionChip(String text) {
+    return OutlinedButton(
+      onPressed: () {},
+      style: OutlinedButton.styleFrom(
+        foregroundColor: const Color(0xFF334155),
+        side: const BorderSide(color: Color(0xFFE2E8F0)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        minimumSize: const Size(0, 36),
+      ),
+      child: Text(
+        text,
+        style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500),
+      ),
+    );
+  }
+
+  Widget _buildCapabilityItem(IconData icon, String title, String subtitle) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8FAFC),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, color: const Color(0xFF059669), size: 20),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF0F172A),
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    color: const Color(0xFF64748B),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.chevron_right, color: Color(0xFFCBD5E1), size: 20),
+        ],
+      ),
+    );
+  }
+}
+
+// ------------------------------------------
+// D-2. POST-AUTHENTICATION DASHBOARD (HOME)
+// ------------------------------------------
+class DashboardHomeView extends StatefulWidget {
+  const DashboardHomeView({super.key});
+
+  @override
+  State<DashboardHomeView> createState() => _DashboardHomeViewState();
+}
+
+class _DashboardHomeViewState extends State<DashboardHomeView> {
+  String _selectedCategory = 'All';
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // Premium Workspace Identification Header
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'WORKSPACE',
-                    style: TextStyle(
-                      color: Color(0xFF94A3B8),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.0,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/logo.png',
+                        height: 40,
+                        width: 40,
+                      ),
+                      const SizedBox(width: 12),
+                      RichText(
+                        text: TextSpan(
+                          text: 'Brum',
+                          style: GoogleFonts.poppins(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w800,
+                            color: const Color(0xFF0F172A),
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'Bella',
+                              style: GoogleFonts.poppins(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xFF059669),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 4),
                   Text(
-                    'Hello, Jane',
-                    style: TextStyle(
-                      color: Color(0xFF0F172A),
-                      fontWeight: FontWeight.w800,
-                      fontSize: 22,
+                    'Hello, User',
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFF64748B),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
@@ -984,13 +1355,13 @@ class DashboardHomeView extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(12.0),
                       border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
                     ),
                     child: const Icon(
                       Icons.notifications_none_outlined,
                       color: Color(0xFF475569),
-                      size: 22,
+                      size: 24,
                     ),
                   ),
                   Positioned(
@@ -1000,8 +1371,9 @@ class DashboardHomeView extends StatelessWidget {
                       width: 8,
                       height: 8,
                       decoration: const BoxDecoration(
-                        color: Color(0xFF34D399),
+                        color: Color(0xFF059669), // Brand Green
                         shape: BoxShape.circle,
+                        border: Border.fromBorderSide(BorderSide(color: Colors.white, width: 1.5)),
                       ),
                     ),
                   ),
@@ -1015,46 +1387,47 @@ class DashboardHomeView extends StatelessWidget {
         // Scrollable content
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Asset Registration Tracking Bar
-                const Text(
+                Text(
                   'REGISTER ASSET',
-                  style: TextStyle(
-                    color: Color(0xFF64748B),
+                  style: GoogleFonts.manrope(
+                    color: const Color(0xFF64748B),
                     fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 12),
                 Row(
                   children: [
                     Expanded(
                       child: Container(
-                        height: 46,
+                        height: 52,
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: const BorderRadius.horizontal(left: Radius.circular(8)),
+                          color: const Color(0xFFF8FAFC),
+                          borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
                           border: Border.all(color: const Color(0xFFE2E8F0)),
                         ),
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 12),
-                              child: Icon(Icons.crop_free, color: Color(0xFF64748B), size: 20),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Icon(Icons.qr_code_scanner, color: Color(0xFF94A3B8), size: 20),
                             ),
                             Expanded(
                               child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: 'Scan QR / NFC, or enter serial manually',
+                                style: GoogleFonts.inter(fontSize: 14),
+                                decoration: const InputDecoration(
+                                  hintText: 'Scan QR / NFC, or enter serial',
                                   filled: false,
                                   border: InputBorder.none,
                                   enabledBorder: InputBorder.none,
                                   focusedBorder: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(vertical: 12),
+                                  contentPadding: EdgeInsets.symmetric(vertical: 14),
                                 ),
                               ),
                             ),
@@ -1063,220 +1436,163 @@ class DashboardHomeView extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: 46,
+                      height: 52,
                       decoration: const BoxDecoration(
                         color: Color(0xFF0F172A),
-                        borderRadius: BorderRadius.horizontal(right: Radius.circular(8)),
+                        borderRadius: BorderRadius.horizontal(right: Radius.circular(12)),
                       ),
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(80, 46),
+                          backgroundColor: const Color(0xFF0F172A),
+                          minimumSize: const Size(80, 52),
+                          elevation: 0,
                           shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.horizontal(right: Radius.circular(8)),
+                            borderRadius: BorderRadius.horizontal(right: Radius.circular(12)),
                           ),
                         ),
-                        child: const Text('Validate'),
+                        child: Text(
+                          'Validate',
+                          style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                        ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
-                const Text(
-                  '• Fallback redundancy: manual entry honored when optical scan fails.',
-                  style: TextStyle(
-                    color: Color(0xFF059669),
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 24),
-
-                // AI Engine Console Panel Module
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF0B132B),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 6,
-                                height: 6,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF10B981),
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'brumbella://engine/rag · connected',
-                                style: TextStyle(
-                                  color: Color(0xFF94A3B8),
-                                  fontSize: 11,
-                                  fontFamily: 'Courier',
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Icon(
-                            Icons.developer_board_outlined,
-                            color: Color(0xFF64748B),
-                            size: 16,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      RichText(
-                        text: const TextSpan(
-                          text: 'BrumBella Enterprise Engine: ',
-                          style: TextStyle(
-                            color: Color(0xFF10B981),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Connected to localized product manuals & hardware service schema history via semantic retrieval.',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      InkWell(
-                        onTap: () {},
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Open copilot',
-                              style: TextStyle(
-                                color: Color(0xFF10B981),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                            SizedBox(width: 4),
-                            Icon(Icons.arrow_forward, color: Color(0xFF10B981), size: 12),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 32),
 
                 // Operational Telemetry Analytics Matrix
-                const Text(
+                Text(
                   'OPERATIONAL TELEMETRY',
-                  style: TextStyle(
-                    color: Color(0xFF64748B),
+                  style: GoogleFonts.manrope(
+                    color: const Color(0xFF64748B),
                     fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 GridView.count(
                   crossAxisCount: 2,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 1.25,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 1.15,
                   children: [
                     _buildTelemetryCard(
                       icon: Icons.shield_outlined,
-                      title: 'Active Asset Registry Coverage',
+                      title: 'Active Coverage',
                       value: '4 Units',
                       footer: 'Warranties',
                     ),
                     _buildTelemetryCard(
                       icon: Icons.handyman_outlined,
-                      title: 'Open Service Log Tickets',
+                      title: 'Open Tickets',
                       value: '1 Open',
                       footer: 'Service Requests',
                     ),
                     _buildTelemetryCard(
                       icon: Icons.inventory_2_outlined,
-                      title: 'Compatible Inventory Maps',
+                      title: 'Inventory Maps',
                       value: 'Verified',
                       footer: 'Spare Parts',
                     ),
                     _buildTelemetryCard(
                       icon: Icons.person_search_outlined,
-                      title: 'Telemetry Optimization Index',
+                      title: 'Optimization Index',
                       value: '98%',
                       footer: 'Usage Profiles',
                     ),
                   ],
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 32),
+
+                // Asset Categories
+                Text(
+                  'ASSET CATEGORIES',
+                  style: GoogleFonts.manrope(
+                    color: const Color(0xFF64748B),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  height: 48,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      _buildCategoryChip('All', Icons.grid_view_outlined),
+                      const SizedBox(width: 8),
+                      _buildCategoryChip('Medical & Health', Icons.favorite_border),
+                      const SizedBox(width: 8),
+                      _buildCategoryChip('Home Appliances', Icons.home_max_outlined),
+                      const SizedBox(width: 8),
+                      _buildCategoryChip('Wearables', Icons.watch_outlined),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 32),
 
                 // Asset Registry Inventory List
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'REGISTERED ASSETS',
-                      style: TextStyle(
-                        color: Color(0xFF64748B),
+                      style: GoogleFonts.manrope(
+                        color: const Color(0xFF64748B),
                         fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1.2,
                       ),
                     ),
                     GestureDetector(
                       onTap: () {},
-                      child: const Text(
+                      child: Text(
                         'View all',
-                        style: TextStyle(
-                          color: Color(0xFF059669),
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.inter(
+                          color: const Color(0xFF059669),
+                          fontWeight: FontWeight.w600,
                           fontSize: 12,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 Column(
                   children: [
-                    _buildAssetRecord(
-                      icon: Icons.water_drop_outlined,
-                      title: 'Smart Water Flosser',
-                      subtitle: 'Model · AquaPro X2  •  AQ2-00481',
-                      status: 'ACTIVE',
-                    ),
-                    _buildAssetRecord(
-                      icon: Icons.air_outlined,
-                      title: 'RO Water Purifier',
-                      subtitle: 'Model · PureFlow 9L  •  PF9-12090',
-                      status: 'EXPIRING',
-                    ),
-                    _buildAssetRecord(
-                      icon: Icons.watch_outlined,
-                      title: 'Smart Fitness Watch',
-                      subtitle: 'Model · PulseTrack 4  •  PT4-77231',
-                      status: 'ACTIVE',
-                    ),
-                    _buildAssetRecord(
-                      icon: Icons.monitor_heart_outlined,
-                      title: 'Digital BP Monitor',
-                      subtitle: 'Model · CardioSense M2  •  CS2-30118',
-                      status: 'EXPIRED',
-                    ),
+                    if (_selectedCategory == 'All' || _selectedCategory == 'Home Appliances')
+                      _buildAssetRecord(
+                        icon: Icons.water_drop_outlined,
+                        title: 'Smart Water Flosser',
+                        subtitle: 'Model · AquaPro X2  •  AQ2-00481',
+                        status: 'ACTIVE',
+                      ),
+                    if (_selectedCategory == 'All' || _selectedCategory == 'Home Appliances')
+                      _buildAssetRecord(
+                        icon: Icons.air_outlined,
+                        title: 'RO Water Purifier',
+                        subtitle: 'Model · PureFlow 9L  •  PF9-12090',
+                        status: 'EXPIRING',
+                      ),
+                    if (_selectedCategory == 'All' || _selectedCategory == 'Wearables')
+                      _buildAssetRecord(
+                        icon: Icons.watch_outlined,
+                        title: 'Smart Fitness Watch',
+                        subtitle: 'Model · PulseTrack 4  •  PT4-77231',
+                        status: 'ACTIVE',
+                      ),
+                    if (_selectedCategory == 'All' || _selectedCategory == 'Medical & Health')
+                      _buildAssetRecord(
+                        icon: Icons.monitor_heart_outlined,
+                        title: 'Digital BP Monitor',
+                        subtitle: 'Model · CardioSense M2  •  CS2-30118',
+                        status: 'EXPIRED',
+                      ),
                   ],
                 ),
               ],
@@ -1294,10 +1610,10 @@ class DashboardHomeView extends StatelessWidget {
     required String footer,
   }) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(12.0),
         border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
       ),
       child: Stack(
@@ -1306,7 +1622,14 @@ class DashboardHomeView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(icon, color: const Color(0xFF64748B), size: 20),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFECFDF5),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, color: const Color(0xFF059669), size: 20),
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -1314,17 +1637,17 @@ class DashboardHomeView extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Color(0xFF64748B),
-                      fontSize: 10,
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFF64748B),
+                      fontSize: 11,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 4),
                   Text(
                     value,
-                    style: const TextStyle(
-                      color: Color(0xFF0F172A),
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFF0F172A),
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
                     ),
@@ -1332,34 +1655,15 @@ class DashboardHomeView extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     footer,
-                    style: const TextStyle(
-                      color: Color(0xFF94A3B8),
-                      fontSize: 9,
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFF94A3B8),
+                      fontSize: 10,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
               ),
             ],
-          ),
-          Positioned(
-            right: 0,
-            top: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: const Text(
-                'LIVE',
-                style: TextStyle(
-                  color: Color(0xFF475569),
-                  fontSize: 8,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
           ),
         ],
       ),
@@ -1376,62 +1680,102 @@ class DashboardHomeView extends StatelessWidget {
     Color statusTextColor;
 
     if (status == 'ACTIVE') {
-      statusBgColor = const Color(0xFF059669).withOpacity(0.1);
-      statusTextColor = const Color(0xFF064E3B);
+      statusBgColor = const Color(0xFFECFDF5); // emerald[50]
+      statusTextColor = const Color(0xFF047857); // emerald[700]
     } else if (status == 'EXPIRING') {
-      statusBgColor = const Color(0xFFD97706).withOpacity(0.1);
-      statusTextColor = const Color(0xFF78350F);
+      statusBgColor = const Color(0xFFFFF7ED); // orange[50]
+      statusTextColor = const Color(0xFFC2410C); // orange[700]
     } else {
-      statusBgColor = const Color(0xFF64748B).withOpacity(0.1);
-      statusTextColor = const Color(0xFF0F172A);
+      statusBgColor = const Color(0xFFFEF2F2); // red[50]
+      statusTextColor = const Color(0xFFB91C1C); // red[700]
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(12.0),
         border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
       ),
       child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         leading: Container(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: const Color(0xFFF8FAFC),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(color: const Color(0xFFF1F5F9)),
           ),
           child: Icon(icon, color: const Color(0xFF475569), size: 20),
         ),
         title: Text(
           title,
-          style: const TextStyle(
-            color: Color(0xFF0F172A),
-            fontWeight: FontWeight.w700,
+          style: GoogleFonts.inter(
+            color: const Color(0xFF0F172A),
+            fontWeight: FontWeight.w600,
             fontSize: 14,
           ),
         ),
         subtitle: Text(
           subtitle,
-          style: const TextStyle(
-            color: Color(0xFF64748B),
-            fontSize: 11,
+          style: GoogleFonts.inter(
+            color: const Color(0xFF64748B),
+            fontSize: 12,
           ),
         ),
         trailing: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
             color: statusBgColor,
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
-            status.toUpperCase(),
-            style: TextStyle(
+            status,
+            style: GoogleFonts.inter(
               color: statusTextColor,
               fontSize: 11,
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w700,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryChip(String title, IconData icon) {
+    final isSelected = _selectedCategory == title;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedCategory = title;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFF059669) : Colors.white,
+          borderRadius: BorderRadius.circular(12.0),
+          border: isSelected ? null : Border.all(color: const Color(0xFFE2E8F0)),
+        ),
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 18,
+              color: isSelected ? Colors.white : const Color(0xFF64748B),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              title,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: isSelected ? Colors.white : const Color(0xFF64748B),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -1489,7 +1833,7 @@ class MarketplaceView extends StatelessWidget {
         // Marketplace Matrix Stacks
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1785,7 +2129,7 @@ class SettingsView extends StatelessWidget {
                       const Divider(color: Color(0xFFF1F5F9), height: 1),
                       _buildMenuRow(Icons.vpn_key_outlined, 'Authentication', 'OTP enabled'),
                       const Divider(color: Color(0xFFF1F5F9), height: 1),
-                      _buildMenuRow(Icons.notifications_none_outlined, 'Notifications', 'Email • Push'),
+                      _buildMenuRow(Icons.notifications_none_outlined, 'Notifications', 'Email â€¢ Push'),
                       const Divider(color: Color(0xFFF1F5F9), height: 1),
                       _buildMenuRow(Icons.security_outlined, 'Privacy & Security', 'Standard'),
                     ],
@@ -1844,6 +2188,7 @@ class SettingsView extends StatelessWidget {
                     ],
                   ),
                 ),
+                const SizedBox(height: 100), // Prevent FAB occlusion
               ],
             ),
           ),
