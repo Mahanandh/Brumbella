@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'screens/home_appliances_screen.dart';
 
 void main() {
   runApp(const BrumBellaApp());
@@ -13,6 +14,29 @@ class BrumBellaApp extends StatelessWidget {
     return MaterialApp(
       title: 'BrumBella',
       debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return Container(
+          color: const Color(0xFFE2E8F0),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 430.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 24,
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: child,
+              ),
+            ),
+          ),
+        );
+      },
       theme: ThemeData(
         useMaterial3: true,
         primaryColor: const Color(0xFF0F172A),
@@ -943,7 +967,15 @@ class DashboardShell extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         elevation: 0,
-        child: const Icon(Icons.qr_code_scanner, color: Colors.white),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.qr_code_scanner, color: Colors.white, size: 20),
+            SizedBox(width: 4),
+            Icon(Icons.keyboard_alt_outlined, color: Colors.white, size: 20),
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -1387,18 +1419,31 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
         // Scrollable content
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.only(top: 24, left: 24, right: 24, bottom: 100),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0).copyWith(bottom: 100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Asset Registration Tracking Bar
-                Text(
-                  'REGISTER ASSET',
-                  style: GoogleFonts.manrope(
-                    color: const Color(0xFF64748B),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
+                // Integrated Asset Ingestion Panel
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.qr_code_scanner, color: Color(0xFF0F172A)),
+                    label: Text(
+                      'Scan QR Code',
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF0F172A),
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size(0, 52),
+                      side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      backgroundColor: const Color(0xFFFFFFFF),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -1408,62 +1453,47 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                       child: Container(
                         height: 52,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF8FAFC),
-                          borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
-                          border: Border.all(color: const Color(0xFFE2E8F0)),
+                          color: const Color(0xFFFFFFFF),
+                          borderRadius: BorderRadius.circular(12.0),
+                          border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
                         ),
-                        child: Row(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              child: Icon(Icons.qr_code_scanner, color: Color(0xFF94A3B8), size: 20),
-                            ),
-                            Expanded(
-                              child: TextField(
-                                style: GoogleFonts.inter(fontSize: 14),
-                                decoration: const InputDecoration(
-                                  hintText: 'Scan QR / NFC, or enter serial',
-                                  filled: false,
-                                  border: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(vertical: 14),
-                                ),
-                              ),
-                            ),
-                          ],
+                        child: TextField(
+                          style: GoogleFonts.inter(fontSize: 14),
+                          decoration: const InputDecoration(
+                            hintText: 'Enter Serial Number',
+                            hintStyle: TextStyle(color: Color(0xFF94A3B8)),
+                            border: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                          ),
                         ),
                       ),
                     ),
-                    Container(
-                      height: 52,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF0F172A),
-                        borderRadius: BorderRadius.horizontal(right: Radius.circular(12)),
+                    const SizedBox(width: 12),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF0F172A),
+                        foregroundColor: Colors.white,
+                        minimumSize: const Size(120, 52),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
                       ),
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF0F172A),
-                          minimumSize: const Size(80, 52),
-                          elevation: 0,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.horizontal(right: Radius.circular(12)),
-                          ),
-                        ),
-                        child: Text(
-                          'Validate',
-                          style: GoogleFonts.inter(fontWeight: FontWeight.w600),
-                        ),
+                      child: Text(
+                        'Ingest Asset',
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 32),
 
-                // Operational Telemetry Analytics Matrix
+                // Category Discovery Grid
                 Text(
-                  'OPERATIONAL TELEMETRY',
+                  'DISCOVER CATEGORIES',
                   style: GoogleFonts.manrope(
                     color: const Color(0xFF64748B),
                     fontSize: 11,
@@ -1473,66 +1503,22 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                 ),
                 const SizedBox(height: 16),
                 GridView.count(
-                  crossAxisCount: 2,
+                  crossAxisCount: 4,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
-                  childAspectRatio: 1.15,
+                  childAspectRatio: 0.85,
                   children: [
-                    _buildTelemetryCard(
-                      icon: Icons.shield_outlined,
-                      title: 'Active Coverage',
-                      value: '4 Units',
-                      footer: 'Warranties',
-                    ),
-                    _buildTelemetryCard(
-                      icon: Icons.handyman_outlined,
-                      title: 'Open Tickets',
-                      value: '1 Open',
-                      footer: 'Service Requests',
-                    ),
-                    _buildTelemetryCard(
-                      icon: Icons.inventory_2_outlined,
-                      title: 'Inventory Maps',
-                      value: 'Verified',
-                      footer: 'Spare Parts',
-                    ),
-                    _buildTelemetryCard(
-                      icon: Icons.person_search_outlined,
-                      title: 'Optimization Index',
-                      value: '98%',
-                      footer: 'Usage Profiles',
-                    ),
+                    _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined),
+                    _buildDiscoveryCategoryCard('Personal Care', Icons.clean_hands_outlined),
+                    _buildDiscoveryCategoryCard('Furniture', Icons.weekend_outlined),
+                    _buildDiscoveryCategoryCard('Spare Parts', Icons.build_circle_outlined),
+                    _buildDiscoveryCategoryCard('Medical & Health', Icons.health_and_safety_outlined),
+                    _buildDiscoveryCategoryCard('Smart Wearables', Icons.watch_outlined),
+                    _buildDiscoveryCategoryCard('Electronics', Icons.devices_other_outlined),
+                    _buildDiscoveryCategoryCard('Construction', Icons.engineering_outlined),
                   ],
-                ),
-                const SizedBox(height: 32),
-
-                // Asset Categories
-                Text(
-                  'ASSET CATEGORIES',
-                  style: GoogleFonts.manrope(
-                    color: const Color(0xFF64748B),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  height: 48,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      _buildCategoryChip('All', Icons.grid_view_outlined),
-                      const SizedBox(width: 8),
-                      _buildCategoryChip('Medical & Health', Icons.favorite_border),
-                      const SizedBox(width: 8),
-                      _buildCategoryChip('Home Appliances', Icons.home_max_outlined),
-                      const SizedBox(width: 8),
-                      _buildCategoryChip('Wearables', Icons.watch_outlined),
-                    ],
-                  ),
                 ),
                 const SizedBox(height: 32),
 
@@ -1579,7 +1565,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                         subtitle: 'Model · PureFlow 9L  •  PF9-12090',
                         status: 'EXPIRING',
                       ),
-                    if (_selectedCategory == 'All' || _selectedCategory == 'Wearables')
+                    if (_selectedCategory == 'All' || _selectedCategory == 'Smart Wearables')
                       _buildAssetRecord(
                         icon: Icons.watch_outlined,
                         title: 'Smart Fitness Watch',
@@ -1603,72 +1589,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
     );
   }
 
-  Widget _buildTelemetryCard({
-    required IconData icon,
-    required String title,
-    required String value,
-    required String footer,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
-      ),
-      child: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFECFDF5),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(icon, color: const Color(0xFF059669), size: 20),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
-                      color: const Color(0xFF64748B),
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    value,
-                    style: GoogleFonts.inter(
-                      color: const Color(0xFF0F172A),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    footer,
-                    style: GoogleFonts.inter(
-                      color: const Color(0xFF94A3B8),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+
 
   Widget _buildAssetRecord({
     required IconData icon,
@@ -1742,37 +1663,48 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
     );
   }
 
-  Widget _buildCategoryChip(String title, IconData icon) {
-    final isSelected = _selectedCategory == title;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedCategory = title;
-        });
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF059669) : Colors.white,
-          borderRadius: BorderRadius.circular(12.0),
-          border: isSelected ? null : Border.all(color: const Color(0xFFE2E8F0)),
-        ),
-        alignment: Alignment.center,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+  Widget _buildDiscoveryCategoryCard(String title, IconData icon) {
+    return Card(
+      color: const Color(0xFFFFFFFF),
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+        side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.0),
+      ),
+      margin: EdgeInsets.zero,
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _selectedCategory = title;
+          });
+          if (title == 'Home Appliances') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomeAppliancesScreen(),
+              ),
+            );
+          }
+        },
+        borderRadius: BorderRadius.circular(12.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 18,
-              color: isSelected ? Colors.white : const Color(0xFF64748B),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              title,
-              style: GoogleFonts.inter(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: isSelected ? Colors.white : const Color(0xFF64748B),
+            Icon(icon, color: const Color(0xFF64748B), size: 28),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF334155),
+                ),
               ),
             ),
           ],
