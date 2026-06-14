@@ -1510,7 +1510,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                   mainAxisSpacing: 10,
                   childAspectRatio: 1.0,
                   children: [
-                    _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined, imageAsset: 'assets/images/home_appliances_logo.png'),
+                    _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined, imageAsset: 'assets/images/home-appliances.png'),
                     _buildDiscoveryCategoryCard('Consumer Electronics', Icons.devices_other_outlined),
                     _buildDiscoveryCategoryCard('IT & Networking Infrastructure', Icons.router_outlined),
                     _buildDiscoveryCategoryCard('Climate Control', Icons.ac_unit_outlined),
