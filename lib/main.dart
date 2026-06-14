@@ -1698,8 +1698,6 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                 imageAsset,
                 height: 28.0,
                 width: 28.0,
-                color: const Color(0xFF059669),
-                colorBlendMode: BlendMode.srcIn,
               )
             else
               Icon(icon, color: const Color(0xFF64748B), size: 28),
