@@ -1510,7 +1510,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                   mainAxisSpacing: 10,
                   childAspectRatio: 1.0,
                   children: [
-                    _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined),
+                    _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined, imageAsset: 'assets/images/home_appliances_logo.png'),
                     _buildDiscoveryCategoryCard('Consumer Electronics', Icons.devices_other_outlined),
                     _buildDiscoveryCategoryCard('IT & Networking Infrastructure', Icons.router_outlined),
                     _buildDiscoveryCategoryCard('Climate Control', Icons.ac_unit_outlined),
@@ -1665,7 +1665,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
     );
   }
 
-  Widget _buildDiscoveryCategoryCard(String title, IconData icon) {
+  Widget _buildDiscoveryCategoryCard(String title, IconData icon, {String? imageAsset}) {
     return Card(
       color: const Color(0xFFFFFFFF),
       surfaceTintColor: Colors.transparent,
@@ -1693,7 +1693,16 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: const Color(0xFF64748B), size: 28),
+            if (imageAsset != null)
+              Image.asset(
+                imageAsset,
+                height: 28.0,
+                width: 28.0,
+                color: const Color(0xFF059669),
+                colorBlendMode: BlendMode.srcIn,
+              )
+            else
+              Icon(icon, color: const Color(0xFF64748B), size: 28),
             const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
