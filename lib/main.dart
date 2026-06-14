@@ -1503,12 +1503,12 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                 ),
                 const SizedBox(height: 16),
                 GridView.count(
-                  crossAxisCount: 2,
+                  crossAxisCount: 4,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 1.25,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 1.0,
                   children: [
                     _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined),
                     _buildDiscoveryCategoryCard('Consumer Electronics', Icons.devices_other_outlined),
@@ -1703,7 +1703,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.inter(
-                  fontSize: 12,
+                  fontSize: 10,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xFF64748B),
                 ),
