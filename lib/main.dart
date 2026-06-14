@@ -1510,7 +1510,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                   mainAxisSpacing: 10,
                   childAspectRatio: 1.0,
                   children: [
-                    _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined, imageAsset: 'assets/images/home-appliances.png'),
+                    _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined, imageAsset: 'assets/images/home_appliances_logo.png'),
                     _buildDiscoveryCategoryCard('Consumer Electronics', Icons.devices_other_outlined),
                     _buildDiscoveryCategoryCard('IT & Networking Infrastructure', Icons.router_outlined),
                     _buildDiscoveryCategoryCard('Climate Control', Icons.ac_unit_outlined),
@@ -1696,8 +1696,8 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
             if (imageAsset != null)
               Image.asset(
                 imageAsset,
-                height: 28.0,
-                width: 28.0,
+                height: 40.0,
+                width: 40.0,
               )
             else
               Icon(icon, color: const Color(0xFF64748B), size: 28),
