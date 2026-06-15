@@ -1696,8 +1696,9 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
             if (imageAsset != null)
               Image.asset(
                 imageAsset,
-                height: 40.0,
-                width: 40.0,
+                height: 56.0,
+                width: 56.0,
+                fit: BoxFit.contain,
               )
             else
               Icon(icon, color: const Color(0xFF64748B), size: 28),
