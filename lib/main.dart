@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'screens/home_appliances_screen.dart';
+import 'screens/consumer_electronics_screen.dart';
 
 void main() {
   runApp(const BrumBellaApp());
@@ -1685,6 +1686,13 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
               context,
               MaterialPageRoute(
                 builder: (context) => const HomeAppliancesScreen(),
+              ),
+            );
+          } else if (title == 'Consumer Electronics') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ConsumerElectronicsScreen(),
               ),
             );
           }
