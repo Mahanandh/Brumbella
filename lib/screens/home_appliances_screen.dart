@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'device_detail_screen.dart';
+import 'manual_registration_screen.dart';
 
 class HomeAppliancesScreen extends StatelessWidget {
   const HomeAppliancesScreen({super.key});
@@ -22,6 +23,22 @@ class HomeAppliancesScreen extends StatelessWidget {
             color: const Color(0xFF0F172A),
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
+            tooltip: 'Register New Device',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ManualRegistrationScreen(
+                    prefilledCategory: 'Home Appliances',
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),

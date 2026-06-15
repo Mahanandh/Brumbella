@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'screens/home_appliances_screen.dart';
 import 'screens/consumer_electronics_screen.dart';
+import 'screens/manual_registration_screen.dart';
 
 void main() {
   runApp(const BrumBellaApp());
@@ -1490,7 +1491,24 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 8),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ManualRegistrationScreen(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Don't have a code or serial? Register manually.",
+                      style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600, color: const Color(0xFF059669)),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
 
                 // Category Discovery Grid
                 Text(

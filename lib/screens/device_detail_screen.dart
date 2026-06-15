@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'manual_registration_screen.dart';
 
 class DeviceDetailScreen extends StatelessWidget {
   final String categoryName;
@@ -42,6 +43,8 @@ class DeviceDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool hasAssets = false; // Mock empty state toggle
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
@@ -56,6 +59,22 @@ class DeviceDetailScreen extends StatelessWidget {
             color: const Color(0xFF0F172A),
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
+            tooltip: 'Register New Device',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ManualRegistrationScreen(
+                    prefilledCategory: categoryName,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0).copyWith(bottom: 100),
@@ -73,13 +92,54 @@ class DeviceDetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            _buildAssetCard(
-              title: _getMockAssetTitle(),
-              subtitle: _getMockAssetModel(),
-              status: 'ACTIVE',
-              statusBgColor: const Color(0xFFECFDF5),
-              statusTextColor: const Color(0xFF047857),
-            ),
+            if (hasAssets)
+              _buildAssetCard(
+                title: _getMockAssetTitle(),
+                subtitle: _getMockAssetModel(),
+                status: 'ACTIVE',
+                statusBgColor: const Color(0xFFECFDF5),
+                statusTextColor: const Color(0xFF047857),
+              )
+            else
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(24.0),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F5F9),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.inventory_2_outlined, size: 48, color: Color(0xFF94A3B8)),
+                    const SizedBox(height: 16),
+                    Text(
+                      "No assets registered in this category yet.",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.inter(color: const Color(0xFF64748B)),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ManualRegistrationScreen(
+                              prefilledCategory: categoryName,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.add),
+                      label: const Text("Register New Device"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF059669),
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             const SizedBox(height: 32),
 
             // Section 2: Compatible Spare Parts
