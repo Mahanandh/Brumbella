@@ -1710,18 +1710,21 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
               )
             else
               Icon(icon, color: const Color(0xFF64748B), size: 28),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF64748B),
+            if (imageAsset == null) const SizedBox(height: 8),
+            Transform.translate(
+              offset: Offset(0, imageAsset != null ? -8.0 : 0.0),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF64748B),
+                  ),
                 ),
               ),
             ),
