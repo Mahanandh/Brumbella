@@ -1540,7 +1540,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                     _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined, imageAsset: 'assets/images/home_appliances_logo.png'),
                     _buildDiscoveryCategoryCard('Consumer Electronics', Icons.devices_other_outlined, imageAsset: 'assets/images/consumer_electronics_logo.png'),
                     _buildDiscoveryCategoryCard('IT & Networking Infrastructure', Icons.router_outlined, imageAsset: 'assets/images/network_logo.png'),
-                    _buildDiscoveryCategoryCard('Climate Control', Icons.ac_unit_outlined, quadrantIcons: [Icons.ac_unit, Icons.fireplace, Icons.air, Icons.thermostat]),
+                    _buildDiscoveryCategoryCard('Climate Control', Icons.ac_unit_outlined, imageAsset: 'assets/images/climate_control.png'),
                     _buildDiscoveryCategoryCard('Smart Home & Security', Icons.security_outlined, quadrantIcons: [Icons.videocam, Icons.lock, Icons.doorbell, Icons.lightbulb]),
                     _buildDiscoveryCategoryCard('Medical & Health Equipment', Icons.health_and_safety_outlined, quadrantIcons: [Icons.monitor_heart, Icons.masks, Icons.water_drop, Icons.medication]),
                     _buildDiscoveryCategoryCard('Power & Energy Systems', Icons.solar_power_outlined, quadrantIcons: [Icons.solar_power, Icons.battery_charging_full, Icons.power, Icons.electric_bolt]),
