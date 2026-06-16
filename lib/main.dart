@@ -1773,6 +1773,19 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                 height: 56.0,
                 width: 56.0,
                 fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return SizedBox(
+                    height: 56.0,
+                    width: 56.0,
+                    child: Center(
+                      child: Icon(
+                        icon,
+                        size: 32.0,
+                        color: const Color(0xFF64748B),
+                      ),
+                    ),
+                  );
+                },
               )
             else if (quadrantIcons != null)
               CategoryQuadrantLogo(icons: quadrantIcons)
