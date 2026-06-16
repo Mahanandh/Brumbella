@@ -1538,15 +1538,15 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                   childAspectRatio: 1.0,
                   children: [
                     _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined, imageAsset: 'assets/images/home_appliances_logo.png'),
-                    _buildDiscoveryCategoryCard('Consumer Electronics', Icons.devices_other_outlined, imageAsset: 'assets/images/consumer_electronics_logo.png'),
-                    _buildDiscoveryCategoryCard('IT & Networking Infrastructure', Icons.router_outlined, imageAsset: 'assets/images/it_networking_logo.png'),
-                    _buildDiscoveryCategoryCard('Climate Control', Icons.ac_unit_outlined, imageAsset: 'assets/images/climate_control_logo.png'),
-                    _buildDiscoveryCategoryCard('Smart Home & Security', Icons.security_outlined, imageAsset: 'assets/images/smart_home_logo.png'),
-                    _buildDiscoveryCategoryCard('Medical & Health Equipment', Icons.health_and_safety_outlined, imageAsset: 'assets/images/medical_health_logo.png'),
-                    _buildDiscoveryCategoryCard('Power & Energy Systems', Icons.solar_power_outlined, imageAsset: 'assets/images/power_energy_logo.png'),
-                    _buildDiscoveryCategoryCard('Vehicles & Mobility', Icons.electric_car_outlined, imageAsset: 'assets/images/vehicles_mobility_logo.png'),
-                    _buildDiscoveryCategoryCard('Furniture & Fixtures', Icons.weekend_outlined, imageAsset: 'assets/images/furniture_logo.png'),
-                    _buildDiscoveryCategoryCard('Building', Icons.apartment_outlined, imageAsset: 'assets/images/building_logo.png'),
+                    _buildDiscoveryCategoryCard('Consumer Electronics', Icons.devices_other_outlined, quadrantIcons: [Icons.tv, Icons.smartphone, Icons.watch, Icons.speaker]),
+                    _buildDiscoveryCategoryCard('IT & Networking Infrastructure', Icons.router_outlined, quadrantIcons: [Icons.dns, Icons.router, Icons.print, Icons.headset_mic]),
+                    _buildDiscoveryCategoryCard('Climate Control', Icons.ac_unit_outlined, quadrantIcons: [Icons.ac_unit, Icons.fireplace, Icons.air, Icons.thermostat]),
+                    _buildDiscoveryCategoryCard('Smart Home & Security', Icons.security_outlined, quadrantIcons: [Icons.videocam, Icons.lock, Icons.doorbell, Icons.lightbulb]),
+                    _buildDiscoveryCategoryCard('Medical & Health Equipment', Icons.health_and_safety_outlined, quadrantIcons: [Icons.monitor_heart, Icons.masks, Icons.water_drop, Icons.medication]),
+                    _buildDiscoveryCategoryCard('Power & Energy Systems', Icons.solar_power_outlined, quadrantIcons: [Icons.solar_power, Icons.battery_charging_full, Icons.power, Icons.electric_bolt]),
+                    _buildDiscoveryCategoryCard('Vehicles & Mobility', Icons.electric_car_outlined, quadrantIcons: [Icons.electric_scooter, Icons.directions_car, Icons.pedal_bike, Icons.local_shipping]),
+                    _buildDiscoveryCategoryCard('Furniture & Fixtures', Icons.weekend_outlined, quadrantIcons: [Icons.desk, Icons.chair_alt, Icons.weekend, Icons.inventory_2]),
+                    _buildDiscoveryCategoryCard('Building', Icons.apartment_outlined, quadrantIcons: [Icons.build, Icons.construction, Icons.carpenter, Icons.plumbing]),
                   ],
                 ),
                 const SizedBox(height: 32),
@@ -1692,7 +1692,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
     );
   }
 
-  Widget _buildDiscoveryCategoryCard(String title, IconData icon, {String? imageAsset}) {
+  Widget _buildDiscoveryCategoryCard(String title, IconData icon, {String? imageAsset, List<IconData>? quadrantIcons}) {
     return Card(
       color: const Color(0xFFFFFFFF),
       surfaceTintColor: Colors.transparent,
@@ -1774,9 +1774,12 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                 width: 56.0,
                 fit: BoxFit.contain,
               )
+            else if (quadrantIcons != null)
+              CategoryQuadrantLogo(icons: quadrantIcons)
             else
               Icon(icon, color: const Color(0xFF64748B), size: 28),
-            if (imageAsset == null) const SizedBox(height: 8),
+            if (imageAsset == null && quadrantIcons == null) const SizedBox(height: 8),
+            if (quadrantIcons != null) const SizedBox(height: 6),
             Transform.translate(
               offset: Offset(0, imageAsset != null ? -8.0 : 0.0),
               child: Padding(
@@ -2468,6 +2471,46 @@ class MockScannerView extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CategoryQuadrantLogo extends StatelessWidget {
+  final List<IconData> icons;
+  const CategoryQuadrantLogo({super.key, required this.icons});
+
+  @override
+  Widget build(BuildContext context) {
+    // The 4 brand quadrant colors: Blue, Orange, Yellow, Green
+    final colors = [
+      const Color(0xFF0EA5E9), 
+      const Color(0xFFF97316), 
+      const Color(0xFFEAB308), 
+      const Color(0xFF22C55E)
+    ];
+    
+    return SizedBox(
+      width: 44,
+      height: 44,
+      child: GridView.builder(
+        padding: EdgeInsets.zero,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 3,
+          mainAxisSpacing: 3,
+        ),
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          return Container(
+            decoration: BoxDecoration(
+              color: colors[index],
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Icon(icons[index], color: Colors.white, size: 14),
+          );
+        },
       ),
     );
   }
