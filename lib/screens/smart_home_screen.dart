@@ -46,7 +46,7 @@ class SmartHomeScreen extends StatelessWidget {
           _buildSubCategoryCard(context, 'Smart Door Locks', Icons.lock_outline),
           _buildSubCategoryCard(context, 'Video Doorbells', Icons.doorbell_outlined),
           _buildSubCategoryCard(context, 'Automated Thermostats', Icons.thermostat_outlined),
-          _buildSubCategoryCard(context, 'Smoke Detectors', Icons.detector_smoke_outlined),
+          _buildSubCategoryCard(context, 'Smoke Detectors', Icons.sensors_outlined),
         ],
       ),
     );
