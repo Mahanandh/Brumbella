@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'screens/home_appliances_screen.dart';
 import 'screens/consumer_electronics_screen.dart';
+import 'screens/it_networking_screen.dart';
+import 'screens/climate_control_screen.dart';
+import 'screens/smart_home_screen.dart';
+import 'screens/medical_health_screen.dart';
+import 'screens/power_energy_screen.dart';
+import 'screens/vehicles_mobility_screen.dart';
+import 'screens/furniture_fixtures_screen.dart';
+import 'screens/building_screen.dart';
 import 'screens/manual_registration_screen.dart';
 
 void main() {
@@ -1712,6 +1720,46 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
               MaterialPageRoute(
                 builder: (context) => const ConsumerElectronicsScreen(),
               ),
+            );
+          } else if (title == 'IT & Networking Infrastructure') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ItNetworkingScreen()),
+            );
+          } else if (title == 'Climate Control') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ClimateControlScreen()),
+            );
+          } else if (title == 'Smart Home & Security') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SmartHomeScreen()),
+            );
+          } else if (title == 'Medical & Health Equipment') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MedicalHealthScreen()),
+            );
+          } else if (title == 'Power & Energy Systems') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const PowerEnergyScreen()),
+            );
+          } else if (title == 'Vehicles & Mobility') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const VehiclesMobilityScreen()),
+            );
+          } else if (title == 'Furniture & Fixtures') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const FurnitureFixturesScreen()),
+            );
+          } else if (title == 'Building') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const BuildingScreen()),
             );
           }
         },
