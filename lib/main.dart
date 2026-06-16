@@ -1538,7 +1538,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                   childAspectRatio: 1.0,
                   children: [
                     _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined, imageAsset: 'assets/images/home_appliances_logo.png'),
-                    _buildDiscoveryCategoryCard('Consumer Electronics', Icons.devices_other_outlined, quadrantIcons: [Icons.tv, Icons.smartphone, Icons.watch, Icons.speaker]),
+                    _buildDiscoveryCategoryCard('Consumer Electronics', Icons.devices_other_outlined, imageAsset: 'assets/images/consumer_electronics_logo.png'),
                     _buildDiscoveryCategoryCard('IT & Networking Infrastructure', Icons.router_outlined, quadrantIcons: [Icons.dns, Icons.router, Icons.print, Icons.headset_mic]),
                     _buildDiscoveryCategoryCard('Climate Control', Icons.ac_unit_outlined, quadrantIcons: [Icons.ac_unit, Icons.fireplace, Icons.air, Icons.thermostat]),
                     _buildDiscoveryCategoryCard('Smart Home & Security', Icons.security_outlined, quadrantIcons: [Icons.videocam, Icons.lock, Icons.doorbell, Icons.lightbulb]),
