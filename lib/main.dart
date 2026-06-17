@@ -1544,7 +1544,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                     _buildDiscoveryCategoryCard('Smart Home & Security', Icons.security_outlined, imageAsset: 'assets/images/home_security.jpg'),
                     _buildDiscoveryCategoryCard('Medical & Health Equipment', Icons.health_and_safety_outlined, imageAsset: 'assets/images/medical_logo.png'),
                     _buildDiscoveryCategoryCard('Power & Energy Systems', Icons.solar_power_outlined, imageAsset: 'assets/images/solar_logo.png'),
-                    _buildDiscoveryCategoryCard('Vehicles & Mobility', Icons.electric_car_outlined, quadrantIcons: [Icons.electric_scooter, Icons.directions_car, Icons.pedal_bike, Icons.local_shipping]),
+                    _buildDiscoveryCategoryCard('Vehicles & Mobility', Icons.electric_car_outlined, imageAsset: 'assets/images/vehicles_logo.png'),
                     _buildDiscoveryCategoryCard('Furniture & Fixtures', Icons.weekend_outlined, quadrantIcons: [Icons.desk, Icons.chair_alt, Icons.weekend, Icons.inventory_2]),
                     _buildDiscoveryCategoryCard('Building', Icons.apartment_outlined, quadrantIcons: [Icons.build, Icons.construction, Icons.carpenter, Icons.plumbing]),
                   ],
@@ -1793,20 +1793,17 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
               Icon(icon, color: const Color(0xFF64748B), size: 28),
             if (imageAsset == null && quadrantIcons == null) const SizedBox(height: 8),
             if (quadrantIcons != null) const SizedBox(height: 6),
-            Transform.translate(
-              offset: Offset(0, imageAsset != null ? -8.0 : 0.0),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF64748B),
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.inter(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF64748B),
                 ),
               ),
             ),
