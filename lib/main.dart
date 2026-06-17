@@ -11,6 +11,7 @@ import 'screens/vehicles_mobility_screen.dart';
 import 'screens/furniture_fixtures_screen.dart';
 import 'screens/building_screen.dart';
 import 'screens/manual_registration_screen.dart';
+import 'screens/spare_parts_screen.dart';
 
 void main() {
   runApp(const BrumBellaApp());
@@ -320,7 +321,7 @@ class LandingScreen extends StatelessWidget {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       clipBehavior: Clip.none,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       children: [
                         _buildFeatureCard(
                           icon: Icons.inventory_2_outlined,
@@ -374,54 +375,56 @@ class LandingScreen extends StatelessWidget {
               ),
             ),
           ),
-          SafeArea(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              decoration: const BoxDecoration(
-                color: Color(0xFFF8FAFC),
-                border: Border(
-                  top: BorderSide(color: Color(0xFFE2E8F0)),
+          Container(
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.04),
+                  blurRadius: 16,
+                  offset: const Offset(0, -4),
                 ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ElevatedButton(
-                    onPressed: onCreateAccountPressed,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF059669),
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      minimumSize: const Size.fromHeight(56),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    child: Text(
-                      'Get Started',
-                      style: GoogleFonts.inter(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ElevatedButton(
+                  onPressed: onCreateAccountPressed,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF059669),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    minimumSize: const Size.fromHeight(56),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  TextButton(
-                    onPressed: onLoginPressed,
-                    style: TextButton.styleFrom(
-                      foregroundColor: const Color(0xFF64748B),
-                      minimumSize: const Size.fromHeight(48),
-                    ),
-                    child: Text(
-                      'I already have an account. Log in.',
-                      style: GoogleFonts.inter(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  child: Text(
+                    'Get Started',
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: onLoginPressed,
+                  style: TextButton.styleFrom(
+                    foregroundColor: const Color(0xFF64748B),
+                    minimumSize: const Size.fromHeight(48),
+                  ),
+                  child: Text(
+                    'I already have an account. Log in.',
+                    style: GoogleFonts.inter(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -443,8 +446,9 @@ class LandingScreen extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -490,14 +494,16 @@ class LandingScreen extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 48,
-          height: 48,
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: const Color(0xFF16A34A).withOpacity(0.12),
             shape: BoxShape.circle,
-            border: Border.all(color: const Color(0xFFE2E8F0)),
           ),
-          child: Icon(icon, color: const Color(0xFF0F172A), size: 24),
+          child: Icon(
+            icon,
+            color: const Color(0xFF16A34A),
+            size: 24,
+          ),
         ),
         const SizedBox(width: 16),
         Expanded(
@@ -952,7 +958,7 @@ class DashboardShell extends StatelessWidget {
         activeView = const DashboardHomeView();
         break;
       case 1:
-        activeView = const MarketplaceView();
+        activeView = const SparePartsScreen();
         break;
       case 2:
         activeView = const MockScannerView();
@@ -997,7 +1003,7 @@ class DashboardShell extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _buildBottomTab(0, Icons.home_outlined, 'Home'),
-            _buildBottomTab(1, Icons.storefront_outlined, 'Market'),
+            _buildBottomTab(1, Icons.inventory_2_outlined, 'Parts'),
             const SizedBox(width: 48), // Space for FAB
             _buildBottomTab(3, Icons.auto_awesome_outlined, 'Copilot'),
             _buildBottomTab(4, Icons.settings_outlined, 'Settings'),
@@ -1381,12 +1387,23 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                     ],
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    'Hello, User',
-                    style: GoogleFonts.inter(
-                      color: const Color(0xFF64748B),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                  RichText(
+                    text: TextSpan(
+                      text: 'Hello, ',
+                      style: GoogleFonts.inter(
+                        color: const Color(0xFF64748B),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'User',
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xFF0F172A),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -1530,23 +1547,23 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                 ),
                 const SizedBox(height: 16),
                 GridView.count(
-                  crossAxisCount: 4,
+                  crossAxisCount: 3,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 1.0,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                  childAspectRatio: 0.85,
                   children: [
-                    _buildDiscoveryCategoryCard('Home Appliances', Icons.home_max_outlined, imageAsset: 'assets/images/home_appliances_logo.png'),
-                    _buildDiscoveryCategoryCard('Consumer Electronics', Icons.devices_other_outlined, imageAsset: 'assets/images/consumer_electronics_logo.png'),
-                    _buildDiscoveryCategoryCard('IT & Networking Infrastructure', Icons.router_outlined, imageAsset: 'assets/images/network_logo.png'),
-                    _buildDiscoveryCategoryCard('Climate Control', Icons.ac_unit_outlined, imageAsset: 'assets/images/climate_control.jpg'),
-                    _buildDiscoveryCategoryCard('Smart Home & Security', Icons.security_outlined, imageAsset: 'assets/images/home_security.jpg'),
-                    _buildDiscoveryCategoryCard('Medical & Health Equipment', Icons.health_and_safety_outlined, imageAsset: 'assets/images/medical_logo.png'),
-                    _buildDiscoveryCategoryCard('Power & Energy Systems', Icons.solar_power_outlined, imageAsset: 'assets/images/solar_logo.png'),
-                    _buildDiscoveryCategoryCard('Vehicles & Mobility', Icons.electric_car_outlined, imageAsset: 'assets/images/vehicles_logo.png'),
-                    _buildDiscoveryCategoryCard('Furniture & Fixtures', Icons.weekend_outlined, quadrantIcons: [Icons.desk, Icons.chair_alt, Icons.weekend, Icons.inventory_2]),
-                    _buildDiscoveryCategoryCard('Building', Icons.apartment_outlined, quadrantIcons: [Icons.build, Icons.construction, Icons.carpenter, Icons.plumbing]),
+                    _buildPremiumCard('Home Appliances', Icons.kitchen_outlined, const [Color(0xFF00C6FF), Color(0xFF0072FF)]),
+                    _buildPremiumCard('Consumer Electronics', Icons.smartphone_outlined, const [Color(0xFF8E2DE2), Color(0xFF4A00E0)]),
+                    _buildPremiumCard('IT & Networking Infrastructure', Icons.router_outlined, const [Color(0xFF11998E), Color(0xFF38EF7D)]),
+                    _buildPremiumCard('Climate Control', Icons.ac_unit_outlined, const [Color(0xFF00B4DB), Color(0xFF0083B0)]),
+                    _buildPremiumCard('Smart Home & Security', Icons.security_outlined, const [Color(0xFFF7971E), Color(0xFFFFD200)]),
+                    _buildPremiumCard('Medical & Health Equipment', Icons.medical_services_outlined, const [Color(0xFFFF416C), Color(0xFFFF4B2B)]),
+                    _buildPremiumCard('Power & Energy Systems', Icons.electric_bolt_outlined, const [Color(0xFFFDC830), Color(0xFFF37335)]),
+                    _buildPremiumCard('Vehicles & Mobility', Icons.directions_car_outlined, const [Color(0xFF00B09B), Color(0xFF96C93D)]),
+                    _buildPremiumCard('Furniture & Fixtures', Icons.weekend_outlined, const [Color(0xFFBC4E9C), Color(0xFFF80759)]),
+                    _buildPremiumCard('Building', Icons.domain_outlined, const [Color(0xFF43C6AC), Color(0xFF191654)]),
                   ],
                 ),
                 const SizedBox(height: 32),
@@ -1569,8 +1586,8 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                       child: Text(
                         'View all',
                         style: GoogleFonts.inter(
-                          color: const Color(0xFF059669),
-                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF16A34A),
+                          fontWeight: FontWeight.w700,
                           fontSize: 12,
                         ),
                       ),
@@ -1630,25 +1647,31 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
     Color statusTextColor;
 
     if (status == 'ACTIVE') {
-      statusBgColor = const Color(0xFFECFDF5); // emerald[50]
-      statusTextColor = const Color(0xFF047857); // emerald[700]
+      statusBgColor = const Color(0xFFDCFCE7);
+      statusTextColor = const Color(0xFF16A34A);
     } else if (status == 'EXPIRING') {
-      statusBgColor = const Color(0xFFFFF7ED); // orange[50]
-      statusTextColor = const Color(0xFFC2410C); // orange[700]
+      statusBgColor = const Color(0xFFFFEDD5);
+      statusTextColor = const Color(0xFFEA580C);
     } else {
-      statusBgColor = const Color(0xFFFEF2F2); // red[50]
-      statusTextColor = const Color(0xFFB91C1C); // red[700]
+      statusBgColor = const Color(0xFFFEE2E2);
+      statusTextColor = const Color(0xFFDC2626);
     }
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+        borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        contentPadding: const EdgeInsets.all(16),
         leading: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -1674,7 +1697,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
           ),
         ),
         trailing: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
             color: statusBgColor,
             borderRadius: BorderRadius.circular(8),
@@ -1683,8 +1706,8 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
             status,
             style: GoogleFonts.inter(
               color: statusTextColor,
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -1692,107 +1715,136 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
     );
   }
 
-  Widget _buildDiscoveryCategoryCard(String title, IconData icon, {String? imageAsset, List<IconData>? quadrantIcons}) {
-    return Card(
-      color: const Color(0xFFFFFFFF),
-      surfaceTintColor: Colors.transparent,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-        side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.0),
-      ),
-      margin: EdgeInsets.zero,
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            _selectedCategory = title;
-          });
-          if (title == 'Home Appliances') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeAppliancesScreen(),
-              ),
-            );
-          } else if (title == 'Consumer Electronics') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ConsumerElectronicsScreen(),
-              ),
-            );
-          } else if (title == 'IT & Networking Infrastructure') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ItNetworkingScreen()),
-            );
-          } else if (title == 'Climate Control') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ClimateControlScreen()),
-            );
-          } else if (title == 'Smart Home & Security') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SmartHomeScreen()),
-            );
-          } else if (title == 'Medical & Health Equipment') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MedicalHealthScreen()),
-            );
-          } else if (title == 'Power & Energy Systems') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const PowerEnergyScreen()),
-            );
-          } else if (title == 'Vehicles & Mobility') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const VehiclesMobilityScreen()),
-            );
-          } else if (title == 'Furniture & Fixtures') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FurnitureFixturesScreen()),
-            );
-          } else if (title == 'Building') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const BuildingScreen()),
-            );
-          }
-        },
-        borderRadius: BorderRadius.circular(12.0),
+  Widget _buildPremiumCard(String title, IconData icon, List<Color> gradientColors) {
+    return PremiumCategoryCard(
+      title: title,
+      icon: icon,
+      gradientColors: gradientColors,
+      onTap: () {
+        setState(() {
+          _selectedCategory = title;
+        });
+        if (title == 'Home Appliances') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeAppliancesScreen(),
+            ),
+          );
+        } else if (title == 'Consumer Electronics') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ConsumerElectronicsScreen(),
+            ),
+          );
+        } else if (title == 'IT & Networking Infrastructure') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ItNetworkingScreen()),
+          );
+        } else if (title == 'Climate Control') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ClimateControlScreen()),
+          );
+        } else if (title == 'Smart Home & Security') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SmartHomeScreen()),
+          );
+        } else if (title == 'Medical & Health Equipment') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MedicalHealthScreen()),
+          );
+        } else if (title == 'Power & Energy Systems') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const PowerEnergyScreen()),
+          );
+        } else if (title == 'Vehicles & Mobility') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const VehiclesMobilityScreen()),
+          );
+        } else if (title == 'Furniture & Fixtures') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const FurnitureFixturesScreen()),
+          );
+        } else if (title == 'Building') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const BuildingScreen()),
+          );
+        }
+      },
+    );
+  }
+}
+
+class PremiumCategoryCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final List<Color> gradientColors;
+  final VoidCallback? onTap;
+
+  const PremiumCategoryCard({
+    super.key,
+    required this.title,
+    required this.icon,
+    required this.gradientColors,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 14,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          // STRICTLY NO BORDERS HERE
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (imageAsset != null)
-              Image.asset(
-                imageAsset,
-                height: 56.0,
-                width: 56.0,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) {
-                  return SizedBox(
-                    height: 56.0,
-                    width: 56.0,
-                    child: Center(
-                      child: Icon(
-                        icon,
-                        size: 32.0,
-                        color: const Color(0xFF64748B),
-                      ),
-                    ),
-                  );
-                },
-              )
-            else if (quadrantIcons != null)
-              CategoryQuadrantLogo(icons: quadrantIcons)
-            else
-              Icon(icon, color: const Color(0xFF64748B), size: 28),
-            if (imageAsset == null && quadrantIcons == null) const SizedBox(height: 8),
-            if (quadrantIcons != null) const SizedBox(height: 6),
+            // Gradient Icon Container
+            Container(
+              height: 52.0,
+              width: 52.0,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: gradientColors,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: gradientColors.last.withOpacity(0.25),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 28.0,
+              ),
+            ),
+            const SizedBox(height: 10),
+            // Perfectly Centered Text
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: Text(
@@ -1800,10 +1852,11 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.inter(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF64748B),
+                style: const TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF334155),
+                  height: 1.2,
                 ),
               ),
             ),

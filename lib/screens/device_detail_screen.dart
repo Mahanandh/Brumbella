@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../widgets/premium_card.dart';
 import 'manual_registration_screen.dart';
 
 class DeviceDetailScreen extends StatelessWidget {
   final String categoryName;
+  final CategoryDetailData? categoryData;
 
-  const DeviceDetailScreen({super.key, required this.categoryName});
+  const DeviceDetailScreen({super.key, required this.categoryName, this.categoryData});
 
   String _getMockAssetTitle() {
     switch (categoryName) {
@@ -44,9 +46,10 @@ class DeviceDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool hasAssets = false; // Mock empty state toggle
+    final data = categoryData ?? getMockDataForCategory(categoryName);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: const Color(0xFFF1F5F9), // Slate 100
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -84,11 +87,11 @@ class DeviceDetailScreen extends StatelessWidget {
             // Section 1: Registered Device
             Text(
               'YOUR ASSET',
-              style: GoogleFonts.inter(
+              style: const TextStyle(
                 fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF64748B),
-                letterSpacing: 1.0,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.2,
+                color: Color(0xFF64748B),
               ),
             ),
             const SizedBox(height: 12),
@@ -101,17 +104,20 @@ class DeviceDetailScreen extends StatelessWidget {
                 statusTextColor: const Color(0xFF047857),
               )
             else
-              Container(
+              PremiumCard(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24.0),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF1F5F9),
-                  borderRadius: BorderRadius.circular(12),
-                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.inventory_2_outlined, size: 48, color: Color(0xFF94A3B8)),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF16A34A).withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.inventory_2_outlined, size: 36, color: Color(0xFF16A34A)),
+                    ),
                     const SizedBox(height: 16),
                     Text(
                       "No assets registered in this category yet.",
@@ -145,32 +151,58 @@ class DeviceDetailScreen extends StatelessWidget {
             // Section 2: Compatible Spare Parts
             Text(
               'COMPATIBLE SPARE PARTS',
-              style: GoogleFonts.inter(
+              style: const TextStyle(
                 fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF64748B),
-                letterSpacing: 1.0,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.2,
+                color: Color(0xFF64748B),
               ),
             ),
             const SizedBox(height: 12),
             SizedBox(
-              height: 140,
-              child: ListView(
+              height: 140, // Height bound required because Column has a Spacer
+              child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                children: [
-                  _buildSparePartCard(
-                    title: 'OEM Replacement Filter / Part',
-                    price: '₹850',
-                  ),
-                  _buildSparePartCard(
-                    title: 'Inlet Hose / Power Cable',
-                    price: '₹450',
-                  ),
-                  _buildSparePartCard(
-                    title: 'Main Controller Board',
-                    price: '₹2,200',
-                  ),
-                ],
+                child: Row(
+                  children: data.spareParts.map((part) => Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: PremiumCard(
+                      width: 160,
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 40,
+                            width: double.infinity,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFF1F5F9),
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                            ),
+                            child: const Icon(Icons.build_circle_outlined, color: Color(0xFF94A3B8)),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(part.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13), maxLines: 2),
+                          const Spacer(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('₹${part.price}', style: const TextStyle(color: Color(0xFF16A34A), fontWeight: FontWeight.bold)),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF1E293B),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: const Text('Buy', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  )).toList(),
+                ),
               ),
             ),
             const SizedBox(height: 32),
@@ -178,21 +210,44 @@ class DeviceDetailScreen extends StatelessWidget {
             // Section 3: Local Shops
             Text(
               'AUTHORIZED SERVICE & REPAIR',
-              style: GoogleFonts.inter(
+              style: const TextStyle(
                 fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF64748B),
-                letterSpacing: 1.0,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.2,
+                color: Color(0xFF64748B),
               ),
             ),
             const SizedBox(height: 12),
-            _buildShopCard(
-              title: 'City Center Electronics Care',
-              subtitle: 'Authorized parts • 1.2 km away',
-            ),
-            _buildShopCard(
-              title: 'Metro Appliance Service',
-              subtitle: 'Third-party repair & service • 2.5 km away',
+            Column(
+              children: data.serviceCenters.map((center) => Padding(
+                padding: const EdgeInsets.only(bottom: 12.0),
+                child: PremiumCard(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(center.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                            const SizedBox(height: 4),
+                            Text('${center.description} • ${center.distance}', style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF16A34A).withOpacity(0.12),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.phone, color: Color(0xFF16A34A), size: 20),
+                      ),
+                    ],
+                  ),
+                ),
+              )).toList(),
             ),
           ],
         ),
@@ -207,13 +262,8 @@ class DeviceDetailScreen extends StatelessWidget {
     required Color statusBgColor,
     required Color statusTextColor,
   }) {
-    return Container(
+    return PremiumCard(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
       child: Row(
         children: [
           Expanded(
@@ -259,117 +309,73 @@ class DeviceDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSparePartCard({
-    required String title,
-    required String price,
-  }) {
-    return Container(
-      width: 140,
-      margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 40,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: const Color(0xFFF1F5F9),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: const Icon(Icons.build_circle_outlined, color: Color(0xFF94A3B8)),
-          ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: Text(
-              title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.inter(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF0F172A),
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                price,
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF059669),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF0F172A),
-                  borderRadius: BorderRadius.circular(6.0),
-                ),
-                child: Text(
-                  'Buy',
-                  style: GoogleFonts.inter(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildShopCard({
-    required String title,
-    required String subtitle,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        title: Text(
-          title,
-          style: GoogleFonts.inter(
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-            color: const Color(0xFF0F172A),
-          ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            color: const Color(0xFF64748B),
-          ),
-        ),
-        trailing: Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFFECFDF5),
-            shape: BoxShape.circle,
-          ),
-          child: IconButton(
-            icon: const Icon(Icons.phone, color: Color(0xFF059669), size: 20),
-            onPressed: () {},
-          ),
-        ),
-      ),
+}
+
+class SparePart {
+  final String name;
+  final int price;
+  SparePart({required this.name, required this.price});
+}
+
+class ServiceCenter {
+  final String name;
+  final String description;
+  final String distance;
+  ServiceCenter({required this.name, required this.description, required this.distance});
+}
+
+class CategoryDetailData {
+  final String categoryName;
+  final List<SparePart> spareParts;
+  final List<ServiceCenter> serviceCenters;
+
+  CategoryDetailData({
+    required this.categoryName,
+    required this.spareParts,
+    required this.serviceCenters,
+  });
+}
+
+CategoryDetailData getMockDataForCategory(String categoryName) {
+  // Normalize the string to avoid case/spacing mismatches
+  final name = categoryName.trim().toLowerCase();
+  
+  if (name.contains('television') || name.contains('tv') || name.contains('electronics')) {
+    return CategoryDetailData(
+      categoryName: categoryName,
+      spareParts: [
+        SparePart(name: 'Replacement Smart Remote', price: 899),
+        SparePart(name: 'AC Power Cable', price: 350),
+        SparePart(name: 'Heavy Duty Wall Mount', price: 1500),
+      ],
+      serviceCenters: [
+        ServiceCenter(name: 'City Center Electronics', description: 'Authorized TV Repair', distance: '1.2 km away'),
+        ServiceCenter(name: 'Screen Savers Hub', description: 'Display & Panel Experts', distance: '4.5 km away'),
+      ],
+    );
+  } else if (name.contains('washing')) {
+    return CategoryDetailData(
+      categoryName: categoryName,
+      spareParts: [
+        SparePart(name: 'Inlet Hose', price: 450),
+        SparePart(name: 'Drain Motor', price: 1200),
+      ],
+      serviceCenters: [
+        ServiceCenter(name: 'Appliance Pro Care', description: 'Authorized Parts', distance: '3.2 km away'),
+      ],
+    );
+  } else {
+    // Default Fallback (RO Purifiers, etc.)
+    return CategoryDetailData(
+      categoryName: categoryName,
+      spareParts: [
+        SparePart(name: 'OEM Replacement Filter', price: 850),
+        SparePart(name: 'Main Control Board', price: 2200),
+      ],
+      serviceCenters: [
+        ServiceCenter(name: 'Metro Appliance Service', description: 'Authorized parts', distance: '2.5 km away'),
+      ],
     );
   }
 }
