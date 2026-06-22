@@ -1,9 +1,10 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'screens/home_appliances_screen.dart';
-import 'screens/consumer_electronics_screen.dart';
+import 'screens/kitchen_appliances_screen.dart';
 import 'screens/it_networking_screen.dart';
-import 'screens/climate_control_screen.dart';
+import 'screens/personal_gadgets_screen.dart';
 import 'screens/smart_home_screen.dart';
 import 'screens/medical_health_screen.dart';
 import 'screens/power_energy_screen.dart';
@@ -12,6 +13,7 @@ import 'screens/furniture_fixtures_screen.dart';
 import 'screens/building_screen.dart';
 import 'screens/manual_registration_screen.dart';
 import 'screens/spare_parts_screen.dart';
+import 'screens/custom_assets_screen.dart';
 
 void main() {
   runApp(const BrumBellaApp());
@@ -964,7 +966,7 @@ class DashboardShell extends StatelessWidget {
         activeView = const MockScannerView();
         break;
       case 3:
-        activeView = const CopilotScreen();
+        activeView = const CustomAssetsScreen();
         break;
       case 4:
         activeView = SettingsView(onLogoutPressed: onLogoutPressed);
@@ -1005,7 +1007,7 @@ class DashboardShell extends StatelessWidget {
             _buildBottomTab(0, Icons.home_outlined, 'Home'),
             _buildBottomTab(1, Icons.inventory_2_outlined, 'Parts'),
             const SizedBox(width: 48), // Space for FAB
-            _buildBottomTab(3, Icons.auto_awesome_outlined, 'Copilot'),
+            _buildBottomTab(3, Icons.category_outlined, 'Custom'),
             _buildBottomTab(4, Icons.settings_outlined, 'Settings'),
           ],
         ),
@@ -1364,23 +1366,18 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                         width: 40,
                       ),
                       const SizedBox(width: 12),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Brum',
+                      Text.rich(
+                        TextSpan(
                           style: GoogleFonts.poppins(
-                            fontSize: 28,
+                            fontSize: 26,
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFF0F172A),
+                            letterSpacing: -0.5,
                           ),
-                          children: [
-                            TextSpan(
-                              text: 'Bella',
-                              style: GoogleFonts.poppins(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF059669),
-                              ),
-                            ),
+                          children: const [
+                            TextSpan(text: 'B', style: TextStyle(color: Color(0xFF16A34A))),
+                            TextSpan(text: 'rum', style: TextStyle(color: Colors.black)),
+                            TextSpan(text: 'B', style: TextStyle(color: Color(0xFF16A34A))),
+                            TextSpan(text: 'ella', style: TextStyle(color: Colors.black)),
                           ],
                         ),
                       ),
@@ -1555,14 +1552,14 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                   childAspectRatio: 0.85,
                   children: [
                     _buildPremiumCard('Home Appliances', Icons.kitchen_outlined, const [Color(0xFF00C6FF), Color(0xFF0072FF)]),
-                    _buildPremiumCard('Consumer Electronics', Icons.smartphone_outlined, const [Color(0xFF8E2DE2), Color(0xFF4A00E0)]),
+                    _buildPremiumCard('Kitchen Appliances', Icons.microwave_outlined, const [Color(0xFFF2994A), Color(0xFFF2C94C)]),
                     _buildPremiumCard('IT & Networking Infrastructure', Icons.router_outlined, const [Color(0xFF11998E), Color(0xFF38EF7D)]),
-                    _buildPremiumCard('Climate Control', Icons.ac_unit_outlined, const [Color(0xFF00B4DB), Color(0xFF0083B0)]),
+                    _buildPremiumCard('Personal Gadgets', Icons.watch_outlined, const [Color(0xFF00B4DB), Color(0xFF0083B0)]),
                     _buildPremiumCard('Smart Home & Security', Icons.security_outlined, const [Color(0xFFF7971E), Color(0xFFFFD200)]),
                     _buildPremiumCard('Medical & Health Equipment', Icons.medical_services_outlined, const [Color(0xFFFF416C), Color(0xFFFF4B2B)]),
                     _buildPremiumCard('Power & Energy Systems', Icons.electric_bolt_outlined, const [Color(0xFFFDC830), Color(0xFFF37335)]),
                     _buildPremiumCard('Vehicles & Mobility', Icons.directions_car_outlined, const [Color(0xFF00B09B), Color(0xFF96C93D)]),
-                    _buildPremiumCard('Furniture & Fixtures', Icons.weekend_outlined, const [Color(0xFFBC4E9C), Color(0xFFF80759)]),
+                    _buildPremiumCard('Furnitures', Icons.weekend_outlined, const [Color(0xFFBC4E9C), Color(0xFFF80759)]),
                     _buildPremiumCard('Building', Icons.domain_outlined, const [Color(0xFF43C6AC), Color(0xFF191654)]),
                   ],
                 ),
@@ -1731,11 +1728,11 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
               builder: (context) => const HomeAppliancesScreen(),
             ),
           );
-        } else if (title == 'Consumer Electronics') {
+        } else if (title == 'Kitchen Appliances') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const ConsumerElectronicsScreen(),
+              builder: (context) => const KitchenAppliancesScreen(),
             ),
           );
         } else if (title == 'IT & Networking Infrastructure') {
@@ -1743,10 +1740,10 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
             context,
             MaterialPageRoute(builder: (context) => const ItNetworkingScreen()),
           );
-        } else if (title == 'Climate Control') {
+        } else if (title == 'Personal Gadgets') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ClimateControlScreen()),
+            MaterialPageRoute(builder: (context) => const PersonalGadgetsScreen()),
           );
         } else if (title == 'Smart Home & Security') {
           Navigator.push(
@@ -1768,7 +1765,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
             context,
             MaterialPageRoute(builder: (context) => const VehiclesMobilityScreen()),
           );
-        } else if (title == 'Furniture & Fixtures') {
+        } else if (title == 'Furnitures') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const FurnitureFixturesScreen()),
@@ -2336,133 +2333,148 @@ class SettingsView extends StatelessWidget {
 // ------------------------------------------
 // MOCK VIEW: SCANNER
 // ------------------------------------------
-class MockScannerView extends StatelessWidget {
+class MockScannerView extends StatefulWidget {
   const MockScannerView({super.key});
 
   @override
+  State<MockScannerView> createState() => _MockScannerViewState();
+}
+
+class _MockScannerViewState extends State<MockScannerView> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xFF0F172A), // Dark scan background
-      child: Column(
+    return Scaffold(
+      body: Stack(
         children: [
-          // Scanner View Top Row
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'OPTICAL SCANNER',
-                      style: TextStyle(
-                        color: Color(0xFF94A3B8),
-                        fontSize: 10,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      'Live Camera',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1E293B),
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: const Color(0xFF334155)),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(Icons.flash_on, color: Colors.amber, size: 14),
-                      SizedBox(width: 4),
-                      Text(
-                        'FLASH OFF',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+          // 1. Camera Feed
+          Positioned.fill(
+            child: _buildCameraFeed(),
+          ),
+          // 2. Full Screen Dark Overlay with Cutout
+          Positioned.fill(
+            child: _buildScannerOverlay(),
+          ),
+          // Viewfinder Brackets & Laser Overlay
+          Positioned.fill(
+            child: ScannerViewfinder(animation: _animationController),
+          ),
+          // 3. Top Floating Controls
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(child: _buildTopControls()),
+          ),
+          // 4. Bottom Manual Entry Sheet
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: _buildBottomManualEntry(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCameraFeed() {
+    return Container(
+      color: const Color(0xFF1E293B),
+      child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 10,
+        ),
+        itemBuilder: (context, index) => Icon(
+          Icons.memory, 
+          color: Colors.white.withOpacity(0.05),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildScannerOverlay() {
+    return ColorFiltered(
+      colorFilter: ColorFilter.mode(
+        Colors.black.withOpacity(0.6),
+        BlendMode.srcOut,
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.black,
+              backgroundBlendMode: BlendMode.dstOut,
             ),
           ),
-          const Divider(color: Color(0xFF1E293B), height: 1),
+          Center(
+            child: Container(
+              width: 260,
+              height: 260,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(24),
+              ),
+            ),
+          ),
+          // We apply the corner brackets and laser inside a separate widget 
+          // above the color filter so they don't get filtered out.
+        ],
+      ),
+    );
+  }
 
-          // Central Camera Viewport Mock
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildTopControls() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Live Camera Pill
+          ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(color: Colors.white.withOpacity(0.2)),
+                ),
+                child: Row(
                   children: [
-                    // Viewport Scanner Frame box
                     Container(
-                      width: 240,
-                      height: 240,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: const Color(0xFF059669), width: 3),
-                      ),
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Container(
-                              width: 200,
-                              height: 1,
-                              color: const Color(0xFFEF4444), // Scanning red line
-                            ),
-                          ),
-                          const Positioned(
-                            top: 10,
-                            left: 10,
-                            child: Icon(Icons.crop_free_outlined, color: Colors.white24, size: 30),
-                          ),
-                          const Positioned(
-                            bottom: 10,
-                            right: 10,
-                            child: Icon(Icons.crop_free_outlined, color: Colors.white24, size: 30),
-                          ),
-                          Center(
-                            child: Icon(
-                              Icons.qr_code_scanner,
-                              color: Colors.white.withOpacity(0.1),
-                              size: 100,
-                            ),
-                          ),
-                        ],
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: Colors.redAccent,
+                        shape: BoxShape.circle,
                       ),
                     ),
-                    const SizedBox(height: 24),
-                    const Text(
-                      'Position tag inside the box framework to read',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF94A3B8),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Supports QR, NFC, and manual fallback coding',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF475569),
-                        fontSize: 12,
+                    const SizedBox(width: 8),
+                    Text(
+                      'Live Camera',
+                      style: GoogleFonts.inter(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
                       ),
                     ),
                   ],
@@ -2470,70 +2482,219 @@ class MockScannerView extends StatelessWidget {
               ),
             ),
           ),
-
-          // Manual Entry fallback bottom drawer bar
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: const BoxDecoration(
-              color: Color(0xFF1E293B),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  'MANUAL SERIAL ENTRY',
-                  style: TextStyle(
-                    color: Color(0xFF94A3B8),
-                    fontSize: 10,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.0,
-                  ),
+          // Flash Toggle Pill
+          ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.15),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white.withOpacity(0.2)),
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 44,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF0F172A),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: const Color(0xFF334155)),
-                        ),
-                        child: const TextField(
-                          style: TextStyle(color: Colors.white, fontSize: 14),
-                          decoration: InputDecoration(
-                            hintText: 'Enter serial number manually',
-                            hintStyle: TextStyle(color: Color(0xFF475569)),
-                            filled: false,
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF059669),
-                        minimumSize: const Size(80, 44),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text('Submit'),
-                    ),
-                  ],
-                ),
-              ],
+                child: const Icon(Icons.bolt, color: Colors.white, size: 20),
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildBottomManualEntry() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 16,
+            offset: Offset(0, -4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Drag Handle
+          Container(
+            height: 4,
+            width: 40,
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 24),
+          // Header
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Manual Serial Entry',
+              style: GoogleFonts.inter(
+                color: const Color(0xFF1E293B),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          // Input Row
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 52,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F5F9),
+                    borderRadius: BorderRadius.circular(26),
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Enter serial number',
+                      hintStyle: GoogleFonts.inter(color: const Color(0xFF94A3B8), fontSize: 14),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF16A34A),
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(52, 52),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(26),
+                  ),
+                  elevation: 0,
+                ),
+                child: const Icon(Icons.arrow_forward),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Additional Viewfinder UI (Brackets & Laser) placed in a separate widget
+// so they can be layered perfectly over the scanner overlay.
+class ScannerViewfinder extends StatelessWidget {
+  final Animation<double> animation;
+  const ScannerViewfinder({super.key, required this.animation});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        width: 260,
+        height: 260,
+        child: Stack(
+          children: [
+            // Brumbella Overlay
+            Positioned(
+              top: -40,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Text(
+                  'Brumbella Scanner',
+                  style: GoogleFonts.manrope(
+                    color: Colors.white.withOpacity(0.5),
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 2.0,
+                  ),
+                ),
+              ),
+            ),
+            
+            // Corner Brackets
+            const Positioned(top: 0, left: 0, child: CornerBracket(angle: 0)),
+            const Positioned(top: 0, right: 0, child: CornerBracket(angle: 3.14159 / 2)),
+            const Positioned(bottom: 0, right: 0, child: CornerBracket(angle: 3.14159)),
+            const Positioned(bottom: 0, left: 0, child: CornerBracket(angle: 3.14159 * 1.5)),
+
+            // Laser Animation
+            AnimatedBuilder(
+              animation: animation,
+              builder: (context, child) {
+                return Positioned(
+                  top: animation.value * 240,
+                  left: 10,
+                  right: 10,
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          const Color(0xFF16A34A).withOpacity(0.0),
+                          const Color(0xFF16A34A).withOpacity(0.6),
+                        ],
+                      ),
+                    ),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: 2,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF16A34A),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF16A34A).withOpacity(0.8),
+                              blurRadius: 8,
+                              spreadRadius: 2,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Corner Bracket Widget
+class CornerBracket extends StatelessWidget {
+  final double angle;
+  const CornerBracket({super.key, required this.angle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.rotate(
+      angle: angle,
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          border: const Border(
+            top: BorderSide(color: Color(0xFF16A34A), width: 4),
+            left: BorderSide(color: Color(0xFF16A34A), width: 4),
+          ),
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(24)),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF16A34A).withOpacity(0.3),
+              blurRadius: 12,
+              offset: const Offset(-2, -2),
+            )
+          ],
+        ),
       ),
     );
   }

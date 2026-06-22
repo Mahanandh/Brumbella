@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../widgets/premium_list_card.dart';
 import 'device_detail_screen.dart';
 import 'manual_registration_screen.dart';
 
-class FurnitureFixturesScreen extends StatelessWidget {
-  const FurnitureFixturesScreen({super.key});
+class KitchenAppliancesScreen extends StatelessWidget {
+  const KitchenAppliancesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class FurnitureFixturesScreen extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Color(0xFF0F172A)),
         title: Text(
-          'Furnitures',
+          'Kitchen Appliances',
           style: GoogleFonts.manrope(
             fontWeight: FontWeight.w700,
             color: const Color(0xFF0F172A),
@@ -32,7 +33,7 @@ class FurnitureFixturesScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ManualRegistrationScreen(
-                    prefilledCategory: 'Furnitures',
+                    prefilledCategory: 'Kitchen Appliances',
                   ),
                 ),
               );
@@ -43,10 +44,12 @@ class FurnitureFixturesScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildSubCategoryCard(context, 'Motorized Standing Desks', Icons.desk_outlined),
-          _buildSubCategoryCard(context, 'Ergonomic Office Chairs', Icons.chair_alt_outlined),
-          _buildSubCategoryCard(context, 'Modular Storage Cabinets', Icons.inventory_2_outlined),
-          _buildSubCategoryCard(context, 'Sofa Systems', Icons.weekend_outlined),
+          _buildSubCategoryCard(context, 'Dishwashers', Icons.wash_outlined),
+          _buildSubCategoryCard(context, 'RO Water Purifiers and Dispensers', Icons.water_drop_outlined),
+          _buildSubCategoryCard(context, 'Smart Refrigerators', Icons.kitchen_outlined),
+          _buildSubCategoryCard(context, 'Microwave Ovens', Icons.microwave_outlined),
+          _buildSubCategoryCard(context, 'Coffee Makers and Blenders', Icons.coffee_maker_outlined),
+          _buildSubCategoryCard(context, 'Ventilator', Icons.air_outlined),
         ],
       ),
     );
@@ -56,7 +59,7 @@ class FurnitureFixturesScreen extends StatelessWidget {
     return PremiumListCard(
       title: title,
       icon: icon,
-      themeColor: const Color(0xFFBC4E9C),
+      themeColor: Colors.orange,
       onTap: () {
         Navigator.push(
           context,

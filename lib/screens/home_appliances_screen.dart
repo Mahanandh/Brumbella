@@ -44,11 +44,11 @@ class HomeAppliancesScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildSubCategoryCard(context, 'RO Water Purifiers', Icons.water_drop_outlined),
           _buildSubCategoryCard(context, 'Washing Machines', Icons.local_laundry_service_outlined),
-          _buildSubCategoryCard(context, 'Refrigerators', Icons.kitchen_outlined),
-          _buildSubCategoryCard(context, 'Dishwashers', Icons.wash_outlined),
-          _buildSubCategoryCard(context, 'Microwave Ovens', Icons.microwave_outlined),
+          _buildSubCategoryCard(context, 'Air Conditioners', Icons.ac_unit_outlined),
+          _buildSubCategoryCard(context, 'Smart Televisions', Icons.tv_outlined),
+          _buildSubCategoryCard(context, 'Vacuum Cleaners', Icons.cleaning_services_outlined),
+          _buildSubCategoryCard(context, 'Room Air Purifiers', Icons.air_outlined),
         ],
       ),
     );
