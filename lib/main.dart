@@ -1809,9 +1809,9 @@ class PremiumCategoryCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 14,
-              offset: const Offset(0, 4),
+              color: gradientColors.last.withOpacity(0.15), // Innovative: Casts a subtle, beautiful color-coordinated glow based on the logo's theme instead of a boring gray shadow
+              blurRadius: 18,
+              offset: const Offset(0, 8),
             ),
           ],
           // STRICTLY NO BORDERS HERE
@@ -1835,15 +1835,9 @@ class PremiumCategoryCard extends StatelessWidget {
                           child: ClipOval(
                             child: Transform.scale(
                               scale: 1.15, // Scales the image up slightly to push the square borders outside the clipping mask
-                              child: ColorFiltered(
-                                colorFilter: const ColorFilter.mode(
-                                  Color(0xFF059669), // App's primary emerald green theme
-                                  BlendMode.color, // Safely recolors the drawing to green while keeping white backgrounds pure white
-                                ),
-                                child: Image.asset(
-                                  imageAsset!,
-                                  fit: BoxFit.cover,
-                                ),
+                              child: Image.asset(
+                                imageAsset!,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
