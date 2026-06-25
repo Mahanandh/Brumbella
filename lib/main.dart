@@ -1551,16 +1551,16 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                   mainAxisSpacing: 16.0,
                   childAspectRatio: 0.85,
                   children: [
-                    _buildPremiumCard('Home Appliances', Icons.kitchen_outlined, const [Color(0xFF00C6FF), Color(0xFF0072FF)]),
-                    _buildPremiumCard('Kitchen Appliances', Icons.microwave_outlined, const [Color(0xFFF2994A), Color(0xFFF2C94C)]),
-                    _buildPremiumCard('IT & Networking Infrastructure', Icons.router_outlined, const [Color(0xFF11998E), Color(0xFF38EF7D)]),
-                    _buildPremiumCard('Personal Gadgets', Icons.watch_outlined, const [Color(0xFF00B4DB), Color(0xFF0083B0)]),
-                    _buildPremiumCard('Smart Home & Security', Icons.security_outlined, const [Color(0xFFF7971E), Color(0xFFFFD200)]),
-                    _buildPremiumCard('Medical & Health Equipment', Icons.medical_services_outlined, const [Color(0xFFFF416C), Color(0xFFFF4B2B)]),
-                    _buildPremiumCard('Power & Energy Systems', Icons.electric_bolt_outlined, const [Color(0xFFFDC830), Color(0xFFF37335)]),
-                    _buildPremiumCard('Vehicles & Mobility', Icons.directions_car_outlined, const [Color(0xFF00B09B), Color(0xFF96C93D)]),
-                    _buildPremiumCard('Furnitures', Icons.weekend_outlined, const [Color(0xFFBC4E9C), Color(0xFFF80759)]),
-                    _buildPremiumCard('Building', Icons.domain_outlined, const [Color(0xFF43C6AC), Color(0xFF191654)]),
+                    _buildPremiumCard('Home Appliances', Icons.kitchen_outlined, const [Color(0xFF00C6FF), Color(0xFF0072FF)], imageAsset: 'assets/images/home_meaning.png'),
+                    _buildPremiumCard('Kitchen Appliances', Icons.microwave_outlined, const [Color(0xFFF2994A), Color(0xFFF2C94C)], imageAsset: 'assets/images/kitchen_meaning.png'),
+                    _buildPremiumCard('IT & Networking Infrastructure', Icons.router_outlined, const [Color(0xFF11998E), Color(0xFF38EF7D)], imageAsset: 'assets/images/it_meaning.png'),
+                    _buildPremiumCard('Personal Gadgets', Icons.watch_outlined, const [Color(0xFF00B4DB), Color(0xFF0083B0)], imageAsset: 'assets/images/personal_meaning.png'),
+                    _buildPremiumCard('Smart Home & Security', Icons.security_outlined, const [Color(0xFFF7971E), Color(0xFFFFD200)], imageAsset: 'assets/images/security_meaning.png'),
+                    _buildPremiumCard('Medical & Health Equipment', Icons.medical_services_outlined, const [Color(0xFFFF416C), Color(0xFFFF4B2B)], imageAsset: 'assets/images/medical_meaning.png'),
+                    _buildPremiumCard('Power & Energy Systems', Icons.electric_bolt_outlined, const [Color(0xFFFDC830), Color(0xFFF37335)], imageAsset: 'assets/images/power_meaning.png'),
+                    _buildPremiumCard('Vehicles & Mobility', Icons.directions_car_outlined, const [Color(0xFF00B09B), Color(0xFF96C93D)], imageAsset: 'assets/images/vehicles_meaning.png'),
+                    _buildPremiumCard('Furnitures', Icons.weekend_outlined, const [Color(0xFFBC4E9C), Color(0xFFF80759)], imageAsset: 'assets/images/furniture_meaninf.png'),
+                    _buildPremiumCard('Building', Icons.domain_outlined, const [Color(0xFF43C6AC), Color(0xFF191654)], imageAsset: 'assets/images/building_meaning.png'),
                   ],
                 ),
                 const SizedBox(height: 32),
@@ -1712,10 +1712,11 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
     );
   }
 
-  Widget _buildPremiumCard(String title, IconData icon, List<Color> gradientColors) {
+  Widget _buildPremiumCard(String title, IconData icon, List<Color> gradientColors, {String? imageAsset}) {
     return PremiumCategoryCard(
       title: title,
       icon: icon,
+      imageAsset: imageAsset,
       gradientColors: gradientColors,
       onTap: () {
         setState(() {
@@ -1784,6 +1785,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
 class PremiumCategoryCard extends StatelessWidget {
   final String title;
   final IconData icon;
+  final String? imageAsset;
   final List<Color> gradientColors;
   final VoidCallback? onTap;
 
@@ -1791,6 +1793,7 @@ class PremiumCategoryCard extends StatelessWidget {
     super.key,
     required this.title,
     required this.icon,
+    this.imageAsset,
     required this.gradientColors,
     this.onTap,
   });
@@ -1800,6 +1803,7 @@ class PremiumCategoryCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -1815,31 +1819,56 @@ class PremiumCategoryCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Gradient Icon Container
-            Container(
-              height: 52.0,
-              width: 52.0,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: gradientColors,
-                ),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: gradientColors.last.withOpacity(0.25),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
+            // Icon or Asset Container
+            imageAsset != null
+                ? SizedBox(
+                    width: 52.0,
+                    height: 52.0,
+                    child: OverflowBox(
+                      maxWidth: 100.0,
+                      maxHeight: 100.0,
+                      child: Transform.translate(
+                        offset: const Offset(0, -10), // Shifts the image up to center the graphic and clear the text
+                        child: SizedBox(
+                          width: 82.0,
+                          height: 82.0,
+                          child: ClipOval(
+                            child: Transform.scale(
+                              scale: 1.15, // Scales the image up slightly to push the square borders outside the clipping mask
+                              child: Image.asset(
+                                imageAsset!,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(
+                    height: 52.0,
+                    width: 52.0,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: gradientColors,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: gradientColors.last.withOpacity(0.25),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      icon,
+                      color: Colors.white,
+                      size: 28.0,
+                    ),
                   ),
-                ],
-              ),
-              child: Icon(
-                icon,
-                color: Colors.white,
-                size: 28.0,
-              ),
-            ),
             const SizedBox(height: 10),
             // Perfectly Centered Text
             Padding(
