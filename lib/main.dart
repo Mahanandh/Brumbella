@@ -1835,9 +1835,15 @@ class PremiumCategoryCard extends StatelessWidget {
                           child: ClipOval(
                             child: Transform.scale(
                               scale: 1.15, // Scales the image up slightly to push the square borders outside the clipping mask
-                              child: Image.asset(
-                                imageAsset!,
-                                fit: BoxFit.cover,
+                              child: ColorFiltered(
+                                colorFilter: const ColorFilter.mode(
+                                  Color(0xFF059669), // App's primary emerald green theme
+                                  BlendMode.color, // Safely recolors the drawing to green while keeping white backgrounds pure white
+                                ),
+                                child: Image.asset(
+                                  imageAsset!,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
