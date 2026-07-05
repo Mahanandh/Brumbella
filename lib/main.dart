@@ -5,7 +5,7 @@ import 'screens/home_appliances_screen.dart';
 import 'screens/kitchen_appliances_screen.dart';
 import 'screens/it_networking_screen.dart';
 import 'screens/personal_gadgets_screen.dart';
-import 'screens/smart_home_screen.dart';
+import 'screens/personal_care_screen.dart';
 import 'screens/medical_health_screen.dart';
 import 'screens/power_energy_screen.dart';
 import 'screens/vehicles_mobility_screen.dart';
@@ -1553,11 +1553,9 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                   children: [
                     _buildPremiumCard('Home Appliances', Icons.kitchen_outlined, const [Color(0xFF00C6FF), Color(0xFF0072FF)], imageAsset: 'assets/images/home_meaning.png'),
                     _buildPremiumCard('Kitchen Appliances', Icons.microwave_outlined, const [Color(0xFFF2994A), Color(0xFFF2C94C)], imageAsset: 'assets/images/kitchen_meaning.png'),
-                    _buildPremiumCard('IT & Networking Infrastructure', Icons.router_outlined, const [Color(0xFF11998E), Color(0xFF38EF7D)], imageAsset: 'assets/images/it_meaning.png'),
-                    _buildPremiumCard('Personal Gadgets', Icons.watch_outlined, const [Color(0xFF00B4DB), Color(0xFF0083B0)], imageAsset: 'assets/images/personal_meaning.png'),
-                    _buildPremiumCard('Smart Home & Security', Icons.security_outlined, const [Color(0xFFF7971E), Color(0xFFFFD200)], imageAsset: 'assets/images/security_meaning.png'),
-                    _buildPremiumCard('Medical & Health Equipment', Icons.medical_services_outlined, const [Color(0xFFFF416C), Color(0xFFFF4B2B)], imageAsset: 'assets/images/medical_meaning.png'),
-                    _buildPremiumCard('Power & Energy Systems', Icons.electric_bolt_outlined, const [Color(0xFFFDC830), Color(0xFFF37335)], imageAsset: 'assets/images/power_meaning.png'),
+                    _buildPremiumCard('My Devices', Icons.watch_outlined, const [Color(0xFF00B4DB), Color(0xFF0083B0)], imageAsset: 'assets/images/personal_meaning.png'),
+                    _buildPremiumCard('Personal Care', Icons.spa_outlined, const [Color(0xFFF06292), Color(0xFFE91E63)], imageAsset: 'assets/images/Personal_Care.png'),
+                    _buildPremiumCard('Electrical System', Icons.electric_bolt_outlined, const [Color(0xFFFDC830), Color(0xFFF37335)], imageAsset: 'assets/images/power_meaning.png'),
                     _buildPremiumCard('Vehicles & Mobility', Icons.directions_car_outlined, const [Color(0xFF00B09B), Color(0xFF96C93D)], imageAsset: 'assets/images/vehicles_meaning.png'),
                     _buildPremiumCard('Furnitures', Icons.weekend_outlined, const [Color(0xFFBC4E9C), Color(0xFFF80759)], imageAsset: 'assets/images/furniture_meaninf.png'),
                     _buildPremiumCard('Building', Icons.domain_outlined, const [Color(0xFF43C6AC), Color(0xFF191654)], imageAsset: 'assets/images/building_meaning.png'),
@@ -1736,27 +1734,17 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
               builder: (context) => const KitchenAppliancesScreen(),
             ),
           );
-        } else if (title == 'IT & Networking Infrastructure') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ItNetworkingScreen()),
-          );
-        } else if (title == 'Personal Gadgets') {
+        } else if (title == 'My Devices') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const PersonalGadgetsScreen()),
           );
-        } else if (title == 'Smart Home & Security') {
+        } else if (title == 'Personal Care') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const SmartHomeScreen()),
+            MaterialPageRoute(builder: (context) => const PersonalCareScreen()),
           );
-        } else if (title == 'Medical & Health Equipment') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const MedicalHealthScreen()),
-          );
-        } else if (title == 'Power & Energy Systems') {
+        } else if (title == 'Electrical System') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const PowerEnergyScreen()),
@@ -1821,25 +1809,29 @@ class PremiumCategoryCard extends StatelessWidget {
           children: [
             // Icon or Asset Container
             imageAsset != null
-                ? SizedBox(
-                    width: 52.0,
-                    height: 52.0,
-                    child: OverflowBox(
-                      maxWidth: 100.0,
-                      maxHeight: 100.0,
-                      child: Transform.translate(
-                        offset: const Offset(0, -10), // Shifts the image up to center the graphic and clear the text
-                        child: SizedBox(
-                          width: 82.0,
-                          height: 82.0,
-                          child: ClipOval(
-                            child: Transform.scale(
-                              scale: 1.15, // Scales the image up slightly to push the square borders outside the clipping mask
-                              child: Image.asset(
-                                imageAsset!,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                ? Container(
+                    width: 72.0,
+                    height: 72.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFF16A34A),
+                        width: 2.0,
+                      ),
+                    ),
+                    child: ClipOval(
+                      child: Transform.scale(
+                        scale: 1.15,
+                        child: ColorFiltered(
+                          colorFilter: const ColorFilter.matrix(<double>[
+                            0.2126, 0.7152, 0.0722, 0, 0,
+                            0.2126, 0.7152, 0.0722, 0, 0,
+                            0.2126, 0.7152, 0.0722, 0, 0,
+                            0,      0,      0,      1, 0,
+                          ]),
+                          child: Image.asset(
+                            imageAsset!,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),

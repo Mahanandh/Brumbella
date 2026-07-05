@@ -48,6 +48,11 @@ class BuildingScreen extends StatelessWidget {
           _buildSubCategoryCard(context, 'Concrete Mixers', Icons.construction_outlined),
           _buildSubCategoryCard(context, 'Welding Machines', Icons.hardware_outlined),
           _buildSubCategoryCard(context, 'Industrial Saws', Icons.carpenter_outlined),
+          _buildSubCategoryCard(context, 'CCTV Camera Systems', Icons.videocam_outlined),
+          _buildSubCategoryCard(context, 'Smart Door Locks', Icons.lock_outline),
+          _buildSubCategoryCard(context, 'Video Doorbells', Icons.doorbell_outlined),
+          _buildSubCategoryCard(context, 'Automated Thermostats', Icons.thermostat_outlined),
+          _buildSubCategoryCard(context, 'Smoke Detectors', Icons.sensors_outlined),
         ],
       ),
     );

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../widgets/premium_list_card.dart';
 import 'device_detail_screen.dart';
 import 'manual_registration_screen.dart';
 
-class SmartHomeScreen extends StatelessWidget {
-  const SmartHomeScreen({super.key});
+class PersonalCareScreen extends StatelessWidget {
+  const PersonalCareScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class SmartHomeScreen extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Color(0xFF0F172A)),
         title: Text(
-          'Smart Home & Security',
+          'Personal Care',
           style: GoogleFonts.manrope(
             fontWeight: FontWeight.w700,
             color: const Color(0xFF0F172A),
@@ -32,7 +33,7 @@ class SmartHomeScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ManualRegistrationScreen(
-                    prefilledCategory: 'Smart Home & Security',
+                    prefilledCategory: 'Personal Care',
                   ),
                 ),
               );
@@ -43,11 +44,12 @@ class SmartHomeScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildSubCategoryCard(context, 'CCTV Camera Systems', Icons.videocam_outlined),
-          _buildSubCategoryCard(context, 'Smart Door Locks', Icons.lock_outline),
-          _buildSubCategoryCard(context, 'Video Doorbells', Icons.doorbell_outlined),
-          _buildSubCategoryCard(context, 'Automated Thermostats', Icons.thermostat_outlined),
-          _buildSubCategoryCard(context, 'Smoke Detectors', Icons.sensors_outlined),
+          _buildSubCategoryCard(context, 'Beard Trimmers', Icons.content_cut),
+          _buildSubCategoryCard(context, 'Hair Dryers & Styling', Icons.air),
+          _buildSubCategoryCard(context, 'Cosmetics & Makeup', Icons.brush),
+          _buildSubCategoryCard(context, 'Eye Makeup', Icons.remove_red_eye),
+          _buildSubCategoryCard(context, 'Daily Skincare', Icons.water_drop),
+          _buildSubCategoryCard(context, 'Sunscreens & SPF', Icons.wb_sunny),
         ],
       ),
     );
@@ -57,7 +59,7 @@ class SmartHomeScreen extends StatelessWidget {
     return PremiumListCard(
       title: title,
       icon: icon,
-      themeColor: const Color(0xFFF7971E),
+      themeColor: Colors.pinkAccent,
       onTap: () {
         Navigator.push(
           context,

@@ -49,6 +49,10 @@ class HomeAppliancesScreen extends StatelessWidget {
           _buildSubCategoryCard(context, 'Smart Televisions', Icons.tv_outlined),
           _buildSubCategoryCard(context, 'Vacuum Cleaners', Icons.cleaning_services_outlined),
           _buildSubCategoryCard(context, 'Room Air Purifiers', Icons.air_outlined),
+          _buildSubCategoryCard(context, 'Ceiling Fans', Icons.wind_power),
+          _buildSubCategoryCard(context, 'Water Heaters', Icons.water_drop),
+          _buildSubCategoryCard(context, 'Irons', Icons.iron),
+          _buildSubCategoryCard(context, 'Sewing Machines', Icons.design_services),
         ],
       ),
     );

@@ -17,7 +17,7 @@ class PowerEnergyScreen extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Color(0xFF0F172A)),
         title: Text(
-          'Power & Energy Systems',
+          'Electrical System',
           style: GoogleFonts.manrope(
             fontWeight: FontWeight.w700,
             color: const Color(0xFF0F172A),
@@ -32,7 +32,7 @@ class PowerEnergyScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ManualRegistrationScreen(
-                    prefilledCategory: 'Power & Energy Systems',
+                    prefilledCategory: 'Electrical System',
                   ),
                 ),
               );
@@ -47,6 +47,11 @@ class PowerEnergyScreen extends StatelessWidget {
           _buildSubCategoryCard(context, 'Home UPS Battery Systems', Icons.battery_charging_full_outlined),
           _buildSubCategoryCard(context, 'Portable Generators', Icons.power_outlined),
           _buildSubCategoryCard(context, 'EV Charging Stations', Icons.ev_station_outlined),
+          _buildSubCategoryCard(context, 'Electrical Lights & Bulbs', Icons.lightbulb_outline),
+          _buildSubCategoryCard(context, 'Smart Plugs & Outlets', Icons.outlet),
+          _buildSubCategoryCard(context, 'Power Strips & Extension Cords', Icons.electrical_services),
+          _buildSubCategoryCard(context, 'Switches & Dimmers', Icons.toggle_on),
+          _buildSubCategoryCard(context, 'Circuit Breakers & Fuses', Icons.offline_bolt),
         ],
       ),
     );

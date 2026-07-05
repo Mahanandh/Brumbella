@@ -18,7 +18,7 @@ class PersonalGadgetsScreen extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Color(0xFF0F172A)),
         title: Text(
-          'Personal Gadgets',
+          'My Devices',
           style: GoogleFonts.manrope(
             fontWeight: FontWeight.w700,
             color: const Color(0xFF0F172A),
@@ -33,7 +33,7 @@ class PersonalGadgetsScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const ManualRegistrationScreen(
-                    prefilledCategory: 'Personal Gadgets',
+                    prefilledCategory: 'My Devices',
                   ),
                 ),
               );
@@ -44,11 +44,13 @@ class PersonalGadgetsScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildSubCategoryCard(context, 'Smart Water Flossers', Icons.water_drop_outlined),
           _buildSubCategoryCard(context, 'Watches and Fitness Trackers', Icons.watch_outlined),
           _buildSubCategoryCard(context, 'Wireless Earbuds and Headphones', Icons.headphones_outlined),
           _buildSubCategoryCard(context, 'Smartphones and Tablets', Icons.smartphone_outlined),
           _buildSubCategoryCard(context, 'Portable Power Banks', Icons.battery_charging_full_outlined),
+          _buildSubCategoryCard(context, 'Wifi Routers', Icons.router),
+          _buildSubCategoryCard(context, 'Printers', Icons.print),
+          _buildSubCategoryCard(context, 'Projectors', Icons.cast),
         ],
       ),
     );

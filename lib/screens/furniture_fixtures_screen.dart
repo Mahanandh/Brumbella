@@ -43,10 +43,14 @@ class FurnitureFixturesScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildSubCategoryCard(context, 'Motorized Standing Desks', Icons.desk_outlined),
-          _buildSubCategoryCard(context, 'Ergonomic Office Chairs', Icons.chair_alt_outlined),
-          _buildSubCategoryCard(context, 'Modular Storage Cabinets', Icons.inventory_2_outlined),
-          _buildSubCategoryCard(context, 'Sofa Systems', Icons.weekend_outlined),
+          _buildSubCategoryCard(context, 'Desks', Icons.desk_outlined),
+          _buildSubCategoryCard(context, 'Office Chairs', Icons.chair_alt_outlined),
+          _buildSubCategoryCard(context, 'Cabinets', Icons.inventory_2_outlined),
+          _buildSubCategoryCard(context, 'Sofas', Icons.weekend_outlined),
+          _buildSubCategoryCard(context, 'Tables', Icons.table_bar),
+          _buildSubCategoryCard(context, 'Beds', Icons.bed),
+          _buildSubCategoryCard(context, 'Bookshelves', Icons.shelves),
+          _buildSubCategoryCard(context, 'TV Stands', Icons.tv),
         ],
       ),
     );
