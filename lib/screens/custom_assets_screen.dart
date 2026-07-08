@@ -1,21 +1,17 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
-import '../widgets/premium_card.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'asset_details_screen.dart';
 
-class CustomAsset {
+class DigitizedAsset {
   final String name;
+  final String serialNumber;
   final String type;
-  final String detail1;
-  final String detail2;
-  final IconData icon;
-  final Color themeColor;
 
-  CustomAsset({
+  DigitizedAsset({
     required this.name,
+    required this.serialNumber,
     required this.type,
-    required this.detail1,
-    required this.detail2,
-    required this.icon,
-    required this.themeColor,
   });
 }
 
@@ -27,67 +23,51 @@ class CustomAssetsScreen extends StatefulWidget {
 }
 
 class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
-  final List<CustomAsset> _assets = [
-    CustomAsset(
+  final List<DigitizedAsset> registeredAssets = [
+    DigitizedAsset(
       name: 'LG Smart TV',
+      serialNumber: 'SN-000001',
       type: 'Consumer Electronics',
-      detail1: 'Warranty Active',
-      detail2: 'Expires in 8 months',
-      icon: Icons.tv,
-      themeColor: Colors.indigo,
     ),
-    CustomAsset(
+    DigitizedAsset(
       name: 'Storage Cupboard A',
+      serialNumber: 'SN-000002',
       type: 'Office & Industry',
-      detail1: 'Custom Tag: 14 Files',
-      detail2: 'Last audited: Today',
-      icon: Icons.kitchen,
-      themeColor: Colors.blue,
-    ),
-    CustomAsset(
-      name: 'Leg Press Machine',
-      type: 'Gym / Personal',
-      detail1: 'Profile: 120kg, Pos 4',
-      detail2: 'Last used: 2 days ago',
-      icon: Icons.fitness_center,
-      themeColor: Colors.purple,
-    ),
-    CustomAsset(
-      name: 'ECG Monitor V2',
-      type: 'Medical Device',
-      detail1: 'Status: Operational',
-      detail2: 'Next Calibration: Oct 12',
-      icon: Icons.monitor_heart,
-      themeColor: Colors.red,
     ),
   ];
 
-  final List<String> _categories = [
-    "All",
-    "Consumer Electronics",
-    "Office & Industry",
-    "Medical Devices",
-    "Custom Tags"
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
+
+  String? _generatedQRData;
+  String? _generatedSerialNumber;
+  String _selectedFilter = 'All';
+
+  final List<String> _filterOptions = [
+    'All',
+    'Consumer Electronics',
+    'Office & Industry',
+    'Custom Tag'
   ];
-  
-  String _selectedCategory = "All";
-  bool _assetGenerated = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List<DigitizedAsset> get filteredAssets {
+    return registeredAssets.where((asset) {
+      final matchesSearch = _searchController.text.isEmpty ||
+          asset.serialNumber.toLowerCase().contains(_searchController.text.toLowerCase());
+      final matchesFilter = _selectedFilter == 'All' || asset.type == _selectedFilter;
+      return matchesSearch && matchesFilter;
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Filter assets
-    List<CustomAsset> filteredAssets = _selectedCategory == "All"
-        ? _assets
-        : _assets.where((a) {
-            if (_selectedCategory == "Custom Tags") {
-               return a.type != "Consumer Electronics" && 
-                      a.type != "Office & Industry" && 
-                      a.type != "Medical Device";
-            }
-            if (_selectedCategory == "Medical Devices" && a.type == "Medical Device") return true;
-            return a.type == _selectedCategory;
-          }).toList();
-
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
@@ -105,321 +85,317 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
         iconTheme: const IconThemeData(color: Color(0xFF0F172A)),
       ),
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.all(24.0),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  // The Universal Header
-                  PremiumCard(
-                    padding: const EdgeInsets.all(20),
-                    child: IntrinsicHeight(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          // Left Section: Input & Action
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                const Text(
-                                  'Digitize Any Asset',
-                                  style: TextStyle(
-                                    color: Color(0xFF16A34A),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                const Text(
-                                  'Scan a QR or Barcode to track electronics, medical devices, office equipment, or create a custom tag.',
-                                  style: TextStyle(
-                                    color: Color(0xFF64748B),
-                                    fontSize: 13,
-                                    height: 1.5,
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                TextField(
-                                  decoration: InputDecoration(
-                                    hintText: 'Enter new device name...',
-                                    hintStyle: const TextStyle(color: Color(0xFF94A3B8)),
-                                    filled: true,
-                                    fillColor: Colors.grey.shade50,
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFF16A34A).withOpacity(0.3),
-                                        blurRadius: 12,
-                                        offset: const Offset(0, 4),
-                                      ),
-                                    ],
-                                  ),
-                                  child: ElevatedButton.icon(
-                                    onPressed: () {
-                                      setState(() {
-                                        _assetGenerated = true;
-                                      });
-                                    },
-                                    icon: const Icon(Icons.qr_code_scanner, color: Colors.white),
-                                    label: const Text(
-                                      'Scan Asset ID',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFF16A34A),
-                                      padding: const EdgeInsets.symmetric(vertical: 14),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      elevation: 0,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          // Right Section: Dynamic Output Zone
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF8FAFC),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: _assetGenerated
-                                    ? [
-                                        Container(
-                                          padding: const EdgeInsets.all(12),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(12),
-                                            border: Border.all(color: const Color(0xFFE2E8F0)),
-                                          ),
-                                          child: const Icon(
-                                            Icons.qr_code_2,
-                                            size: 72,
-                                            color: Color(0xFF334155),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 12),
-                                        const Text(
-                                          'SN: XXXX-1234',
-                                          style: TextStyle(
-                                            color: Color(0xFF475569),
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ]
-                                    : [
-                                        Icon(
-                                          Icons.qr_code_scanner,
-                                          size: 48,
-                                          color: Colors.grey.shade400,
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          'Awaiting Input...',
-                                          style: TextStyle(
-                                            color: Colors.grey.shade500,
-                                            fontSize: 12,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                              ),
-                            ),
-                          ),
-                        ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Section 1: The "Digitize Any Asset" Card
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(height: 24),
-
-                  // Industry-Wide Category Filters
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
                     child: Row(
-                      children: _categories.map((category) {
-                        final isSelected = category == _selectedCategory;
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedCategory = category;
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              decoration: BoxDecoration(
-                                color: isSelected
-                                    ? const Color(0xFF16A34A)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: isSelected
-                                      ? const Color(0xFF16A34A)
-                                      : const Color(0xFFE2E8F0),
-                                ),
-                              ),
-                              child: Text(
-                                category,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Left Side (Input)
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Digitize Any Asset',
                                 style: TextStyle(
-                                  color: isSelected
-                                      ? Colors.white
-                                      : const Color(0xFF64748B),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 13,
+                                  color: Color(0xFF16A34A),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 28),
-
-                  // The Custom Asset List Header
-                  const Text(
-                    'YOUR DIGITIZED LIFECYCLE',
-                    style: TextStyle(
-                      color: Color(0xFF64748B),
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1.2,
-                      fontSize: 12,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                ]),
-              ),
-            ),
-            
-            // Asset Cards
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final asset = filteredAssets[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: PremiumCard(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: asset.themeColor.withOpacity(0.12),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(asset.icon, color: asset.themeColor),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    asset.name,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF334155),
-                                      fontSize: 14,
-                                    ),
+                              const SizedBox(height: 16),
+                              TextField(
+                                controller: _nameController,
+                                decoration: InputDecoration(
+                                  hintText: 'Enter new device name...',
+                                  hintStyle: const TextStyle(color: Color(0xFF94A3B8)),
+                                  filled: true,
+                                  fillColor: const Color(0xFFF8FAFC),
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide.none,
                                   ),
-                                  const SizedBox(height: 6),
-                                  // Type badge
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      color: asset.themeColor.withOpacity(0.1),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    if (_nameController.text.isNotEmpty) {
+                                      final newSn = "SN-${Random().nextInt(999999).toString().padLeft(6, '0')}";
+                                      setState(() {
+                                        _generatedSerialNumber = newSn;
+                                        _generatedQRData = newSn;
+                                        registeredAssets.insert(0, DigitizedAsset(
+                                          name: _nameController.text,
+                                          serialNumber: newSn,
+                                          type: 'Custom Tag',
+                                        ));
+                                        _nameController.clear();
+                                      });
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF16A34A),
+                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                     ),
-                                    child: Text(
-                                      asset.type,
-                                      style: TextStyle(
-                                        color: asset.themeColor,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
+                                    elevation: 0,
+                                  ),
+                                  child: const Text(
+                                    'Generate Asset',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        // Right Side (Output)
+                        Container(
+                          height: 140,
+                          width: 130,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF1F5F9),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: _generatedQRData == null
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.qr_code, color: Colors.grey.shade400, size: 40),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Awaiting Input...',
+                                      style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                )
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: QrImageView(
+                                        data: _generatedQRData!,
+                                        size: 80.0,
+                                        foregroundColor: const Color(0xFF334155),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    asset.detail1,
-                                    style: const TextStyle(
-                                      color: Color(0xFF64748B),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      _generatedSerialNumber!,
+                                      style: const TextStyle(
+                                        color: Color(0xFF475569),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    asset.detail2,
-                                    style: const TextStyle(
-                                      color: Color(0xFF94A3B8),
-                                      fontSize: 11,
+                                  ],
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                
+                // Section 2: Search, Scan, and Filters
+                const SizedBox(height: 24),
+                // Search Row
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: (_) {
+                          setState(() {});
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Search Serial Number...',
+                          prefixIcon: const Icon(Icons.search, color: Color(0xFF94A3B8)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: Color(0xFF16A34A)),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    SizedBox(
+                      height: 52,
+                      width: 52,
+                      child: ElevatedButton(
+                        onPressed: () {
+                           ScaffoldMessenger.of(context).showSnackBar(
+                             const SnackBar(content: Text('Camera scanner plugin to be implemented')),
+                           );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF16A34A),
+                          padding: EdgeInsets.zero,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Icon(Icons.qr_code_scanner, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                
+                // Filters
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: _filterOptions.map((filter) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: ChoiceChip(
+                          label: Text(filter),
+                          selected: _selectedFilter == filter,
+                          onSelected: (selected) {
+                            if (selected) {
+                              setState(() {
+                                _selectedFilter = filter;
+                              });
+                            }
+                          },
+                          selectedColor: const Color(0xFF16A34A).withOpacity(0.1),
+                          labelStyle: TextStyle(
+                            color: _selectedFilter == filter ? const Color(0xFF16A34A) : const Color(0xFF64748B),
+                            fontWeight: _selectedFilter == filter ? FontWeight.bold : FontWeight.normal,
+                          ),
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(
+                              color: _selectedFilter == filter ? const Color(0xFF16A34A) : const Color(0xFFE2E8F0),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                
+                const SizedBox(height: 24),
+                // Section 3: The Asset List
+                const Text(
+                  'YOUR DIGITIZED LIFECYCLE',
+                  style: TextStyle(
+                    color: Color(0xFF94A3B8),
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: filteredAssets.length,
+                  itemBuilder: (context, index) {
+                    final asset = filteredAssets[index];
+                    return Card(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: BorderSide(color: Colors.grey.shade200),
+                      ),
+                      margin: const EdgeInsets.only(bottom: 12),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(12),
+                        onTap: () {
+                          // TELEMETRY: If this prints but doesn't route, it is a Web Cache issue.
+                          print('SUCCESS: Tap registered for ${asset.name}. Attempting route...');
+                          
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => AssetDetailsScreen(asset: asset),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Icon(Icons.inventory_2, color: Colors.blueGrey),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      asset.name,
+                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '${asset.serialNumber} • ${asset.type}',
+                                      style: TextStyle(color: Colors.green.shade700, fontSize: 12),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: const BoxDecoration(
-                                color: Color(0xFFF1F5F9),
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Color(0xFF64748B),
-                                size: 16,
-                              ),
-                            ),
-                          ],
+                              const Icon(Icons.chevron_right, color: Colors.grey),
+                            ],
+                          ),
                         ),
                       ),
                     );
                   },
-                  childCount: filteredAssets.length,
                 ),
-              ),
+              ],
             ),
-            const SliverPadding(padding: EdgeInsets.only(bottom: 100.0)),
-          ],
+          ),
         ),
       ),
     );
