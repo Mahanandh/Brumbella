@@ -84,7 +84,7 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                   const SizedBox(height: 32),
 
                   // Smart Replenishment
-                  const CatalogSectionHeading(title: 'ESSENTIALS & REFILLS'),
+                  const CatalogSectionHeading(title: 'MAINTENANCE ESSENTIALS'),
                   const SizedBox(height: 12),
                   CriticalRefillSummaryRow(
                     itemName: essential.consumableName,
@@ -97,7 +97,7 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
 
                   // Compatible With Your Assets
                   const CatalogSectionHeading(
-                      title: 'COMPATIBLE WITH YOUR ASSETS'),
+                      title: 'COMPATIBLE COMPONENTS'),
                   const SizedBox(height: 12),
                   SizedBox(
                     height: 180,
@@ -128,7 +128,7 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                   const SizedBox(height: 32),
 
                   // Browse All Parts
-                  const CatalogSectionHeading(title: 'BROWSE ALL PARTS'),
+                  const CatalogSectionHeading(title: 'COMPLETE INVENTORY'),
                   const SizedBox(height: 12),
                   CatalogInventoryGrid(
                     itemCount: 4,

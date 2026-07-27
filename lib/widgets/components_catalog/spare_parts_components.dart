@@ -13,7 +13,7 @@ class CatalogPageHeader extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.transparent,
       title: Text(
-        'Spare Parts',
+        'Component Catalog',
         style: GoogleFonts.manrope(
           fontWeight: FontWeight.w700,
           color: const Color(0xFF0F172A),
@@ -38,7 +38,7 @@ class PartSearchAndScanInput extends StatelessWidget {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          hintText: "Search parts or scan device barcode for exact match...",
+          hintText: "Search components by name or scan barcode...",
           hintStyle:
               GoogleFonts.inter(color: const Color(0xFF94A3B8), fontSize: 13),
           prefixIcon: const Icon(Icons.search, color: Color(0xFF94A3B8)),
@@ -89,7 +89,7 @@ class PrimaryOrderAction extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
-      child: const Text('Order Now',
+      child: const Text('Request Refill',
           style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
     );
   }
@@ -199,7 +199,7 @@ class SecondaryPurchaseAction extends StatelessWidget {
           color: const Color(0xFF1E293B),
           borderRadius: BorderRadius.circular(8.0),
         ),
-        child: const Text('Buy',
+        child: const Text('Procure',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 11,
