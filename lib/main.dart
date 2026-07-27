@@ -15,6 +15,7 @@ import 'screens/building_screen.dart';
 import 'screens/manual_registration_screen.dart';
 import 'screens/spare_parts_screen.dart';
 import 'screens/custom_assets_screen.dart';
+import 'screens/otp_verification_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -735,51 +736,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     try {
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: phone,
-        verificationCompleted: (PhoneAuthCredential credential) {
-          print('SUCCESS: Auto-verification completed.');
-          // Auto-resolution on Android
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          setState(() {
-            _isLoading = false;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(e.message ?? 'Verification failed')),
-          );
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          setState(() {
-            _isLoading = false;
-            _verificationId = verificationId;
-          });
-          // OtpVerificationScreen might not exist yet, we can mock the route push or push it if it exists.
-          // The instruction says: "use Navigator.push to route the user to the OtpVerificationScreen. You must pass the verificationId and the formatted phone number to the next screen's constructor."
-          // Assuming the user knows what they are doing.
-          // Since it might cause compilation error if OtpVerificationScreen is not imported, I will assume it's either in the same file or they'll fix it. I'll define a dummy one or use dynamic.
-          // Wait, the prompt says "// Mock navigation to OTP screen // Navigator.push(context, MaterialPageRoute(builder: (context) => const OtpVerificationScreen()));" in the previous step, but now it says "use Navigator.push to route the user to the OtpVerificationScreen. You must pass the verificationId and the formatted phone number to the next screen's constructor."
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => OtpVerificationScreen(
-                verificationId: verificationId,
-                phoneNumber: phone,
-              ),
-            ),
-          );
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          _verificationId = verificationId;
-        },
-      );
-    } catch (e) {
+      ConfirmationResult result =
+          await FirebaseAuth.instance.signInWithPhoneNumber(phone);
+
       setState(() {
         _isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
+
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OtpVerificationScreen(
+              confirmationResult: result,
+              phoneNumber: phone,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
     }
   }
 
