@@ -1,59 +1,79 @@
-# BrumBella | Unified Digital Warranty & Service Management
+# Brumbella
 
-> One SaaS platform connecting customers, enterprises, and developers through a single intelligent cloud.
+**Description:** A modern, cross-platform enterprise SaaS application featuring robust cloud architecture, built with Flutter and secured by Firebase backend infrastructure.
 
-This Flutter mobile application serves as the universal digital layer, replacing physical warranty cards, manuals, and service history.
+---
 
-## Technical Stack & Scope
+## 🛠 Tech Stack & Architecture
 
-This application is built using **Flutter** and **Dart**.
+- **Frontend:** Flutter (Optimized for Web, Android, iOS, Windows, macOS, Linux)
+- **State Management & UI:** Material Design 3, custom responsive constraints, flat borderless geometry
+- **Backend & Services:** Firebase Core, Firebase Authentication (Phone OTP)
+- **Tooling:** FlutterFire CLI, Dart SDK, Git/GitHub version control
 
-> [!IMPORTANT]
-> **Scope Note:** This current iteration is a Phase 1 Frontend/UI-only deliverable. It utilizes local state management and mocked data to simulate enterprise functionality without a live backend connection.
+---
 
-## Key Features
+## 🚀 What Has Been Implemented (Development Milestones)
 
-- **Asset Registration:** Simulated QR/NFC optical scanning interface with manual serial fallback.
-- **RAG-Powered Support Copilot:** AI diagnostics console interface for semantic retrieval of digital manuals.
-- **Operational Telemetry:** Real-time dashboard grid displaying active warranties, open service tickets, and inventory maps.
-- **After-Sales Marketplace:** Segmented routing for OEM spare parts, service partners, and extended coverage.
-- **Dynamic Category Filtering:** Real-time sorting of registered assets by technical segments (Medical & Health, Wearables, etc.).
+### 1. Firebase Integration & CLI Setup
+- Configured and linked the local Flutter project to the remote Firebase project (`brumbella`) using the FlutterFire CLI.
+- Generated environment-specific configuration via `firebase_options.dart` and initialized Firebase asynchronously in `main.dart` using `WidgetsFlutterBinding.ensureInitialized()`.
 
-## Visuals
+### 2. Phone Authentication & Security Flow
+- Implemented secure OTP verification workflow using `firebase_auth`.
+- Handled Flutter Web-compatible reCAPTCHA and `ConfirmationResult` token management for seamless sign-in.
+- Configured Firebase Console sign-in providers and SMS Region policies to support international validation.
 
-Here is a preview of the completed Enterprise B2B UI screens:
+### 3. UI/UX & Navigation Overhauls
+- Built a dedicated OTP verification screen with 6-digit input masking and validation logic.
+- Resolved critical routing bugs, fixing blank white screens on route pops by migrating the core architecture from a manual state switcher to robust `Navigator.push`/`Navigator.pop` stacks.
+- Fixed missing `Scaffold`/`Material` ancestor layout errors on the Login and Registration screens to ensure proper `TextField` and forms rendering.
 
-### Landing & Copilot Screen
-<p float="left">
-  <img src="assets/screenshots/01_landing.png" width="400" />
-  <img src="assets/screenshots/04_copilot.png" width="400" /> 
-</p>
+---
 
-### Dashboard Home & Marketplace
-<p float="left">
-  <img src="assets/screenshots/02_home.png" width="400" />
-  <img src="assets/screenshots/03_marketplace.png" width="400" />
-</p>
+## 🗺 Visual Representation (Architecture & Auth Workflow)
 
-### Settings & Configuration
-<p float="left">
-  <img src="assets/screenshots/05_settings.png" width="400" />
-</p>
-
-## Enterprise Design System
-
-The UI/UX architecture is built on a strict enterprise B2B design philosophy:
-
-- **Typography:** Dual-font system utilizing `GoogleFonts.manrope()` for sharp, geometric headings and `GoogleFonts.inter()` for dense telemetry data.
-- **Geometry:** Flat, shadowless architecture relying on 1px borders (`Color(0xFFE2E8F0)`) and strict 8px border radii.
-- **Color Palette:** Monochromatic slate base (Slate 900 to Slate 50) accented strictly with brand Emerald Green (`Color(0xFF059669)`).
-
-## Getting Started
-
-To run this project locally, clone the repository and execute the following terminal commands:
-
-```bash
-flutter clean
-flutter pub get
-flutter run
+```text
+[ Flutter Web / Client App ]
+       │
+       ├── 1. Enter Phone Number (+91...)
+       ├── 2. Trigger signInWithPhoneNumber() ──> [ Firebase Auth Service ]
+       │                                                  │
+       │                                        (Sends SMS OTP via Gateway)
+       │                                                  │
+       │<── 3. Return ConfirmationResult <────────────────┘
+       │
+       ├── 4. Navigate to OTP Verification Screen
+       ├── 5. Enter 6-Digit Code & Confirm
+       │
+       └── 6. Verified User Session Established ──> [ Dashboard / Home ]
 ```
+
+---
+
+## 💻 Setup & Getting Started Guide
+
+If you are cloning this repository for local development, follow these steps to initialize the environment:
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd Brumbella
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   flutter pub get
+   ```
+
+3. **Configure Firebase CLI:**
+   Ensure the FlutterFire CLI is active, then configure the project to link the cloud backend:
+   ```bash
+   dart pub global run flutterfire_cli:flutterfire configure --project=brumbella
+   ```
+
+4. **Run the application:**
+   You can launch the project on your local Chrome browser (optimized for the current build):
+   ```bash
+   flutter run -d chrome
+   ```
