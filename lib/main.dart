@@ -1046,7 +1046,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 style: TextStyle(color: Color(0xFF64748B), fontSize: 13),
               ),
               GestureDetector(
-                onTap: () => Navigator.pop(context),
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(
+                        onBackPressed: () => Navigator.pop(context),
+                        onRequestOtpPressed: () {},
+                        onCreateAccountPressed: () {},
+                      ),
+                    ),
+                  );
+                },
                 child: const Text(
                   'Sign in',
                   style: TextStyle(
