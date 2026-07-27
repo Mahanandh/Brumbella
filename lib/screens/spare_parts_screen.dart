@@ -96,8 +96,7 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                   const SizedBox(height: 32),
 
                   // Compatible With Your Assets
-                  const CatalogSectionHeading(
-                      title: 'COMPATIBLE COMPONENTS'),
+                  const CatalogSectionHeading(title: 'COMPATIBLE COMPONENTS'),
                   const SizedBox(height: 12),
                   SizedBox(
                     height: 180,
