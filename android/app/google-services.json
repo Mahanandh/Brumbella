@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "916603891762",
+    "project_id": "brumbella",
+    "storage_bucket": "brumbella.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:916603891762:android:a04b18b538f3ab4b3acc2b",
+        "android_client_info": {
+          "package_name": "com.example.brumbella"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQWFzEert_Hq5VDx7Me7rOaUZpYau9K7w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
