@@ -1343,7 +1343,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                         const [Color(0xFF00C6FF), Color(0xFF0072FF)],
                         imageAsset: 'assets/images/home_meaning.png'),
                     _buildPremiumCard(
-                        'Culinary Equipment',
+                        'Kitchen Equipment',
                         Icons.microwave_outlined,
                         const [Color(0xFFF2994A), Color(0xFFF2C94C)],
                         imageAsset: 'assets/images/kitchen_meaning.png'),
@@ -1366,7 +1366,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                         const [Color(0xFF00B09B), Color(0xFF96C93D)],
                         imageAsset: 'assets/images/vehicles_meaning.png'),
                     _buildPremiumCard(
-                        'Furniture & Fittings',
+                        'Furnitures',
                         Icons.weekend_outlined,
                         const [Color(0xFFBC4E9C), Color(0xFFF80759)],
                         imageAsset: 'assets/images/furniture_meaninf.png'),
@@ -1450,7 +1450,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
               builder: (context) => const HomeAppliancesScreen(),
             ),
           );
-        } else if (title == 'Culinary Equipment') {
+        } else if (title == 'Kitchen Equipment') {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -1479,7 +1479,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
             MaterialPageRoute(
                 builder: (context) => const VehiclesMobilityScreen()),
           );
-        } else if (title == 'Furniture & Fittings') {
+        } else if (title == 'Furnitures') {
           Navigator.push(
             context,
             MaterialPageRoute(
