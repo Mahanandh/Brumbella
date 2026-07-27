@@ -26,7 +26,8 @@ class ConsumerElectronicsScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
+            icon:
+                const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
             tooltip: 'Register New Device',
             onPressed: () {
               Navigator.push(
@@ -45,16 +46,20 @@ class ConsumerElectronicsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         children: [
           _buildSubCategoryCard(context, 'Televisions', Icons.tv_outlined),
-          _buildSubCategoryCard(context, 'PC & Laptops', Icons.computer_outlined),
-          _buildSubCategoryCard(context, 'Smartphones', Icons.smartphone_outlined),
+          _buildSubCategoryCard(
+              context, 'PC & Laptops', Icons.computer_outlined),
+          _buildSubCategoryCard(
+              context, 'Smartphones', Icons.smartphone_outlined),
           _buildSubCategoryCard(context, 'Smartwatches', Icons.watch_outlined),
-          _buildSubCategoryCard(context, 'Home Audio Systems', Icons.speaker_outlined),
+          _buildSubCategoryCard(
+              context, 'Home Audio Systems', Icons.speaker_outlined),
         ],
       ),
     );
   }
 
-  Widget _buildSubCategoryCard(BuildContext context, String title, IconData icon) {
+  Widget _buildSubCategoryCard(
+      BuildContext context, String title, IconData icon) {
     return PremiumListCard(
       title: title,
       icon: icon,

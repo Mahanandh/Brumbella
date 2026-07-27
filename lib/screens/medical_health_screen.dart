@@ -25,7 +25,8 @@ class MedicalHealthScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
+            icon:
+                const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
             tooltip: 'Register New Device',
             onPressed: () {
               Navigator.push(
@@ -43,16 +44,20 @@ class MedicalHealthScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildSubCategoryCard(context, 'Digital Blood Pressure Monitors', Icons.monitor_heart_outlined),
+          _buildSubCategoryCard(context, 'Digital Blood Pressure Monitors',
+              Icons.monitor_heart_outlined),
           _buildSubCategoryCard(context, 'CPAP Machines', Icons.masks_outlined),
-          _buildSubCategoryCard(context, 'Smart Water Flossers', Icons.water_drop_outlined),
-          _buildSubCategoryCard(context, 'Motorized Treadmills', Icons.directions_run_outlined),
+          _buildSubCategoryCard(
+              context, 'Smart Water Flossers', Icons.water_drop_outlined),
+          _buildSubCategoryCard(
+              context, 'Motorized Treadmills', Icons.directions_run_outlined),
         ],
       ),
     );
   }
 
-  Widget _buildSubCategoryCard(BuildContext context, String title, IconData icon) {
+  Widget _buildSubCategoryCard(
+      BuildContext context, String title, IconData icon) {
     return PremiumListCard(
       title: title,
       icon: icon,

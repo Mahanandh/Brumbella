@@ -46,11 +46,23 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
   );
 
   final List<CompatiblePart> compatibleParts = [
-    CompatiblePart(partName: 'Dishwasher Salt / Liquid', compatibleModel: 'IFB Neptune VX', price: 450),
-    CompatiblePart(partName: 'Smart AC Remote', compatibleModel: 'LG Dual Inverter', price: 899),
+    CompatiblePart(
+        partName: 'Dishwasher Salt / Liquid',
+        compatibleModel: 'IFB Neptune VX',
+        price: 450),
+    CompatiblePart(
+        partName: 'Smart AC Remote',
+        compatibleModel: 'LG Dual Inverter',
+        price: 899),
   ];
 
-  final List<String> categories = ["All", "Filters & Liquids", "Cables", "Motors", "Mounts"];
+  final List<String> categories = [
+    "All",
+    "Filters & Liquids",
+    "Cables",
+    "Motors",
+    "Mounts"
+  ];
   String selectedCategory = "All";
 
   @override
@@ -81,12 +93,17 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                   PremiumCard(
                     child: TextField(
                       decoration: InputDecoration(
-                        hintText: "Search parts or scan device barcode for exact match...",
-                        hintStyle: GoogleFonts.inter(color: const Color(0xFF94A3B8), fontSize: 13),
-                        prefixIcon: const Icon(Icons.search, color: Color(0xFF94A3B8)),
-                        suffixIcon: const Icon(Icons.qr_code_scanner, color: Color(0xFF16A34A)),
+                        hintText:
+                            "Search parts or scan device barcode for exact match...",
+                        hintStyle: GoogleFonts.inter(
+                            color: const Color(0xFF94A3B8), fontSize: 13),
+                        prefixIcon:
+                            const Icon(Icons.search, color: Color(0xFF94A3B8)),
+                        suffixIcon: const Icon(Icons.qr_code_scanner,
+                            color: Color(0xFF16A34A)),
                         border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 16),
                       ),
                     ),
                   ),
@@ -114,7 +131,8 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                             color: const Color(0xFFF1F5F9),
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Icon(Icons.water_drop, color: Color(0xFF94A3B8), size: 32),
+                          child: const Icon(Icons.water_drop,
+                              color: Color(0xFF94A3B8), size: 32),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -123,20 +141,29 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                             children: [
                               Text(
                                 essential.consumableName,
-                                style: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 15, color: const Color(0xFF0F172A)),
+                                style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 15,
+                                    color: const Color(0xFF0F172A)),
                               ),
                               Text(
                                 essential.deviceName,
-                                style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF64748B)),
+                                style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    color: const Color(0xFF64748B)),
                               ),
                               const SizedBox(height: 4),
                               Row(
                                 children: [
-                                  const Icon(Icons.warning_amber_rounded, size: 14, color: Color(0xFFF59E0B)),
+                                  const Icon(Icons.warning_amber_rounded,
+                                      size: 14, color: Color(0xFFF59E0B)),
                                   const SizedBox(width: 4),
                                   Text(
                                     essential.status,
-                                    style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFFF59E0B)),
+                                    style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: const Color(0xFFF59E0B)),
                                   ),
                                 ],
                               ),
@@ -148,7 +175,10 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                           children: [
                             Text(
                               '₹${essential.price}',
-                              style: GoogleFonts.inter(fontWeight: FontWeight.w700, fontSize: 16, color: const Color(0xFF16A34A)),
+                              style: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                  color: const Color(0xFF16A34A)),
                             ),
                             const SizedBox(height: 8),
                             ElevatedButton(
@@ -157,10 +187,15 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                                 backgroundColor: const Color(0xFF16A34A),
                                 foregroundColor: Colors.white,
                                 minimumSize: const Size(80, 32),
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
                               ),
-                              child: const Text('Order Now', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                              child: const Text('Order Now',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600)),
                             ),
                           ],
                         ),
@@ -185,59 +220,84 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: compatibleParts.map((part) => Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: PremiumCard(
-                            width: 160,
-                            padding: const EdgeInsets.all(12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 60,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF1F5F9),
-                                    borderRadius: BorderRadius.circular(8),
+                        children: compatibleParts
+                            .map((part) => Padding(
+                                  padding: const EdgeInsets.only(right: 16.0),
+                                  child: PremiumCard(
+                                    width: 160,
+                                    padding: const EdgeInsets.all(12),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 60,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFF1F5F9),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          child: const Icon(
+                                              Icons.inventory_2_outlined,
+                                              color: Color(0xFF94A3B8)),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          part.partName,
+                                          style: GoogleFonts.inter(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 13,
+                                              color: const Color(0xFF0F172A)),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'Fits: ${part.compatibleModel}',
+                                          style: GoogleFonts.inter(
+                                              fontSize: 11,
+                                              color: const Color(0xFF64748B)),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        const Spacer(),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '₹${part.price}',
+                                              style: GoogleFonts.inter(
+                                                  color:
+                                                      const Color(0xFF16A34A),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14),
+                                            ),
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 4),
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xFF1E293B),
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                              ),
+                                              child: const Text('Buy',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 11,
+                                                      fontWeight:
+                                                          FontWeight.w600)),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  child: const Icon(Icons.inventory_2_outlined, color: Color(0xFF94A3B8)),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  part.partName,
-                                  style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 13, color: const Color(0xFF0F172A)),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Fits: ${part.compatibleModel}',
-                                  style: GoogleFonts.inter(fontSize: 11, color: const Color(0xFF64748B)),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const Spacer(),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '₹${part.price}',
-                                      style: GoogleFonts.inter(color: const Color(0xFF16A34A), fontWeight: FontWeight.bold, fontSize: 14),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF1E293B),
-                                        borderRadius: BorderRadius.circular(8.0),
-                                      ),
-                                      child: const Text('Buy', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        )).toList(),
+                                ))
+                            .toList(),
                       ),
                     ),
                   ),
@@ -247,27 +307,33 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: categories.map((cat) => Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: ChoiceChip(
-                          label: Text(cat),
-                          selected: selectedCategory == cat,
-                          onSelected: (selected) {
-                            if (selected) setState(() => selectedCategory = cat);
-                          },
-                          backgroundColor: Colors.white,
-                          selectedColor: const Color(0xFF16A34A),
-                          labelStyle: TextStyle(
-                            color: selectedCategory == cat ? Colors.white : const Color(0xFF64748B),
-                            fontWeight: FontWeight.w600,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: const BorderSide(color: Colors.transparent),
-                          ),
-                          showCheckmark: false,
-                        ),
-                      )).toList(),
+                      children: categories
+                          .map((cat) => Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: ChoiceChip(
+                                  label: Text(cat),
+                                  selected: selectedCategory == cat,
+                                  onSelected: (selected) {
+                                    if (selected)
+                                      setState(() => selectedCategory = cat);
+                                  },
+                                  backgroundColor: Colors.white,
+                                  selectedColor: const Color(0xFF16A34A),
+                                  labelStyle: TextStyle(
+                                    color: selectedCategory == cat
+                                        ? Colors.white
+                                        : const Color(0xFF64748B),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    side: const BorderSide(
+                                        color: Colors.transparent),
+                                  ),
+                                  showCheckmark: false,
+                                ),
+                              ))
+                          .toList(),
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -286,7 +352,8 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                   GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.75,
                       crossAxisSpacing: 16,
@@ -306,13 +373,17 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                                   color: const Color(0xFFF1F5F9),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: const Icon(Icons.image_outlined, color: Color(0xFF94A3B8), size: 32),
+                                child: const Icon(Icons.image_outlined,
+                                    color: Color(0xFF94A3B8), size: 32),
                               ),
                             ),
                             const SizedBox(height: 12),
                             Text(
                               'Generic Spare Part ${index + 1}',
-                              style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 13, color: const Color(0xFF0F172A)),
+                              style: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                  color: const Color(0xFF0F172A)),
                               maxLines: 2,
                             ),
                             const SizedBox(height: 8),
@@ -321,7 +392,10 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                               children: [
                                 Text(
                                   '₹${(index + 1) * 250}',
-                                  style: GoogleFonts.inter(color: const Color(0xFF16A34A), fontWeight: FontWeight.bold, fontSize: 14),
+                                  style: GoogleFonts.inter(
+                                      color: const Color(0xFF16A34A),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
                                 ),
                                 Container(
                                   padding: const EdgeInsets.all(6),
@@ -329,7 +403,8 @@ class _SparePartsScreenState extends State<SparePartsScreen> {
                                     color: Color(0xFF16A34A),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(Icons.add, color: Colors.white, size: 16),
+                                  child: const Icon(Icons.add,
+                                      color: Colors.white, size: 16),
                                 ),
                               ],
                             ),

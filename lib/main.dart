@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'components/dashboard_home_components.dart';
 import 'screens/home_appliances_screen.dart';
 import 'screens/kitchen_appliances_screen.dart';
 import 'screens/it_networking_screen.dart';
@@ -104,7 +105,8 @@ class BrumBellaApp extends StatelessWidget {
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: const Color(0xFFF8FAFC),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(6.0),
             borderSide: BorderSide.none,
@@ -117,7 +119,8 @@ class BrumBellaApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(6.0),
             borderSide: const BorderSide(color: Color(0xFF0F172A), width: 1.0),
           ),
-          hintStyle: GoogleFonts.inter(color: const Color(0xFF94A3B8), fontSize: 14),
+          hintStyle:
+              GoogleFonts.inter(color: const Color(0xFF94A3B8), fontSize: 14),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -328,7 +331,8 @@ class LandingScreen extends StatelessWidget {
                         _buildFeatureCard(
                           icon: Icons.inventory_2_outlined,
                           title: '1-Tap Registration',
-                          subtitle: 'Scan a QR code to instantly sync your item.',
+                          subtitle:
+                              'Scan a QR code to instantly sync your item.',
                         ),
                         const SizedBox(width: 16),
                         _buildFeatureCard(
@@ -523,7 +527,6 @@ class LandingScreen extends StatelessWidget {
   }
 }
 
-
 // ==========================================
 // 2. LOGIN & ACCESS SCREEN
 // ==========================================
@@ -551,10 +554,12 @@ class LoginScreen extends StatelessWidget {
             children: [
               TextButton.icon(
                 onPressed: onBackPressed,
-                icon: const Icon(Icons.arrow_back, size: 16, color: Color(0xFF64748B)),
+                icon: const Icon(Icons.arrow_back,
+                    size: 16, color: Color(0xFF64748B)),
                 label: const Text(
                   'Back',
-                  style: TextStyle(color: Color(0xFF64748B), fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      color: Color(0xFF64748B), fontWeight: FontWeight.w600),
                 ),
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
               ),
@@ -582,7 +587,8 @@ class LoginScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                  border:
+                      Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -715,10 +721,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               TextButton.icon(
                 onPressed: widget.onBackPressed,
-                icon: const Icon(Icons.arrow_back, size: 16, color: Color(0xFF64748B)),
+                icon: const Icon(Icons.arrow_back,
+                    size: 16, color: Color(0xFF64748B)),
                 label: const Text(
                   'Back',
-                  style: TextStyle(color: Color(0xFF64748B), fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      color: Color(0xFF64748B), fontWeight: FontWeight.w600),
                 ),
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
               ),
@@ -775,7 +783,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextFormField(
                   decoration: const InputDecoration(
                     hintText: 'Jane Doe',
-                    prefixIcon: Icon(Icons.person_outline, color: Color(0xFF94A3B8)),
+                    prefixIcon:
+                        Icon(Icons.person_outline, color: Color(0xFF94A3B8)),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -795,7 +804,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     hintText: 'jane@example.com',
-                    prefixIcon: Icon(Icons.mail_outline, color: Color(0xFF94A3B8)),
+                    prefixIcon:
+                        Icon(Icons.mail_outline, color: Color(0xFF94A3B8)),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -815,7 +825,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
                     hintText: '+1 555 123 4567',
-                    prefixIcon: Icon(Icons.phone_outlined, color: Color(0xFF94A3B8)),
+                    prefixIcon:
+                        Icon(Icons.phone_outlined, color: Color(0xFF94A3B8)),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -840,7 +851,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       Expanded(
                         child: GestureDetector(
-                          onTap: () => setState(() => _accountType = 'consumer'),
+                          onTap: () =>
+                              setState(() => _accountType = 'consumer'),
                           child: Container(
                             alignment: Alignment.center,
                             padding: const EdgeInsets.symmetric(vertical: 12),
@@ -978,68 +990,13 @@ class DashboardShell extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: activeView,
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: GlobalScanActionTrigger(
         onPressed: () => onTabChanged(2), // Scanner
-        backgroundColor: const Color(0xFF059669),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        elevation: 0,
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.qr_code_scanner, color: Colors.white, size: 20),
-            SizedBox(width: 4),
-            Icon(Icons.keyboard_alt_outlined, color: Colors.white, size: 20),
-          ],
-        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 8.0,
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildBottomTab(0, Icons.home_outlined, 'Home'),
-            _buildBottomTab(1, Icons.inventory_2_outlined, 'Parts'),
-            const SizedBox(width: 48), // Space for FAB
-            _buildBottomTab(3, Icons.category_outlined, 'Custom'),
-            _buildBottomTab(4, Icons.settings_outlined, 'Settings'),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBottomTab(int index, IconData icon, String label) {
-    final bool isActive = currentTab == index;
-    final color = isActive ? const Color(0xFF059669) : const Color(0xFF64748B);
-
-    return InkWell(
-      onTap: () => onTabChanged(index),
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: color, size: 24),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                color: color,
-                fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-                fontSize: 11,
-              ),
-            ),
-          ],
-        ),
+      bottomNavigationBar: GlobalModuleSwitcher(
+        currentTab: currentTab,
+        onTabChanged: onTabChanged,
       ),
     );
   }
@@ -1106,7 +1063,8 @@ class CopilotScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: const Color(0xFFE2E8F0)),
                 ),
-                child: const Icon(Icons.history, color: Color(0xFF64748B), size: 20),
+                child: const Icon(Icons.history,
+                    color: Color(0xFF64748B), size: 20),
               ),
             ],
           ),
@@ -1134,7 +1092,8 @@ class CopilotScreen extends StatelessWidget {
                           color: const Color(0xFF059669),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(Icons.auto_awesome, color: Colors.white, size: 18),
+                        child: const Icon(Icons.auto_awesome,
+                            color: Colors.white, size: 18),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -1216,7 +1175,9 @@ class CopilotScreen extends StatelessWidget {
                     'Parts & Ordering',
                     'Find and order replacement components',
                   ),
-                  const SizedBox(height: 100), // Pushes the last card completely above the navigation bar
+                  const SizedBox(
+                      height:
+                          100), // Pushes the last card completely above the navigation bar
                 ],
               ),
             ),
@@ -1225,7 +1186,8 @@ class CopilotScreen extends StatelessWidget {
 
         // Input Area
         Container(
-          padding: const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 80),
+          padding:
+              const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 80),
           decoration: const BoxDecoration(
             color: Colors.white,
             border: Border(top: BorderSide(color: Color(0xFFE2E8F0))),
@@ -1246,14 +1208,16 @@ class CopilotScreen extends StatelessWidget {
                         fontSize: 14,
                       ),
                       border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 14),
                       suffixIcon: Container(
                         margin: const EdgeInsets.only(right: 4),
                         decoration: const BoxDecoration(
                           color: Color(0xFF059669),
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.send, color: Colors.white, size: 18),
+                        child: const Icon(Icons.send,
+                            color: Colors.white, size: 18),
                       ),
                     ),
                   ),
@@ -1272,7 +1236,8 @@ class CopilotScreen extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         foregroundColor: const Color(0xFF334155),
         side: const BorderSide(color: Color(0xFFE2E8F0)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         minimumSize: const Size(0, 36),
       ),
@@ -1347,274 +1312,103 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Premium Workspace Identification Header
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/logo.png',
-                        height: 40,
-                        width: 40,
-                      ),
-                      const SizedBox(width: 12),
-                      Text.rich(
-                        TextSpan(
-                          style: GoogleFonts.poppins(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: -0.5,
-                          ),
-                          children: const [
-                            TextSpan(text: 'B', style: TextStyle(color: Color(0xFF16A34A))),
-                            TextSpan(text: 'rum', style: TextStyle(color: Colors.black)),
-                            TextSpan(text: 'B', style: TextStyle(color: Color(0xFF16A34A))),
-                            TextSpan(text: 'ella', style: TextStyle(color: Colors.black)),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  RichText(
-                    text: TextSpan(
-                      text: 'Hello, ',
-                      style: GoogleFonts.inter(
-                        color: const Color(0xFF64748B),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: 'User',
-                          style: GoogleFonts.inter(
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF0F172A),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Stack(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12.0),
-                      border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
-                    ),
-                    child: const Icon(
-                      Icons.notifications_none_outlined,
-                      color: Color(0xFF475569),
-                      size: 24,
-                    ),
-                  ),
-                  Positioned(
-                    right: 8,
-                    top: 8,
-                    child: Container(
-                      width: 8,
-                      height: 8,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF059669), // Brand Green
-                        shape: BoxShape.circle,
-                        border: Border.fromBorderSide(BorderSide(color: Colors.white, width: 1.5)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        const ApplicationNavigationBar(userName: 'User'),
         const Divider(color: Color(0xFFF1F5F9), height: 1),
-
-        // Scrollable content
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0).copyWith(bottom: 100),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0)
+                    .copyWith(bottom: 100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Integrated Asset Ingestion Panel
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.qr_code_scanner, color: Color(0xFF0F172A)),
-                    label: Text(
-                      'Scan QR Code',
-                      style: GoogleFonts.inter(
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF0F172A),
+                QuickAssetRegistrationForm(
+                  onScanPressed: () {},
+                  onIngestPressed: () {},
+                  onManualRegistrationPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ManualRegistrationScreen(),
                       ),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(0, 52),
-                      side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      backgroundColor: const Color(0xFFFFFFFF),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 52,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFFFFFF),
-                          borderRadius: BorderRadius.circular(12.0),
-                          border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
-                        ),
-                        child: TextField(
-                          style: GoogleFonts.inter(fontSize: 14),
-                          decoration: const InputDecoration(
-                            hintText: 'Enter Serial Number',
-                            hintStyle: TextStyle(color: Color(0xFF94A3B8)),
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0F172A),
-                        foregroundColor: Colors.white,
-                        minimumSize: const Size(120, 52),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                      ),
-                      child: Text(
-                        'Ingest Asset',
-                        style: GoogleFonts.inter(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ManualRegistrationScreen(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      "Don't have a code or serial? Register manually.",
-                      style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600, color: const Color(0xFF059669)),
-                    ),
-                  ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 24),
-
-                // Category Discovery Grid
-                Text(
-                  'DISCOVER CATEGORIES',
-                  style: GoogleFonts.manrope(
-                    color: const Color(0xFF64748B),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1.2,
-                  ),
-                ),
+                const DashboardSectionHeading(title: 'DISCOVER CATEGORIES'),
                 const SizedBox(height: 16),
-                GridView.count(
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisSpacing: 16.0,
-                  mainAxisSpacing: 16.0,
-                  childAspectRatio: 0.85,
+                AssetClassificationGrid(
                   children: [
-                    _buildPremiumCard('Home Appliances', Icons.kitchen_outlined, const [Color(0xFF00C6FF), Color(0xFF0072FF)], imageAsset: 'assets/images/home_meaning.png'),
-                    _buildPremiumCard('Kitchen Appliances', Icons.microwave_outlined, const [Color(0xFFF2994A), Color(0xFFF2C94C)], imageAsset: 'assets/images/kitchen_meaning.png'),
-                    _buildPremiumCard('My Devices', Icons.watch_outlined, const [Color(0xFF00B4DB), Color(0xFF0083B0)], imageAsset: 'assets/images/personal_meaning.png'),
-                    _buildPremiumCard('Personal Care', Icons.spa_outlined, const [Color(0xFFF06292), Color(0xFFE91E63)], imageAsset: 'assets/images/Personal_Care.png'),
-                    _buildPremiumCard('Electrical System', Icons.electric_bolt_outlined, const [Color(0xFFFDC830), Color(0xFFF37335)], imageAsset: 'assets/images/power_meaning.png'),
-                    _buildPremiumCard('Vehicles & Mobility', Icons.directions_car_outlined, const [Color(0xFF00B09B), Color(0xFF96C93D)], imageAsset: 'assets/images/vehicles_meaning.png'),
-                    _buildPremiumCard('Furnitures', Icons.weekend_outlined, const [Color(0xFFBC4E9C), Color(0xFFF80759)], imageAsset: 'assets/images/furniture_meaninf.png'),
-                    _buildPremiumCard('Building', Icons.domain_outlined, const [Color(0xFF43C6AC), Color(0xFF191654)], imageAsset: 'assets/images/building_meaning.png'),
+                    _buildPremiumCard('Home Appliances', Icons.kitchen_outlined,
+                        const [Color(0xFF00C6FF), Color(0xFF0072FF)],
+                        imageAsset: 'assets/images/home_meaning.png'),
+                    _buildPremiumCard(
+                        'Kitchen Appliances',
+                        Icons.microwave_outlined,
+                        const [Color(0xFFF2994A), Color(0xFFF2C94C)],
+                        imageAsset: 'assets/images/kitchen_meaning.png'),
+                    _buildPremiumCard('My Devices', Icons.watch_outlined,
+                        const [Color(0xFF00B4DB), Color(0xFF0083B0)],
+                        imageAsset: 'assets/images/personal_meaning.png'),
+                    _buildPremiumCard('Personal Care', Icons.spa_outlined,
+                        const [Color(0xFFF06292), Color(0xFFE91E63)],
+                        imageAsset: 'assets/images/Personal_Care.png'),
+                    _buildPremiumCard(
+                        'Electrical System',
+                        Icons.electric_bolt_outlined,
+                        const [Color(0xFFFDC830), Color(0xFFF37335)],
+                        imageAsset: 'assets/images/power_meaning.png'),
+                    _buildPremiumCard(
+                        'Vehicles & Mobility',
+                        Icons.directions_car_outlined,
+                        const [Color(0xFF00B09B), Color(0xFF96C93D)],
+                        imageAsset: 'assets/images/vehicles_meaning.png'),
+                    _buildPremiumCard('Furnitures', Icons.weekend_outlined,
+                        const [Color(0xFFBC4E9C), Color(0xFFF80759)],
+                        imageAsset: 'assets/images/furniture_meaninf.png'),
+                    _buildPremiumCard('Building', Icons.domain_outlined,
+                        const [Color(0xFF43C6AC), Color(0xFF191654)],
+                        imageAsset: 'assets/images/building_meaning.png'),
                   ],
                 ),
                 const SizedBox(height: 32),
-
-                // Asset Registry Inventory List
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'REGISTERED ASSETS',
-                      style: GoogleFonts.manrope(
-                        color: const Color(0xFF64748B),
-                        fontSize: 11,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'View all',
-                        style: GoogleFonts.inter(
-                          color: const Color(0xFF16A34A),
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
+                    const DashboardSectionHeading(title: 'REGISTERED ASSETS'),
+                    ExpandPortfolioRoute(onTap: () {}),
                   ],
                 ),
                 const SizedBox(height: 16),
-                Column(
+                ActivePortfolioFeed(
                   children: [
-                    if (_selectedCategory == 'All' || _selectedCategory == 'Home Appliances')
-                      _buildAssetRecord(
+                    if (_selectedCategory == 'All' ||
+                        _selectedCategory == 'Home Appliances')
+                      const TrackedAssetSummaryRow(
                         icon: Icons.water_drop_outlined,
                         title: 'Smart Water Flosser',
                         subtitle: 'Model · AquaPro X2  •  AQ2-00481',
                         status: 'ACTIVE',
                       ),
-                    if (_selectedCategory == 'All' || _selectedCategory == 'Home Appliances')
-                      _buildAssetRecord(
+                    if (_selectedCategory == 'All' ||
+                        _selectedCategory == 'Home Appliances')
+                      const TrackedAssetSummaryRow(
                         icon: Icons.air_outlined,
                         title: 'RO Water Purifier',
                         subtitle: 'Model · PureFlow 9L  •  PF9-12090',
                         status: 'EXPIRING',
                       ),
-                    if (_selectedCategory == 'All' || _selectedCategory == 'Smart Wearables')
-                      _buildAssetRecord(
+                    if (_selectedCategory == 'All' ||
+                        _selectedCategory == 'Smart Wearables')
+                      const TrackedAssetSummaryRow(
                         icon: Icons.watch_outlined,
                         title: 'Smart Fitness Watch',
                         subtitle: 'Model · PulseTrack 4  •  PT4-77231',
                         status: 'ACTIVE',
                       ),
-                    if (_selectedCategory == 'All' || _selectedCategory == 'Medical & Health')
-                      _buildAssetRecord(
+                    if (_selectedCategory == 'All' ||
+                        _selectedCategory == 'Medical & Health')
+                      const TrackedAssetSummaryRow(
                         icon: Icons.monitor_heart_outlined,
                         title: 'Digital BP Monitor',
                         subtitle: 'Model · CardioSense M2  •  CS2-30118',
@@ -1630,88 +1424,10 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
     );
   }
 
-
-
-  Widget _buildAssetRecord({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required String status,
-  }) {
-    Color statusBgColor;
-    Color statusTextColor;
-
-    if (status == 'ACTIVE') {
-      statusBgColor = const Color(0xFFDCFCE7);
-      statusTextColor = const Color(0xFF16A34A);
-    } else if (status == 'EXPIRING') {
-      statusBgColor = const Color(0xFFFFEDD5);
-      statusTextColor = const Color(0xFFEA580C);
-    } else {
-      statusBgColor = const Color(0xFFFEE2E2);
-      statusTextColor = const Color(0xFFDC2626);
-    }
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF8FAFC),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: const Color(0xFFF1F5F9)),
-          ),
-          child: Icon(icon, color: const Color(0xFF475569), size: 20),
-        ),
-        title: Text(
-          title,
-          style: GoogleFonts.inter(
-            color: const Color(0xFF0F172A),
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-          ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: GoogleFonts.inter(
-            color: const Color(0xFF64748B),
-            fontSize: 12,
-          ),
-        ),
-        trailing: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: statusBgColor,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            status,
-            style: GoogleFonts.inter(
-              color: statusTextColor,
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPremiumCard(String title, IconData icon, List<Color> gradientColors, {String? imageAsset}) {
-    return PremiumCategoryCard(
+  Widget _buildPremiumCard(
+      String title, IconData icon, List<Color> gradientColors,
+      {String? imageAsset}) {
+    return AssetCategorySelector(
       title: title,
       icon: icon,
       imageAsset: imageAsset,
@@ -1737,7 +1453,8 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
         } else if (title == 'My Devices') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const PersonalGadgetsScreen()),
+            MaterialPageRoute(
+                builder: (context) => const PersonalGadgetsScreen()),
           );
         } else if (title == 'Personal Care') {
           Navigator.push(
@@ -1752,12 +1469,14 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
         } else if (title == 'Vehicles & Mobility') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const VehiclesMobilityScreen()),
+            MaterialPageRoute(
+                builder: (context) => const VehiclesMobilityScreen()),
           );
         } else if (title == 'Furnitures') {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const FurnitureFixturesScreen()),
+            MaterialPageRoute(
+                builder: (context) => const FurnitureFixturesScreen()),
           );
         } else if (title == 'Building') {
           Navigator.push(
@@ -1766,121 +1485,6 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
           );
         }
       },
-    );
-  }
-}
-
-class PremiumCategoryCard extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final String? imageAsset;
-  final List<Color> gradientColors;
-  final VoidCallback? onTap;
-
-  const PremiumCategoryCard({
-    super.key,
-    required this.title,
-    required this.icon,
-    this.imageAsset,
-    required this.gradientColors,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: gradientColors.last.withOpacity(0.15), // Innovative: Casts a subtle, beautiful color-coordinated glow based on the logo's theme instead of a boring gray shadow
-              blurRadius: 18,
-              offset: const Offset(0, 8),
-            ),
-          ],
-          // STRICTLY NO BORDERS HERE
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Icon or Asset Container
-            imageAsset != null
-                ? Container(
-                    width: 72.0,
-                    height: 72.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color(0xFF16A34A),
-                        width: 2.0,
-                      ),
-                    ),
-                    child: ClipOval(
-                      child: Transform.scale(
-                        scale: 1.15,
-                        child: ColorFiltered(
-                          colorFilter: const ColorFilter.matrix(<double>[
-                            0.2126, 0.7152, 0.0722, 0, 0,
-                            0.2126, 0.7152, 0.0722, 0, 0,
-                            0.2126, 0.7152, 0.0722, 0, 0,
-                            0,      0,      0,      1, 0,
-                          ]),
-                          child: Image.asset(
-                            imageAsset!,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                : Container(
-                    height: 52.0,
-                    width: 52.0,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: gradientColors,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: gradientColors.last.withOpacity(0.25),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Icon(
-                      icon,
-                      color: Colors.white,
-                      size: 28.0,
-                    ),
-                  ),
-            const SizedBox(height: 10),
-            // Perfectly Centered Text
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF334155),
-                  height: 1.2,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -1936,7 +1540,8 @@ class MarketplaceView extends StatelessWidget {
         // Marketplace Matrix Stacks
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 100),
+            padding: const EdgeInsets.only(
+                top: 16, left: 16, right: 16, bottom: 100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1954,7 +1559,8 @@ class MarketplaceView extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                    border:
+                        Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
                   ),
                   child: Column(
                     children: [
@@ -1996,7 +1602,8 @@ class MarketplaceView extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                    border:
+                        Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
                   ),
                   child: Row(
                     children: [
@@ -2025,7 +1632,8 @@ class MarketplaceView extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF1F5F9),
                           borderRadius: BorderRadius.circular(6),
@@ -2157,7 +1765,8 @@ class SettingsView extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                    border:
+                        Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
                   ),
                   child: Row(
                     children: [
@@ -2198,7 +1807,8 @@ class SettingsView extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: const Color(0xFF0F172A),
                           borderRadius: BorderRadius.circular(6),
@@ -2224,17 +1834,22 @@ class SettingsView extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                    border:
+                        Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
                   ),
                   child: Column(
                     children: [
-                      _buildMenuRow(Icons.person_outline, 'Profile', 'Jane Doe'),
+                      _buildMenuRow(
+                          Icons.person_outline, 'Profile', 'Jane Doe'),
                       const Divider(color: Color(0xFFF1F5F9), height: 1),
-                      _buildMenuRow(Icons.vpn_key_outlined, 'Authentication', 'OTP enabled'),
+                      _buildMenuRow(Icons.vpn_key_outlined, 'Authentication',
+                          'OTP enabled'),
                       const Divider(color: Color(0xFFF1F5F9), height: 1),
-                      _buildMenuRow(Icons.notifications_none_outlined, 'Notifications', 'Email â€¢ Push'),
+                      _buildMenuRow(Icons.notifications_none_outlined,
+                          'Notifications', 'Email â€¢ Push'),
                       const Divider(color: Color(0xFFF1F5F9), height: 1),
-                      _buildMenuRow(Icons.security_outlined, 'Privacy & Security', 'Standard'),
+                      _buildMenuRow(Icons.security_outlined,
+                          'Privacy & Security', 'Standard'),
                     ],
                   ),
                 ),
@@ -2251,9 +1866,11 @@ class SettingsView extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      _buildMenuRow(Icons.language_outlined, 'Region & Language', 'EN-US'),
+                      _buildMenuRow(Icons.language_outlined,
+                          'Region & Language', 'EN-US'),
                       const Divider(color: Color(0xFFF1F5F9), height: 1),
-                      _buildMenuRow(Icons.list_alt_outlined, 'Audit Logs', '30 days'),
+                      _buildMenuRow(
+                          Icons.list_alt_outlined, 'Audit Logs', '30 days'),
                     ],
                   ),
                 ),
@@ -2361,7 +1978,8 @@ class MockScannerView extends StatefulWidget {
   State<MockScannerView> createState() => _MockScannerViewState();
 }
 
-class _MockScannerViewState extends State<MockScannerView> with SingleTickerProviderStateMixin {
+class _MockScannerViewState extends State<MockScannerView>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
@@ -2422,7 +2040,7 @@ class _MockScannerViewState extends State<MockScannerView> with SingleTickerProv
           crossAxisCount: 10,
         ),
         itemBuilder: (context, index) => Icon(
-          Icons.memory, 
+          Icons.memory,
           color: Colors.white.withOpacity(0.05),
         ),
       ),
@@ -2454,7 +2072,7 @@ class _MockScannerViewState extends State<MockScannerView> with SingleTickerProv
               ),
             ),
           ),
-          // We apply the corner brackets and laser inside a separate widget 
+          // We apply the corner brackets and laser inside a separate widget
           // above the color filter so they don't get filtered out.
         ],
       ),
@@ -2473,7 +2091,8 @@ class _MockScannerViewState extends State<MockScannerView> with SingleTickerProv
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(30),
@@ -2577,9 +2196,11 @@ class _MockScannerViewState extends State<MockScannerView> with SingleTickerProv
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Enter serial number',
-                      hintStyle: GoogleFonts.inter(color: const Color(0xFF94A3B8), fontSize: 14),
+                      hintStyle: GoogleFonts.inter(
+                          color: const Color(0xFF94A3B8), fontSize: 14),
                       border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 16),
                     ),
                   ),
                 ),
@@ -2636,12 +2257,15 @@ class ScannerViewfinder extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             // Corner Brackets
             const Positioned(top: 0, left: 0, child: CornerBracket(angle: 0)),
-            const Positioned(top: 0, right: 0, child: CornerBracket(angle: 3.14159 / 2)),
-            const Positioned(bottom: 0, right: 0, child: CornerBracket(angle: 3.14159)),
-            const Positioned(bottom: 0, left: 0, child: CornerBracket(angle: 3.14159 * 1.5)),
+            const Positioned(
+                top: 0, right: 0, child: CornerBracket(angle: 3.14159 / 2)),
+            const Positioned(
+                bottom: 0, right: 0, child: CornerBracket(angle: 3.14159)),
+            const Positioned(
+                bottom: 0, left: 0, child: CornerBracket(angle: 3.14159 * 1.5)),
 
             // Laser Animation
             AnimatedBuilder(
@@ -2729,12 +2353,12 @@ class CategoryQuadrantLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     // The 4 brand quadrant colors: Blue, Orange, Yellow, Green
     final colors = [
-      const Color(0xFF0EA5E9), 
-      const Color(0xFFF97316), 
-      const Color(0xFFEAB308), 
+      const Color(0xFF0EA5E9),
+      const Color(0xFFF97316),
+      const Color(0xFFEAB308),
       const Color(0xFF22C55E)
     ];
-    
+
     return SizedBox(
       width: 44,
       height: 44,

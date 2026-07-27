@@ -7,7 +7,8 @@ class DeviceDetailScreen extends StatelessWidget {
   final String categoryName;
   final CategoryDetailData? categoryData;
 
-  const DeviceDetailScreen({super.key, required this.categoryName, this.categoryData});
+  const DeviceDetailScreen(
+      {super.key, required this.categoryName, this.categoryData});
 
   String _getMockAssetTitle() {
     switch (categoryName) {
@@ -64,7 +65,8 @@ class DeviceDetailScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
+            icon:
+                const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
             tooltip: 'Register New Device',
             onPressed: () {
               Navigator.push(
@@ -80,7 +82,8 @@ class DeviceDetailScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0).copyWith(bottom: 100),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0)
+            .copyWith(bottom: 100),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -116,7 +119,8 @@ class DeviceDetailScreen extends StatelessWidget {
                         color: const Color(0xFF16A34A).withOpacity(0.1),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.inventory_2_outlined, size: 36, color: Color(0xFF16A34A)),
+                      child: const Icon(Icons.inventory_2_outlined,
+                          size: 36, color: Color(0xFF16A34A)),
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -164,44 +168,63 @@ class DeviceDetailScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: data.spareParts.map((part) => Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: PremiumCard(
-                      width: 160,
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 40,
-                            width: double.infinity,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFF1F5F9),
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                            ),
-                            child: const Icon(Icons.build_circle_outlined, color: Color(0xFF94A3B8)),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(part.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13), maxLines: 2),
-                          const Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('₹${part.price}', style: const TextStyle(color: Color(0xFF16A34A), fontWeight: FontWeight.bold)),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF1E293B),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: const Text('Buy', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
+                  children: data.spareParts
+                      .map((part) => Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: PremiumCard(
+                              width: 160,
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 40,
+                                    width: double.infinity,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFFF1F5F9),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8)),
+                                    ),
+                                    child: const Icon(
+                                        Icons.build_circle_outlined,
+                                        color: Color(0xFF94A3B8)),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(part.name,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13),
+                                      maxLines: 2),
+                                  const Spacer(),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('₹${part.price}',
+                                          style: const TextStyle(
+                                              color: Color(0xFF16A34A),
+                                              fontWeight: FontWeight.bold)),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFF1E293B),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        child: const Text('Buy',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w600)),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  )).toList(),
+                            ),
+                          ))
+                      .toList(),
                 ),
               ),
             ),
@@ -219,35 +242,45 @@ class DeviceDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Column(
-              children: data.serviceCenters.map((center) => Padding(
-                padding: const EdgeInsets.only(bottom: 12.0),
-                child: PremiumCard(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(center.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                            const SizedBox(height: 4),
-                            Text('${center.description} • ${center.distance}', style: const TextStyle(color: Colors.grey, fontSize: 12)),
-                          ],
+              children: data.serviceCenters
+                  .map((center) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: PremiumCard(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(center.name,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14)),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                        '${center.description} • ${center.distance}',
+                                        style: const TextStyle(
+                                            color: Colors.grey, fontSize: 12)),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color(0xFF16A34A).withOpacity(0.12),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.phone,
+                                    color: Color(0xFF16A34A), size: 20),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF16A34A).withOpacity(0.12),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.phone, color: Color(0xFF16A34A), size: 20),
-                      ),
-                    ],
-                  ),
-                ),
-              )).toList(),
+                      ))
+                  .toList(),
             ),
           ],
         ),
@@ -308,8 +341,6 @@ class DeviceDetailScreen extends StatelessWidget {
       ),
     );
   }
-
-
 }
 
 class SparePart {
@@ -322,7 +353,8 @@ class ServiceCenter {
   final String name;
   final String description;
   final String distance;
-  ServiceCenter({required this.name, required this.description, required this.distance});
+  ServiceCenter(
+      {required this.name, required this.description, required this.distance});
 }
 
 class CategoryDetailData {
@@ -340,8 +372,10 @@ class CategoryDetailData {
 CategoryDetailData getMockDataForCategory(String categoryName) {
   // Normalize the string to avoid case/spacing mismatches
   final name = categoryName.trim().toLowerCase();
-  
-  if (name.contains('television') || name.contains('tv') || name.contains('electronics')) {
+
+  if (name.contains('television') ||
+      name.contains('tv') ||
+      name.contains('electronics')) {
     return CategoryDetailData(
       categoryName: categoryName,
       spareParts: [
@@ -350,8 +384,14 @@ CategoryDetailData getMockDataForCategory(String categoryName) {
         SparePart(name: 'Heavy Duty Wall Mount', price: 1500),
       ],
       serviceCenters: [
-        ServiceCenter(name: 'City Center Electronics', description: 'Authorized TV Repair', distance: '1.2 km away'),
-        ServiceCenter(name: 'Screen Savers Hub', description: 'Display & Panel Experts', distance: '4.5 km away'),
+        ServiceCenter(
+            name: 'City Center Electronics',
+            description: 'Authorized TV Repair',
+            distance: '1.2 km away'),
+        ServiceCenter(
+            name: 'Screen Savers Hub',
+            description: 'Display & Panel Experts',
+            distance: '4.5 km away'),
       ],
     );
   } else if (name.contains('washing')) {
@@ -362,7 +402,10 @@ CategoryDetailData getMockDataForCategory(String categoryName) {
         SparePart(name: 'Drain Motor', price: 1200),
       ],
       serviceCenters: [
-        ServiceCenter(name: 'Appliance Pro Care', description: 'Authorized Parts', distance: '3.2 km away'),
+        ServiceCenter(
+            name: 'Appliance Pro Care',
+            description: 'Authorized Parts',
+            distance: '3.2 km away'),
       ],
     );
   } else {
@@ -374,7 +417,10 @@ CategoryDetailData getMockDataForCategory(String categoryName) {
         SparePart(name: 'Main Control Board', price: 2200),
       ],
       serviceCenters: [
-        ServiceCenter(name: 'Metro Appliance Service', description: 'Authorized parts', distance: '2.5 km away'),
+        ServiceCenter(
+            name: 'Metro Appliance Service',
+            description: 'Authorized parts',
+            distance: '2.5 km away'),
       ],
     );
   }

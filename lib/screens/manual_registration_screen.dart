@@ -7,7 +7,8 @@ class ManualRegistrationScreen extends StatefulWidget {
   const ManualRegistrationScreen({super.key, this.prefilledCategory});
 
   @override
-  State<ManualRegistrationScreen> createState() => _ManualRegistrationScreenState();
+  State<ManualRegistrationScreen> createState() =>
+      _ManualRegistrationScreenState();
 }
 
 class _ManualRegistrationScreenState extends State<ManualRegistrationScreen> {
@@ -19,7 +20,8 @@ class _ManualRegistrationScreenState extends State<ManualRegistrationScreen> {
   @override
   void initState() {
     super.initState();
-    _categoryController = TextEditingController(text: widget.prefilledCategory ?? '');
+    _categoryController =
+        TextEditingController(text: widget.prefilledCategory ?? '');
   }
 
   @override
@@ -53,20 +55,23 @@ class _ManualRegistrationScreenState extends State<ManualRegistrationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildTextField('Category', _categoryController, enabled: widget.prefilledCategory == null),
+            _buildTextField('Category', _categoryController,
+                enabled: widget.prefilledCategory == null),
             const SizedBox(height: 16),
             _buildTextField('Brand', _brandController),
             const SizedBox(height: 16),
             _buildTextField('Model Number', _modelController),
             const SizedBox(height: 16),
-            _buildTextField('Purchase Date', _dateController, hint: 'YYYY-MM-DD'),
+            _buildTextField('Purchase Date', _dateController,
+                hint: 'YYYY-MM-DD'),
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
                 // Mock save action
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Asset Registered Successfully!')),
+                  const SnackBar(
+                      content: Text('Asset Registered Successfully!')),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -92,7 +97,8 @@ class _ManualRegistrationScreenState extends State<ManualRegistrationScreen> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller, {bool enabled = true, String? hint}) {
+  Widget _buildTextField(String label, TextEditingController controller,
+      {bool enabled = true, String? hint}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -112,7 +118,8 @@ class _ManualRegistrationScreenState extends State<ManualRegistrationScreen> {
             hintText: hint,
             filled: true,
             fillColor: enabled ? Colors.white : const Color(0xFFF1F5F9),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: Color(0xFFE2E8F0)),

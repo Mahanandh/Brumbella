@@ -60,8 +60,11 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
   List<DigitizedAsset> get filteredAssets {
     return registeredAssets.where((asset) {
       final matchesSearch = _searchController.text.isEmpty ||
-          asset.serialNumber.toLowerCase().contains(_searchController.text.toLowerCase());
-      final matchesFilter = _selectedFilter == 'All' || asset.type == _selectedFilter;
+          asset.serialNumber
+              .toLowerCase()
+              .contains(_searchController.text.toLowerCase());
+      final matchesFilter =
+          _selectedFilter == 'All' || asset.type == _selectedFilter;
       return matchesSearch && matchesFilter;
     }).toList();
   }
@@ -127,10 +130,12 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                                 controller: _nameController,
                                 decoration: InputDecoration(
                                   hintText: 'Enter new device name...',
-                                  hintStyle: const TextStyle(color: Color(0xFF94A3B8)),
+                                  hintStyle:
+                                      const TextStyle(color: Color(0xFF94A3B8)),
                                   filled: true,
                                   fillColor: const Color(0xFFF8FAFC),
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 12),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     borderSide: BorderSide.none,
@@ -143,22 +148,26 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     if (_nameController.text.isNotEmpty) {
-                                      final newSn = "SN-${Random().nextInt(999999).toString().padLeft(6, '0')}";
+                                      final newSn =
+                                          "SN-${Random().nextInt(999999).toString().padLeft(6, '0')}";
                                       setState(() {
                                         _generatedSerialNumber = newSn;
                                         _generatedQRData = newSn;
-                                        registeredAssets.insert(0, DigitizedAsset(
-                                          name: _nameController.text,
-                                          serialNumber: newSn,
-                                          type: 'Custom Tag',
-                                        ));
+                                        registeredAssets.insert(
+                                            0,
+                                            DigitizedAsset(
+                                              name: _nameController.text,
+                                              serialNumber: newSn,
+                                              type: 'Custom Tag',
+                                            ));
                                         _nameController.clear();
                                       });
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF16A34A),
-                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 14),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                     ),
@@ -189,11 +198,14 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                               ? Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.qr_code, color: Colors.grey.shade400, size: 40),
+                                    Icon(Icons.qr_code,
+                                        color: Colors.grey.shade400, size: 40),
                                     const SizedBox(height: 8),
                                     Text(
                                       'Awaiting Input...',
-                                      style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+                                      style: TextStyle(
+                                          color: Colors.grey.shade500,
+                                          fontSize: 12),
                                       textAlign: TextAlign.center,
                                     ),
                                   ],
@@ -210,7 +222,8 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                                       child: QrImageView(
                                         data: _generatedQRData!,
                                         size: 80.0,
-                                        foregroundColor: const Color(0xFF334155),
+                                        foregroundColor:
+                                            const Color(0xFF334155),
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -229,7 +242,7 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                     ),
                   ),
                 ),
-                
+
                 // Section 2: Search, Scan, and Filters
                 const SizedBox(height: 24),
                 // Search Row
@@ -243,17 +256,21 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                         },
                         decoration: InputDecoration(
                           hintText: 'Search Serial Number...',
-                          prefixIcon: const Icon(Icons.search, color: Color(0xFF94A3B8)),
+                          prefixIcon: const Icon(Icons.search,
+                              color: Color(0xFF94A3B8)),
                           filled: true,
                           fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 14),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFE2E8F0)),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: Color(0xFF16A34A)),
+                            borderSide:
+                                const BorderSide(color: Color(0xFF16A34A)),
                           ),
                         ),
                       ),
@@ -264,9 +281,11 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                       width: 52,
                       child: ElevatedButton(
                         onPressed: () {
-                           ScaffoldMessenger.of(context).showSnackBar(
-                             const SnackBar(content: Text('Camera scanner plugin to be implemented')),
-                           );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                                    'Camera scanner plugin to be implemented')),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF16A34A),
@@ -276,13 +295,14 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                           ),
                           elevation: 0,
                         ),
-                        child: const Icon(Icons.qr_code_scanner, color: Colors.white),
+                        child: const Icon(Icons.qr_code_scanner,
+                            color: Colors.white),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                
+
                 // Filters
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -300,16 +320,23 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                               });
                             }
                           },
-                          selectedColor: const Color(0xFF16A34A).withOpacity(0.1),
+                          selectedColor:
+                              const Color(0xFF16A34A).withOpacity(0.1),
                           labelStyle: TextStyle(
-                            color: _selectedFilter == filter ? const Color(0xFF16A34A) : const Color(0xFF64748B),
-                            fontWeight: _selectedFilter == filter ? FontWeight.bold : FontWeight.normal,
+                            color: _selectedFilter == filter
+                                ? const Color(0xFF16A34A)
+                                : const Color(0xFF64748B),
+                            fontWeight: _selectedFilter == filter
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                           ),
                           backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                             side: BorderSide(
-                              color: _selectedFilter == filter ? const Color(0xFF16A34A) : const Color(0xFFE2E8F0),
+                              color: _selectedFilter == filter
+                                  ? const Color(0xFF16A34A)
+                                  : const Color(0xFFE2E8F0),
                             ),
                           ),
                         ),
@@ -317,7 +344,7 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                     }).toList(),
                   ),
                 ),
-                
+
                 const SizedBox(height: 24),
                 // Section 3: The Asset List
                 const Text(
@@ -330,7 +357,7 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                
+
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -348,16 +375,19 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                         borderRadius: BorderRadius.circular(12),
                         onTap: () {
                           // TELEMETRY: If this prints but doesn't route, it is a Web Cache issue.
-                          print('SUCCESS: Tap registered for ${asset.name}. Attempting route...');
-                          
+                          print(
+                              'SUCCESS: Tap registered for ${asset.name}. Attempting route...');
+
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (BuildContext context) => AssetDetailsScreen(asset: asset),
+                              builder: (BuildContext context) =>
+                                  AssetDetailsScreen(asset: asset),
                             ),
                           );
                         },
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
                           child: Row(
                             children: [
                               Container(
@@ -366,7 +396,8 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                                   color: Colors.grey.shade100,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: const Icon(Icons.inventory_2, color: Colors.blueGrey),
+                                child: const Icon(Icons.inventory_2,
+                                    color: Colors.blueGrey),
                               ),
                               const SizedBox(width: 16),
                               Expanded(
@@ -375,17 +406,22 @@ class _CustomAssetsScreenState extends State<CustomAssetsScreen> {
                                   children: [
                                     Text(
                                       asset.name,
-                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       '${asset.serialNumber} • ${asset.type}',
-                                      style: TextStyle(color: Colors.green.shade700, fontSize: 12),
+                                      style: TextStyle(
+                                          color: Colors.green.shade700,
+                                          fontSize: 12),
                                     ),
                                   ],
                                 ),
                               ),
-                              const Icon(Icons.chevron_right, color: Colors.grey),
+                              const Icon(Icons.chevron_right,
+                                  color: Colors.grey),
                             ],
                           ),
                         ),

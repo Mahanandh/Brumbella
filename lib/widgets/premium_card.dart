@@ -6,8 +6,8 @@ class PremiumCard extends StatelessWidget {
   final double? width;
 
   const PremiumCard({
-    super.key, 
-    required this.child, 
+    super.key,
+    required this.child,
     this.padding,
     this.width,
   });

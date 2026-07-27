@@ -25,7 +25,8 @@ class FurnitureFixturesScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
+            icon:
+                const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
             tooltip: 'Register New Device',
             onPressed: () {
               Navigator.push(
@@ -44,8 +45,10 @@ class FurnitureFixturesScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         children: [
           _buildSubCategoryCard(context, 'Desks', Icons.desk_outlined),
-          _buildSubCategoryCard(context, 'Office Chairs', Icons.chair_alt_outlined),
-          _buildSubCategoryCard(context, 'Cabinets', Icons.inventory_2_outlined),
+          _buildSubCategoryCard(
+              context, 'Office Chairs', Icons.chair_alt_outlined),
+          _buildSubCategoryCard(
+              context, 'Cabinets', Icons.inventory_2_outlined),
           _buildSubCategoryCard(context, 'Sofas', Icons.weekend_outlined),
           _buildSubCategoryCard(context, 'Tables', Icons.table_bar),
           _buildSubCategoryCard(context, 'Beds', Icons.bed),
@@ -56,7 +59,8 @@ class FurnitureFixturesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSubCategoryCard(BuildContext context, String title, IconData icon) {
+  Widget _buildSubCategoryCard(
+      BuildContext context, String title, IconData icon) {
     return PremiumListCard(
       title: title,
       icon: icon,

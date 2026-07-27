@@ -26,7 +26,8 @@ class PersonalCareScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
+            icon:
+                const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
             tooltip: 'Register New Device',
             onPressed: () {
               Navigator.push(
@@ -55,7 +56,8 @@ class PersonalCareScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSubCategoryCard(BuildContext context, String title, IconData icon) {
+  Widget _buildSubCategoryCard(
+      BuildContext context, String title, IconData icon) {
     return PremiumListCard(
       title: title,
       icon: icon,

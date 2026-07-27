@@ -25,7 +25,8 @@ class ClimateControlScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
+            icon:
+                const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
             tooltip: 'Register New Device',
             onPressed: () {
               Navigator.push(
@@ -43,16 +44,20 @@ class ClimateControlScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildSubCategoryCard(context, 'Air Conditioners', Icons.ac_unit_outlined),
-          _buildSubCategoryCard(context, 'Room Heaters', Icons.fireplace_outlined),
+          _buildSubCategoryCard(
+              context, 'Air Conditioners', Icons.ac_unit_outlined),
+          _buildSubCategoryCard(
+              context, 'Room Heaters', Icons.fireplace_outlined),
           _buildSubCategoryCard(context, 'Air Purifiers', Icons.air_outlined),
-          _buildSubCategoryCard(context, 'Industrial Ventilation Fans', Icons.wind_power_outlined),
+          _buildSubCategoryCard(context, 'Industrial Ventilation Fans',
+              Icons.wind_power_outlined),
         ],
       ),
     );
   }
 
-  Widget _buildSubCategoryCard(BuildContext context, String title, IconData icon) {
+  Widget _buildSubCategoryCard(
+      BuildContext context, String title, IconData icon) {
     return PremiumListCard(
       title: title,
       icon: icon,

@@ -26,7 +26,8 @@ class PersonalGadgetsScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
+            icon:
+                const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
             tooltip: 'Register New Device',
             onPressed: () {
               Navigator.push(
@@ -44,10 +45,14 @@ class PersonalGadgetsScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildSubCategoryCard(context, 'Watches and Fitness Trackers', Icons.watch_outlined),
-          _buildSubCategoryCard(context, 'Wireless Earbuds and Headphones', Icons.headphones_outlined),
-          _buildSubCategoryCard(context, 'Smartphones and Tablets', Icons.smartphone_outlined),
-          _buildSubCategoryCard(context, 'Portable Power Banks', Icons.battery_charging_full_outlined),
+          _buildSubCategoryCard(
+              context, 'Watches and Fitness Trackers', Icons.watch_outlined),
+          _buildSubCategoryCard(context, 'Wireless Earbuds and Headphones',
+              Icons.headphones_outlined),
+          _buildSubCategoryCard(
+              context, 'Smartphones and Tablets', Icons.smartphone_outlined),
+          _buildSubCategoryCard(context, 'Portable Power Banks',
+              Icons.battery_charging_full_outlined),
           _buildSubCategoryCard(context, 'Wifi Routers', Icons.router),
           _buildSubCategoryCard(context, 'Printers', Icons.print),
           _buildSubCategoryCard(context, 'Projectors', Icons.cast),
@@ -56,7 +61,8 @@ class PersonalGadgetsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSubCategoryCard(BuildContext context, String title, IconData icon) {
+  Widget _buildSubCategoryCard(
+      BuildContext context, String title, IconData icon) {
     return PremiumListCard(
       title: title,
       icon: icon,

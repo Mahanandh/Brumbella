@@ -26,7 +26,8 @@ class HomeAppliancesScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
+            icon:
+                const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
             tooltip: 'Register New Device',
             onPressed: () {
               Navigator.push(
@@ -44,21 +45,28 @@ class HomeAppliancesScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildSubCategoryCard(context, 'Washing Machines', Icons.local_laundry_service_outlined),
-          _buildSubCategoryCard(context, 'Air Conditioners', Icons.ac_unit_outlined),
-          _buildSubCategoryCard(context, 'Smart Televisions', Icons.tv_outlined),
-          _buildSubCategoryCard(context, 'Vacuum Cleaners', Icons.cleaning_services_outlined),
-          _buildSubCategoryCard(context, 'Room Air Purifiers', Icons.air_outlined),
+          _buildSubCategoryCard(context, 'Washing Machines',
+              Icons.local_laundry_service_outlined),
+          _buildSubCategoryCard(
+              context, 'Air Conditioners', Icons.ac_unit_outlined),
+          _buildSubCategoryCard(
+              context, 'Smart Televisions', Icons.tv_outlined),
+          _buildSubCategoryCard(
+              context, 'Vacuum Cleaners', Icons.cleaning_services_outlined),
+          _buildSubCategoryCard(
+              context, 'Room Air Purifiers', Icons.air_outlined),
           _buildSubCategoryCard(context, 'Ceiling Fans', Icons.wind_power),
           _buildSubCategoryCard(context, 'Water Heaters', Icons.water_drop),
           _buildSubCategoryCard(context, 'Irons', Icons.iron),
-          _buildSubCategoryCard(context, 'Sewing Machines', Icons.design_services),
+          _buildSubCategoryCard(
+              context, 'Sewing Machines', Icons.design_services),
         ],
       ),
     );
   }
 
-  Widget _buildSubCategoryCard(BuildContext context, String title, IconData icon) {
+  Widget _buildSubCategoryCard(
+      BuildContext context, String title, IconData icon) {
     return PremiumListCard(
       title: title,
       icon: icon,

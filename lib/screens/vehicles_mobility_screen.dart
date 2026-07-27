@@ -25,7 +25,8 @@ class VehiclesMobilityScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
+            icon:
+                const Icon(Icons.add_circle_outline, color: Color(0xFF0F172A)),
             tooltip: 'Register New Device',
             onPressed: () {
               Navigator.push(
@@ -43,16 +44,19 @@ class VehiclesMobilityScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildSubCategoryCard(context, 'Electric Scooters', Icons.electric_scooter_outlined),
+          _buildSubCategoryCard(
+              context, 'Electric Scooters', Icons.electric_scooter_outlined),
           _buildSubCategoryCard(context, 'Bicycles', Icons.pedal_bike_outlined),
           _buildSubCategoryCard(context, 'Cars', Icons.directions_car_outlined),
-          _buildSubCategoryCard(context, 'Commercial Fleet Vans', Icons.local_shipping_outlined),
+          _buildSubCategoryCard(
+              context, 'Commercial Fleet Vans', Icons.local_shipping_outlined),
         ],
       ),
     );
   }
 
-  Widget _buildSubCategoryCard(BuildContext context, String title, IconData icon) {
+  Widget _buildSubCategoryCard(
+      BuildContext context, String title, IconData icon) {
     return PremiumListCard(
       title: title,
       icon: icon,
