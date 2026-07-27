@@ -132,7 +132,7 @@ class QRCodeCaptureTrigger extends StatelessWidget {
         onPressed: onPressed,
         icon: const Icon(Icons.qr_code_scanner, color: Color(0xFF0F172A)),
         label: Text(
-          'Scan QR Code',
+          'Scan Asset Tag',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.w600,
             color: const Color(0xFF0F172A),
@@ -170,7 +170,7 @@ class DeviceSerialInput extends StatelessWidget {
           controller: controller,
           style: GoogleFonts.inter(fontSize: 14),
           decoration: const InputDecoration(
-            hintText: 'Enter Serial Number',
+            hintText: 'Enter Device Serial ID',
             hintStyle: TextStyle(color: Color(0xFF94A3B8)),
             border: InputBorder.none,
             enabledBorder: InputBorder.none,
@@ -202,7 +202,7 @@ class RegisterNewAssetButton extends StatelessWidget {
         ),
       ),
       child: Text(
-        'Ingest Asset',
+        'Register Asset',
         style: GoogleFonts.inter(fontWeight: FontWeight.w600),
       ),
     );
@@ -220,7 +220,7 @@ class ManualOnboardingFallbackLink extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         child: Text(
-          "Don't have a code or serial? Register manually.",
+          "No ID available? Add asset manually.",
           style: GoogleFonts.inter(
             fontSize: 13,
             fontWeight: FontWeight.w600,
@@ -297,7 +297,7 @@ class ExpandPortfolioRoute extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Text(
-        'View all',
+        'Manage Portfolio',
         style: GoogleFonts.inter(
           color: const Color(0xFF16A34A),
           fontWeight: FontWeight.w700,
@@ -620,10 +620,10 @@ class GlobalModuleSwitcher extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildBottomTab(0, Icons.home_outlined, 'Home'),
-          _buildBottomTab(1, Icons.inventory_2_outlined, 'Parts'),
+          _buildBottomTab(0, Icons.home_outlined, 'Dashboard'),
+          _buildBottomTab(1, Icons.inventory_2_outlined, 'Components'),
           const SizedBox(width: 48),
-          _buildBottomTab(3, Icons.category_outlined, 'Custom'),
+          _buildBottomTab(3, Icons.category_outlined, 'Custom Tags'),
           _buildBottomTab(4, Icons.settings_outlined, 'Settings'),
         ],
       ),

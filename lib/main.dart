@@ -1335,38 +1335,44 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                   },
                 ),
                 const SizedBox(height: 24),
-                const DashboardSectionHeading(title: 'DISCOVER CATEGORIES'),
+                const DashboardSectionHeading(title: 'ASSET CATEGORIES'),
                 const SizedBox(height: 16),
                 AssetClassificationGrid(
                   children: [
-                    _buildPremiumCard('Home Appliances', Icons.kitchen_outlined,
+                    _buildPremiumCard('Home & Living', Icons.kitchen_outlined,
                         const [Color(0xFF00C6FF), Color(0xFF0072FF)],
                         imageAsset: 'assets/images/home_meaning.png'),
                     _buildPremiumCard(
-                        'Kitchen Appliances',
+                        'Culinary Equipment',
                         Icons.microwave_outlined,
                         const [Color(0xFFF2994A), Color(0xFFF2C94C)],
                         imageAsset: 'assets/images/kitchen_meaning.png'),
-                    _buildPremiumCard('My Devices', Icons.watch_outlined,
+                    _buildPremiumCard(
+                        'Personal Electronics',
+                        Icons.watch_outlined,
                         const [Color(0xFF00B4DB), Color(0xFF0083B0)],
                         imageAsset: 'assets/images/personal_meaning.png'),
-                    _buildPremiumCard('Personal Care', Icons.spa_outlined,
+                    _buildPremiumCard('Health & Grooming', Icons.spa_outlined,
                         const [Color(0xFFF06292), Color(0xFFE91E63)],
                         imageAsset: 'assets/images/Personal_Care.png'),
                     _buildPremiumCard(
-                        'Electrical System',
+                        'Power Infrastructure',
                         Icons.electric_bolt_outlined,
                         const [Color(0xFFFDC830), Color(0xFFF37335)],
                         imageAsset: 'assets/images/power_meaning.png'),
                     _buildPremiumCard(
-                        'Vehicles & Mobility',
+                        'Mobility & Transport',
                         Icons.directions_car_outlined,
                         const [Color(0xFF00B09B), Color(0xFF96C93D)],
                         imageAsset: 'assets/images/vehicles_meaning.png'),
-                    _buildPremiumCard('Furnitures', Icons.weekend_outlined,
+                    _buildPremiumCard(
+                        'Furniture & Fittings',
+                        Icons.weekend_outlined,
                         const [Color(0xFFBC4E9C), Color(0xFFF80759)],
                         imageAsset: 'assets/images/furniture_meaninf.png'),
-                    _buildPremiumCard('Building', Icons.domain_outlined,
+                    _buildPremiumCard(
+                        'Property & Infrastructure',
+                        Icons.domain_outlined,
                         const [Color(0xFF43C6AC), Color(0xFF191654)],
                         imageAsset: 'assets/images/building_meaning.png'),
                   ],
@@ -1375,7 +1381,8 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const DashboardSectionHeading(title: 'REGISTERED ASSETS'),
+                    const DashboardSectionHeading(
+                        title: 'ACTIVE ASSET PORTFOLIO'),
                     ExpandPortfolioRoute(onTap: () {}),
                   ],
                 ),
@@ -1383,7 +1390,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                 ActivePortfolioFeed(
                   children: [
                     if (_selectedCategory == 'All' ||
-                        _selectedCategory == 'Home Appliances')
+                        _selectedCategory == 'Home & Living')
                       const TrackedAssetSummaryRow(
                         icon: Icons.water_drop_outlined,
                         title: 'Smart Water Flosser',
@@ -1391,7 +1398,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                         status: 'ACTIVE',
                       ),
                     if (_selectedCategory == 'All' ||
-                        _selectedCategory == 'Home Appliances')
+                        _selectedCategory == 'Home & Living')
                       const TrackedAssetSummaryRow(
                         icon: Icons.air_outlined,
                         title: 'RO Water Purifier',
@@ -1436,49 +1443,49 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
         setState(() {
           _selectedCategory = title;
         });
-        if (title == 'Home Appliances') {
+        if (title == 'Home & Living') {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const HomeAppliancesScreen(),
             ),
           );
-        } else if (title == 'Kitchen Appliances') {
+        } else if (title == 'Culinary Equipment') {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const KitchenAppliancesScreen(),
             ),
           );
-        } else if (title == 'My Devices') {
+        } else if (title == 'Personal Electronics') {
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => const PersonalGadgetsScreen()),
           );
-        } else if (title == 'Personal Care') {
+        } else if (title == 'Health & Grooming') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const PersonalCareScreen()),
           );
-        } else if (title == 'Electrical System') {
+        } else if (title == 'Power Infrastructure') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const PowerEnergyScreen()),
           );
-        } else if (title == 'Vehicles & Mobility') {
+        } else if (title == 'Mobility & Transport') {
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => const VehiclesMobilityScreen()),
           );
-        } else if (title == 'Furnitures') {
+        } else if (title == 'Furniture & Fittings') {
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => const FurnitureFixturesScreen()),
           );
-        } else if (title == 'Building') {
+        } else if (title == 'Property & Infrastructure') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const BuildingScreen()),
