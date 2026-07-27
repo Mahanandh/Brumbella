@@ -689,6 +689,8 @@ class LoginScreen extends StatelessWidget {
 // ==========================================
 // 3. ACCOUNT REGISTRATION SCREEN
 // ==========================================
+enum AccountType { consumer, servicePartner }
+
 class RegisterScreen extends StatefulWidget {
   final VoidCallback onBackPressed;
   final VoidCallback onSendOtpPressed;
@@ -706,8 +708,20 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  // Toggle Selection: 'consumer' or 'partner'
-  String _accountType = 'consumer';
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
+  AccountType _selectedAccountType = AccountType.consumer;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -720,7 +734,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton.icon(
-                onPressed: widget.onBackPressed,
+                onPressed: () => Navigator.pop(context),
                 icon: const Icon(Icons.arrow_back,
                     size: 16, color: Color(0xFF64748B)),
                 label: const Text(
@@ -748,173 +762,215 @@ class _RegisterScreenState extends State<RegisterScreen> {
         Expanded(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Get started',
-                  style: TextStyle(
-                    color: Color(0xFF0F172A),
-                    fontWeight: FontWeight.w800,
-                    fontSize: 24,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Get started',
+                    style: TextStyle(
+                      color: Color(0xFF0F172A),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 24,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 6),
-                const Text(
-                  'Provision your BrumBella workspace in under a minute.',
-                  style: TextStyle(
-                    color: Color(0xFF64748B),
-                    fontSize: 14,
+                  const SizedBox(height: 6),
+                  const Text(
+                    'Provision your BrumBella workspace in under a minute.',
+                    style: TextStyle(
+                      color: Color(0xFF64748B),
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 28),
+                  const SizedBox(height: 28),
 
-                // Name input
-                const Text(
-                  'FULL NAME',
-                  style: TextStyle(
-                    color: Color(0xFF475569),
-                    fontWeight: FontWeight.w800,
-                    fontSize: 11,
-                    letterSpacing: 1.0,
+                  // Name input
+                  const Text(
+                    'FULL NAME',
+                    style: TextStyle(
+                      color: Color(0xFF475569),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 11,
+                      letterSpacing: 1.0,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Jane Doe',
-                    prefixIcon:
-                        Icon(Icons.person_outline, color: Color(0xFF94A3B8)),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: _nameController,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter your full name';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Jane Doe',
+                      prefixIcon:
+                          Icon(Icons.person_outline, color: Color(0xFF94A3B8)),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-                // Email input
-                const Text(
-                  'EMAIL',
-                  style: TextStyle(
-                    color: Color(0xFF475569),
-                    fontWeight: FontWeight.w800,
-                    fontSize: 11,
-                    letterSpacing: 1.0,
+                  // Email input
+                  const Text(
+                    'EMAIL',
+                    style: TextStyle(
+                      color: Color(0xFF475569),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 11,
+                      letterSpacing: 1.0,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    hintText: 'jane@example.com',
-                    prefixIcon:
-                        Icon(Icons.mail_outline, color: Color(0xFF94A3B8)),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter a valid email';
+                      }
+                      final emailRegex =
+                          RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                      if (!emailRegex.hasMatch(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'jane@example.com',
+                      prefixIcon:
+                          Icon(Icons.mail_outline, color: Color(0xFF94A3B8)),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-                // Phone number input
-                const Text(
-                  'PHONE NUMBER',
-                  style: TextStyle(
-                    color: Color(0xFF475569),
-                    fontWeight: FontWeight.w800,
-                    fontSize: 11,
-                    letterSpacing: 1.0,
+                  // Phone number input
+                  const Text(
+                    'PHONE NUMBER',
+                    style: TextStyle(
+                      color: Color(0xFF475569),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 11,
+                      letterSpacing: 1.0,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  keyboardType: TextInputType.phone,
-                  decoration: const InputDecoration(
-                    hintText: '+1 555 123 4567',
-                    prefixIcon:
-                        Icon(Icons.phone_outlined, color: Color(0xFF94A3B8)),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: _phoneController,
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value == null ||
+                          value.trim().isEmpty ||
+                          value.length < 10) {
+                        return 'Please enter a valid phone number';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      hintText: '+1 555 123 4567',
+                      prefixIcon:
+                          Icon(Icons.phone_outlined, color: Color(0xFF94A3B8)),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 24),
+                  const SizedBox(height: 24),
 
-                // Account Selection Toggle Widget
-                const Text(
-                  'ACCOUNT TYPE',
-                  style: TextStyle(
-                    color: Color(0xFF475569),
-                    fontWeight: FontWeight.w800,
-                    fontSize: 11,
-                    letterSpacing: 1.0,
+                  // Account Selection Toggle Widget
+                  const Text(
+                    'ACCOUNT TYPE',
+                    style: TextStyle(
+                      color: Color(0xFF475569),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 11,
+                      letterSpacing: 1.0,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0xFFE2E8F0)),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () =>
-                              setState(() => _accountType = 'consumer'),
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            decoration: BoxDecoration(
-                              color: _accountType == 'consumer'
-                                  ? const Color(0xFF0F172A)
-                                  : Colors.transparent,
-                              borderRadius: const BorderRadius.horizontal(
-                                left: Radius.circular(7),
+                  const SizedBox(height: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => setState(() =>
+                                _selectedAccountType = AccountType.consumer),
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              decoration: BoxDecoration(
+                                color:
+                                    _selectedAccountType == AccountType.consumer
+                                        ? const Color(0xFF0F172A)
+                                        : Colors.transparent,
+                                borderRadius: const BorderRadius.horizontal(
+                                  left: Radius.circular(7),
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              'Consumer',
-                              style: TextStyle(
-                                color: _accountType == 'consumer'
-                                    ? Colors.white
-                                    : const Color(0xFF64748B),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                              child: Text(
+                                'Consumer',
+                                style: TextStyle(
+                                  color: _selectedAccountType ==
+                                          AccountType.consumer
+                                      ? Colors.white
+                                      : const Color(0xFF64748B),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () => setState(() => _accountType = 'partner'),
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            decoration: BoxDecoration(
-                              color: _accountType == 'partner'
-                                  ? const Color(0xFF0F172A)
-                                  : Colors.transparent,
-                              borderRadius: const BorderRadius.horizontal(
-                                right: Radius.circular(7),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => setState(() => _selectedAccountType =
+                                AccountType.servicePartner),
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              decoration: BoxDecoration(
+                                color: _selectedAccountType ==
+                                        AccountType.servicePartner
+                                    ? const Color(0xFF0F172A)
+                                    : Colors.transparent,
+                                borderRadius: const BorderRadius.horizontal(
+                                  right: Radius.circular(7),
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              'Service Partner',
-                              style: TextStyle(
-                                color: _accountType == 'partner'
-                                    ? Colors.white
-                                    : const Color(0xFF64748B),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                              child: Text(
+                                'Service Partner',
+                                style: TextStyle(
+                                  color: _selectedAccountType ==
+                                          AccountType.servicePartner
+                                      ? Colors.white
+                                      : const Color(0xFF64748B),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 28),
+                  const SizedBox(height: 28),
 
-                // Submit Send OTP
-                ElevatedButton(
-                  onPressed: widget.onSendOtpPressed,
-                  child: const Text('Send OTP'),
-                ),
-              ],
+                  // Submit Send OTP
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        // TODO: Implement actual OTP API call here
+                        print(
+                            'SUCCESS: Form Validated. Sending OTP to ${_phoneController.text} as ${_selectedAccountType.name}');
+                      }
+                    },
+                    child: const Text('Send OTP'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -930,7 +986,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 style: TextStyle(color: Color(0xFF64748B), fontSize: 13),
               ),
               GestureDetector(
-                onTap: widget.onSignInPressed,
+                onTap: () => Navigator.pop(context),
                 child: const Text(
                   'Sign in',
                   style: TextStyle(
