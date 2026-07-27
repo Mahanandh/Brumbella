@@ -1365,9 +1365,7 @@ class _DashboardHomeViewState extends State<DashboardHomeView> {
                         Icons.directions_car_outlined,
                         const [Color(0xFF00B09B), Color(0xFF96C93D)],
                         imageAsset: 'assets/images/vehicles_meaning.png'),
-                    _buildPremiumCard(
-                        'Furnitures',
-                        Icons.weekend_outlined,
+                    _buildPremiumCard('Furnitures', Icons.weekend_outlined,
                         const [Color(0xFFBC4E9C), Color(0xFFF80759)],
                         imageAsset: 'assets/images/furniture_meaninf.png'),
                     _buildPremiumCard(
