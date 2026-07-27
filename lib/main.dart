@@ -163,72 +163,242 @@ class BrumBellaApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MainNavigationShell(),
+      home: ConstrainedScreenWrapper(
+        child: Builder(
+          builder: (context) => LandingScreen(
+            onLoginPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ConstrainedScreenWrapper(
+                    child: LoginScreen(
+                      onBackPressed: () => Navigator.pop(context),
+                      onRequestOtpPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const ConstrainedScreenWrapper(
+                              child: DashboardShell(
+                                onLogoutPressed:
+                                    _performLogout, // Will handle logout later
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      onCreateAccountPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ConstrainedScreenWrapper(
+                              child: RegisterScreen(
+                                onBackPressed: () => Navigator.pop(context),
+                                onSendOtpPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ConstrainedScreenWrapper(
+                                        child: DashboardShell(
+                                          onLogoutPressed: _performLogout,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                onSignInPressed: () => Navigator.pop(
+                                    context), // Already handled differently via UI but keeping signature
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            },
+            onCreateAccountPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ConstrainedScreenWrapper(
+                    child: RegisterScreen(
+                      onBackPressed: () => Navigator.pop(context),
+                      onSendOtpPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const ConstrainedScreenWrapper(
+                              child: DashboardShell(
+                                onLogoutPressed: _performLogout,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      onSignInPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ConstrainedScreenWrapper(
+                              child: LoginScreen(
+                                onBackPressed: () => Navigator.pop(context),
+                                onRequestOtpPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ConstrainedScreenWrapper(
+                                        child: DashboardShell(
+                                          onLogoutPressed: _performLogout,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                onCreateAccountPressed: () =>
+                                    Navigator.pop(context),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
 
-/// Navigation manager that holds the state for authentication and active bottom tabs
-class MainNavigationShell extends StatefulWidget {
-  const MainNavigationShell({super.key});
-
-  @override
-  State<MainNavigationShell> createState() => _MainNavigationShellState();
+void _performLogout(BuildContext context) {
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(
+      builder: (context) => ConstrainedScreenWrapper(
+        child: LandingScreen(
+          onLoginPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ConstrainedScreenWrapper(
+                  child: LoginScreen(
+                    onBackPressed: () => Navigator.pop(context),
+                    onRequestOtpPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ConstrainedScreenWrapper(
+                            child: DashboardShell(
+                              onLogoutPressed: _performLogout,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    onCreateAccountPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ConstrainedScreenWrapper(
+                            child: RegisterScreen(
+                              onBackPressed: () => Navigator.pop(context),
+                              onSendOtpPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ConstrainedScreenWrapper(
+                                      child: DashboardShell(
+                                        onLogoutPressed: _performLogout,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              onSignInPressed: () => Navigator.pop(context),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            );
+          },
+          onCreateAccountPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ConstrainedScreenWrapper(
+                  child: RegisterScreen(
+                    onBackPressed: () => Navigator.pop(context),
+                    onSendOtpPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ConstrainedScreenWrapper(
+                            child: DashboardShell(
+                              onLogoutPressed: _performLogout,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    onSignInPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ConstrainedScreenWrapper(
+                            child: LoginScreen(
+                              onBackPressed: () => Navigator.pop(context),
+                              onRequestOtpPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ConstrainedScreenWrapper(
+                                      child: DashboardShell(
+                                        onLogoutPressed: _performLogout,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              onCreateAccountPressed: () =>
+                                  Navigator.pop(context),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    ),
+    (route) => false,
+  );
 }
 
-class _MainNavigationShellState extends State<MainNavigationShell> {
-  // Screens state: 'landing', 'login', 'register', 'dashboard'
-  String _currentScreen = 'landing';
-  int _currentTab = 0; // 0: Home, 1: Marketplace, 2: Scanner, 3: Settings
+class ConstrainedScreenWrapper extends StatelessWidget {
+  final Widget child;
 
-  void _navigateTo(String screen) {
-    setState(() {
-      _currentScreen = screen;
-    });
-  }
-
-  void _changeTab(int index) {
-    setState(() {
-      _currentTab = index;
-    });
-  }
+  const ConstrainedScreenWrapper({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    Widget screenWidget;
-
-    if (_currentScreen == 'landing') {
-      screenWidget = LandingScreen(
-        onLoginPressed: () => _navigateTo('login'),
-        onCreateAccountPressed: () => _navigateTo('register'),
-      );
-    } else if (_currentScreen == 'login') {
-      screenWidget = LoginScreen(
-        onBackPressed: () => _navigateTo('landing'),
-        onRequestOtpPressed: () => _navigateTo('dashboard'),
-        onCreateAccountPressed: () => _navigateTo('register'),
-      );
-    } else if (_currentScreen == 'register') {
-      screenWidget = RegisterScreen(
-        onBackPressed: () => _navigateTo('landing'),
-        onSendOtpPressed: () => _navigateTo('dashboard'),
-        onSignInPressed: () => _navigateTo('login'),
-      );
-    } else {
-      // Authenticated Dashboard view
-      screenWidget = DashboardShell(
-        currentTab: _currentTab,
-        onTabChanged: _changeTab,
-        onLogoutPressed: () {
-          setState(() {
-            _currentTab = 0;
-            _currentScreen = 'landing';
-          });
-        },
-      );
-    }
-
-    // Centered, responsive mobile-first shell
     return Scaffold(
       backgroundColor: const Color(0xFFE2E8F0),
       body: SafeArea(
@@ -238,7 +408,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             decoration: const BoxDecoration(
               color: Color(0xFFF8FAFC),
             ),
-            child: screenWidget,
+            child: child,
           ),
         ),
       ),
@@ -1078,23 +1248,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
 // ==========================================
 // 4. AUTHENTICATED DASHBOARD SHELL
 // ==========================================
-class DashboardShell extends StatelessWidget {
-  final int currentTab;
-  final ValueChanged<int> onTabChanged;
-  final VoidCallback onLogoutPressed;
+class DashboardShell extends StatefulWidget {
+  final void Function(BuildContext) onLogoutPressed;
 
   const DashboardShell({
     super.key,
-    required this.currentTab,
-    required this.onTabChanged,
     required this.onLogoutPressed,
   });
+
+  @override
+  State<DashboardShell> createState() => _DashboardShellState();
+}
+
+class _DashboardShellState extends State<DashboardShell> {
+  int _currentTab = 0;
+
+  void _onTabChanged(int index) {
+    setState(() {
+      _currentTab = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget activeView;
 
-    switch (currentTab) {
+    switch (_currentTab) {
       case 0:
         activeView = const DashboardHomeView();
         break;
@@ -1108,7 +1287,8 @@ class DashboardShell extends StatelessWidget {
         activeView = const CustomAssetsScreen();
         break;
       case 4:
-        activeView = SettingsView(onLogoutPressed: onLogoutPressed);
+        activeView = SettingsView(
+            onLogoutPressed: () => widget.onLogoutPressed(context));
         break;
       default:
         activeView = const DashboardHomeView();
@@ -1118,12 +1298,12 @@ class DashboardShell extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: activeView,
       floatingActionButton: GlobalScanActionTrigger(
-        onPressed: () => onTabChanged(2), // Scanner
+        onPressed: () => _onTabChanged(2), // Scanner
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: GlobalModuleSwitcher(
-        currentTab: currentTab,
-        onTabChanged: onTabChanged,
+        currentTab: _currentTab,
+        onTabChanged: _onTabChanged,
       ),
     );
   }
