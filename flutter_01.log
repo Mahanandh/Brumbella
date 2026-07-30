@@ -1,0 +1,70 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter run -d chrome
+
+## exception
+
+PathAccessException: PathAccessException: Deletion failed, path = 'C:\Users\mahan\AppData\Local\Temp\flutter_tools.db1ef605\flutter_tool.60673a3' (OS Error: The process cannot access the file because it is being used by another process, errno = 32)
+
+```
+#0      _Directory._deleteSync (dart:io/directory_impl.dart:216:7)
+#1      FileSystemEntity.deleteSync (dart:io/file_system_entity.dart:425:7)
+#2      ForwardingFileSystemEntity.deleteSync (package:file/src/forwarding/forwarding_file_system_entity.dart:70:16)
+#3      ErrorHandlingDirectory.deleteSync.<anonymous closure> (package:flutter_tools/src/base/error_handling_io.dart:451:22)
+#4      _runSync (package:flutter_tools/src/base/error_handling_io.dart:552:14)
+#5      ErrorHandlingDirectory.deleteSync (package:flutter_tools/src/base/error_handling_io.dart:450:12)
+#6      ResidentRunner.preExit (package:flutter_tools/src/resident_runner.dart:1435:25)
+#7      ResidentRunner.exit (package:flutter_tools/src/resident_runner.dart:1278:11)
+<asynchronous suspension>
+#8      TerminalHandler._commonTerminalInputHandler (package:flutter_tools/src/resident_runner.dart:1830:9)
+<asynchronous suspension>
+#9      TerminalHandler.processTerminalInput (package:flutter_tools/src/resident_runner.dart:1906:7)
+<asynchronous suspension>
+```
+
+## flutter doctor
+
+```
+[✓] Flutter (Channel stable, 3.41.1, on Microsoft Windows [Version 10.0.26200.8894], locale en-US) [176ms]
+    • Flutter version 3.41.1 on channel stable at C:\flutter
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision 582a0e7c55 (6 months ago), 2026-02-12 17:12:32 -0800
+    • Engine revision 3452d735bd
+    • Dart version 3.11.0
+    • DevTools version 2.54.1
+    • Feature flags: enable-web, enable-linux-desktop, enable-macos-desktop, enable-windows-desktop, enable-android, enable-ios, cli-animations, enable-native-assets, omit-legacy-version-file, enable-lldb-debugging, enable-uiscene-migration
+
+[✓] Windows Version (11 Home Single Language 64-bit, 25H2, 2009) [808ms]
+
+[!] Android toolchain - develop for Android devices (Android SDK version 36.1.0) [338ms]
+    • Android SDK at C:\Users\mahan\AppData\Local\Android\sdk
+    • Emulator version 36.4.9.0 (build_id 14788078) (CL:N/A)
+    ✗ cmdline-tools component is missing.
+      Try installing or updating Android Studio.
+      Alternatively, download the tools from https://developer.android.com/studio#command-line-tools-only and make sure to set the ANDROID_HOME environment variable.
+      See https://developer.android.com/studio/command-line for more details.
+    ✗ Android license status unknown.
+      Run `flutter doctor --android-licenses` to accept the SDK licenses.
+      See https://flutter.dev/to/windows-android-setup for more details.
+
+[✓] Chrome - develop for the web [6ms]
+    • Chrome at C:\Program Files\Google\Chrome\Application\chrome.exe
+
+[✗] Visual Studio - develop Windows apps [5ms]
+    ✗ Visual Studio not installed; this is necessary to develop Windows apps.
+      Download at https://visualstudio.microsoft.com/downloads/.
+      Please install the "Desktop development with C++" workload, including all of its default components
+
+[✓] Connected device (3 available) [2.3s]
+    • Windows (desktop) • windows • windows-x64    • Microsoft Windows [Version 10.0.26200.8894]
+    • Chrome (web)      • chrome  • web-javascript • Google Chrome 150.0.7871.187
+    • Edge (web)        • edge    • web-javascript • Microsoft Edge 150.0.4078.99
+
+[✓] Network resources [471ms]
+    • All expected network resources are available.
+
+! Doctor found issues in 2 categories.
+```

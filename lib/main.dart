@@ -16,8 +16,11 @@ import 'screens/manual_registration_screen.dart';
 import 'screens/spare_parts_screen.dart';
 import 'screens/custom_assets_screen.dart';
 import 'screens/otp_verification_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+import 'dart:math';
+import 'package:http/http.dart' as http;
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -708,7 +711,7 @@ class LandingScreen extends StatelessWidget {
 // ==========================================
 // 2. LOGIN & ACCESS SCREEN
 // ==========================================
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   final VoidCallback onBackPressed;
   final VoidCallback onRequestOtpPressed;
   final VoidCallback onCreateAccountPressed;
@@ -721,145 +724,241 @@ class LoginScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Header Line
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton.icon(
-                onPressed: onBackPressed,
-                icon: const Icon(Icons.arrow_back,
-                    size: 16, color: Color(0xFF64748B)),
-                label: const Text(
-                  'Back',
-                  style: TextStyle(
-                      color: Color(0xFF64748B), fontWeight: FontWeight.w600),
-                ),
-                style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              ),
-              const Text(
-                'STEP 1 / 2',
-                style: TextStyle(
-                  color: Color(0xFF94A3B8),
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.0,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const Divider(color: Color(0xFFF1F5F9), height: 1),
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
-        // Main Login Card area
-        Expanded(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8.0),
-                  border:
-                      Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Shield outline indicator
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFECFDF5),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Icon(
-                        Icons.shield_outlined,
-                        color: Color(0xFF059669),
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Sign in',
-                      style: TextStyle(
-                        color: Color(0xFF0F172A),
-                        fontWeight: FontWeight.w800,
-                        fontSize: 22,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Continue with your BrumBella account.',
-                      style: TextStyle(
-                        color: Color(0xFF64748B),
-                        fontSize: 14,
-                      ),
-                    ),
-                    const SizedBox(height: 28),
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
-                    // Phone or Email Label
-                    const Text(
-                      'PHONE OR EMAIL',
-                      style: TextStyle(
-                        color: Color(0xFF475569),
-                        fontWeight: FontWeight.w800,
-                        fontSize: 11,
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        hintText: 'you@example.com',
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Request OTP action
-                    ElevatedButton(
-                      onPressed: onRequestOtpPressed,
-                      child: const Text('Request OTP'),
-                    ),
-                  ],
-                ),
-              ),
+  Future<void> _performLogin() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text("Login successful!"),
+              backgroundColor: Colors.green),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DashboardShell(
+              onLogoutPressed: (context) {
+                FirebaseAuth.instance.signOut();
+                Navigator.pop(context);
+              },
             ),
           ),
-        ),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text("Invalid email or password."),
+              backgroundColor: Colors.red),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
-        // Footer Redirect
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'New to BrumBella? ',
-                style: TextStyle(color: Color(0xFF64748B), fontSize: 13),
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Header Line
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton.icon(
+                    onPressed: widget.onBackPressed,
+                    icon: const Icon(Icons.arrow_back,
+                        size: 16, color: Color(0xFF64748B)),
+                    label: const Text(
+                      'Back',
+                      style: TextStyle(
+                          color: Color(0xFF64748B),
+                          fontWeight: FontWeight.w600),
+                    ),
+                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                  ),
+                  const Text(
+                    'SIGN IN',
+                    style: TextStyle(
+                      color: Color(0xFF94A3B8),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                ],
               ),
-              GestureDetector(
-                onTap: onCreateAccountPressed,
-                child: const Text(
-                  'Create an account',
-                  style: TextStyle(
-                    color: Color(0xFF059669),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
+            ),
+            const Divider(color: Color(0xFFF1F5F9), height: 1),
+
+            // Main Login Card area
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
+                          color: const Color(0xFFE2E8F0), width: 1.0),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Shield outline indicator
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFECFDF5),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(
+                            Icons.shield_outlined,
+                            color: Color(0xFF059669),
+                            size: 24,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Sign in',
+                          style: TextStyle(
+                            color: Color(0xFF0F172A),
+                            fontWeight: FontWeight.w800,
+                            fontSize: 22,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        const Text(
+                          'Continue with your BrumBella account.',
+                          style: TextStyle(
+                            color: Color(0xFF64748B),
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(height: 28),
+
+                        // Email Label
+                        const Text(
+                          'EMAIL ID',
+                          style: TextStyle(
+                            color: Color(0xFF475569),
+                            fontWeight: FontWeight.w800,
+                            fontSize: 11,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(
+                            hintText: 'you@example.com',
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+
+                        // Password Label
+                        const Text(
+                          'PASSWORD',
+                          style: TextStyle(
+                            color: Color(0xFF475569),
+                            fontWeight: FontWeight.w800,
+                            fontSize: 11,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter your password',
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+
+                        // Login action
+                        ElevatedButton(
+                          onPressed: _isLoading ? null : _performLogin,
+                          child: _isLoading
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : const Text('Sign In'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+
+            // Footer Redirect
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'New to BrumBella? ',
+                    style: TextStyle(color: Color(0xFF64748B), fontSize: 13),
+                  ),
+                  GestureDetector(
+                    onTap: widget.onCreateAccountPressed,
+                    child: const Text(
+                      'Create an account',
+                      style: TextStyle(
+                        color: Color(0xFF059669),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -890,15 +989,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   AccountType _selectedAccountType = AccountType.consumer;
   bool _isLoading = false;
   String? _verificationId;
 
-  Future<void> _sendRealOTP() async {
-    String phone = _phoneController.text.trim();
-    if (!phone.startsWith('+')) {
-      phone = '+91$phone'; // Default to India country code if none provided
+  String generateOtp() {
+    return (Random().nextInt(900000) + 100000).toString();
+  }
+
+  Future<bool> sendEmailJS({required String email, required String otp}) async {
+    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        "service_id": "service_v14r3qc",
+        "template_id": "template_nz0l6r9",
+        "user_id": "g5vT_zyJKroZhehA0",
+        "template_params": {"to_email": email, "otp": otp}
+      }),
+    );
+    return response.statusCode == 200;
+  }
+
+  Future<void> _sendEmailOTP() async {
+    if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Passwords do not match')),
+      );
+      return;
     }
 
     setState(() {
@@ -906,23 +1029,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     try {
-      ConfirmationResult result =
-          await FirebaseAuth.instance.signInWithPhoneNumber(phone);
+      String generatedOtp = generateOtp();
+      bool result = await sendEmailJS(
+          email: _emailController.text.trim(), otp: generatedOtp);
 
       setState(() {
         _isLoading = false;
       });
 
-      if (mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OtpVerificationScreen(
-              confirmationResult: result,
-              phoneNumber: phone,
+      if (result) {
+        if (mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OtpVerificationScreen(
+                generatedOtp: generatedOtp,
+                email: _emailController.text.trim(),
+                password: _passwordController.text.trim(),
+              ),
             ),
-          ),
-        );
+          );
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text("Failed to send OTP. Please try again."),
+                backgroundColor: Colors.red),
+          );
+        }
       }
     } catch (e) {
       if (mounted) {
@@ -941,306 +1076,364 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Header
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton.icon(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back,
-                    size: 16, color: Color(0xFF64748B)),
-                label: const Text(
-                  'Back',
-                  style: TextStyle(
-                      color: Color(0xFF64748B), fontWeight: FontWeight.w600),
-                ),
-                style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              ),
-              const Text(
-                'CREATE ACCOUNT',
-                style: TextStyle(
-                  color: Color(0xFF94A3B8),
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.0,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const Divider(color: Color(0xFFF1F5F9), height: 1),
-
-        // Scrollable input forms
-        Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Header
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Get started',
-                    style: TextStyle(
-                      color: Color(0xFF0F172A),
-                      fontWeight: FontWeight.w800,
-                      fontSize: 24,
+                  TextButton.icon(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.arrow_back,
+                        size: 16, color: Color(0xFF64748B)),
+                    label: const Text(
+                      'Back',
+                      style: TextStyle(
+                          color: Color(0xFF64748B),
+                          fontWeight: FontWeight.w600),
                     ),
+                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
                   ),
-                  const SizedBox(height: 6),
                   const Text(
-                    'Provision your BrumBella workspace in under a minute.',
+                    'CREATE ACCOUNT',
                     style: TextStyle(
-                      color: Color(0xFF64748B),
-                      fontSize: 14,
-                    ),
-                  ),
-                  const SizedBox(height: 28),
-
-                  // Name input
-                  const Text(
-                    'FULL NAME',
-                    style: TextStyle(
-                      color: Color(0xFF475569),
-                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF94A3B8),
                       fontSize: 11,
+                      fontWeight: FontWeight.w800,
                       letterSpacing: 1.0,
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _nameController,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Please enter your full name';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Jane Doe',
-                      prefixIcon:
-                          Icon(Icons.person_outline, color: Color(0xFF94A3B8)),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Email input
-                  const Text(
-                    'EMAIL',
-                    style: TextStyle(
-                      color: Color(0xFF475569),
-                      fontWeight: FontWeight.w800,
-                      fontSize: 11,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Please enter a valid email';
-                      }
-                      final emailRegex =
-                          RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                      if (!emailRegex.hasMatch(value)) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'jane@example.com',
-                      prefixIcon:
-                          Icon(Icons.mail_outline, color: Color(0xFF94A3B8)),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Phone number input
-                  const Text(
-                    'PHONE NUMBER',
-                    style: TextStyle(
-                      color: Color(0xFF475569),
-                      fontWeight: FontWeight.w800,
-                      fontSize: 11,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
-                    validator: (value) {
-                      if (value == null ||
-                          value.trim().isEmpty ||
-                          value.length < 10) {
-                        return 'Please enter a valid phone number';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      hintText: '+1 555 123 4567',
-                      prefixIcon:
-                          Icon(Icons.phone_outlined, color: Color(0xFF94A3B8)),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Account Selection Toggle Widget
-                  const Text(
-                    'ACCOUNT TYPE',
-                    style: TextStyle(
-                      color: Color(0xFF475569),
-                      fontWeight: FontWeight.w800,
-                      fontSize: 11,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: const Color(0xFFE2E8F0)),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => setState(() =>
-                                _selectedAccountType = AccountType.consumer),
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              decoration: BoxDecoration(
-                                color:
-                                    _selectedAccountType == AccountType.consumer
-                                        ? const Color(0xFF0F172A)
-                                        : Colors.transparent,
-                                borderRadius: const BorderRadius.horizontal(
-                                  left: Radius.circular(7),
-                                ),
-                              ),
-                              child: Text(
-                                'Consumer',
-                                style: TextStyle(
-                                  color: _selectedAccountType ==
-                                          AccountType.consumer
-                                      ? Colors.white
-                                      : const Color(0xFF64748B),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => setState(() => _selectedAccountType =
-                                AccountType.servicePartner),
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              decoration: BoxDecoration(
-                                color: _selectedAccountType ==
-                                        AccountType.servicePartner
-                                    ? const Color(0xFF0F172A)
-                                    : Colors.transparent,
-                                borderRadius: const BorderRadius.horizontal(
-                                  right: Radius.circular(7),
-                                ),
-                              ),
-                              child: Text(
-                                'Service Partner',
-                                style: TextStyle(
-                                  color: _selectedAccountType ==
-                                          AccountType.servicePartner
-                                      ? Colors.white
-                                      : const Color(0xFF64748B),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 28),
-
-                  // Submit Send OTP
-                  ElevatedButton(
-                    onPressed: _isLoading
-                        ? null
-                        : () {
-                            if (_formKey.currentState!.validate()) {
-                              _sendRealOTP();
-                            }
-                          },
-                    child: _isLoading
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : const Text('Send OTP'),
                   ),
                 ],
               ),
             ),
-          ),
-        ),
+            const Divider(color: Color(0xFFF1F5F9), height: 1),
 
-        // Footer Redirect
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Already a member? ',
-                style: TextStyle(color: Color(0xFF64748B), fontSize: 13),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginScreen(
-                        onBackPressed: () => Navigator.pop(context),
-                        onRequestOtpPressed: () {},
-                        onCreateAccountPressed: () {},
+            // Scrollable input forms
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Get started',
+                        style: TextStyle(
+                          color: Color(0xFF0F172A),
+                          fontWeight: FontWeight.w800,
+                          fontSize: 24,
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: const Text(
-                  'Sign in',
-                  style: TextStyle(
-                    color: Color(0xFF059669),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
+                      const SizedBox(height: 6),
+                      const Text(
+                        'Provision your BrumBella workspace in under a minute.',
+                        style: TextStyle(
+                          color: Color(0xFF64748B),
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(height: 28),
+
+                      // Name input
+                      const Text(
+                        'FULL NAME',
+                        style: TextStyle(
+                          color: Color(0xFF475569),
+                          fontWeight: FontWeight.w800,
+                          fontSize: 11,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        controller: _nameController,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your full name';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          hintText: 'Jane Doe',
+                          prefixIcon: Icon(Icons.person_outline,
+                              color: Color(0xFF94A3B8)),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      // Email input
+                      const Text(
+                        'EMAIL',
+                        style: TextStyle(
+                          color: Color(0xFF475569),
+                          fontWeight: FontWeight.w800,
+                          fontSize: 11,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter a valid email';
+                          }
+                          final emailRegex =
+                              RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                          if (!emailRegex.hasMatch(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          hintText: 'jane@example.com',
+                          prefixIcon: Icon(Icons.mail_outline,
+                              color: Color(0xFF94A3B8)),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      // Phone number input
+                      const Text(
+                        'PHONE NUMBER',
+                        style: TextStyle(
+                          color: Color(0xFF475569),
+                          fontWeight: FontWeight.w800,
+                          fontSize: 11,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        validator: (value) {
+                          if (value == null ||
+                              value.trim().isEmpty ||
+                              value.length < 10) {
+                            return 'Please enter a valid phone number';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          hintText: '+1 555 123 4567',
+                          prefixIcon: Icon(Icons.phone_outlined,
+                              color: Color(0xFF94A3B8)),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Password input
+                      const SizedBox(height: 20),
+                      const Text('PASSWORD',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54)),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock_outline,
+                              color: Colors.grey),
+                          hintText: 'Create a password',
+                          filled: true,
+                          fillColor: const Color(
+                              0xFFF5F6F8), // Matches your grey background
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide.none),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text('CONFIRM PASSWORD',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black54)),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: _confirmPasswordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock_outline,
+                              color: Colors.grey),
+                          hintText: 'Re-enter password',
+                          filled: true,
+                          fillColor: const Color(0xFFF5F6F8),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide.none),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Account Selection Toggle Widget
+                      const Text(
+                        'ACCOUNT TYPE',
+                        style: TextStyle(
+                          color: Color(0xFF475569),
+                          fontWeight: FontWeight.w800,
+                          fontSize: 11,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: const Color(0xFFE2E8F0)),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => setState(() =>
+                                    _selectedAccountType =
+                                        AccountType.consumer),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  decoration: BoxDecoration(
+                                    color: _selectedAccountType ==
+                                            AccountType.consumer
+                                        ? const Color(0xFF0F172A)
+                                        : Colors.transparent,
+                                    borderRadius: const BorderRadius.horizontal(
+                                      left: Radius.circular(7),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Consumer',
+                                    style: TextStyle(
+                                      color: _selectedAccountType ==
+                                              AccountType.consumer
+                                          ? Colors.white
+                                          : const Color(0xFF64748B),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => setState(() =>
+                                    _selectedAccountType =
+                                        AccountType.servicePartner),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  decoration: BoxDecoration(
+                                    color: _selectedAccountType ==
+                                            AccountType.servicePartner
+                                        ? const Color(0xFF0F172A)
+                                        : Colors.transparent,
+                                    borderRadius: const BorderRadius.horizontal(
+                                      right: Radius.circular(7),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Service Partner',
+                                    style: TextStyle(
+                                      color: _selectedAccountType ==
+                                              AccountType.servicePartner
+                                          ? Colors.white
+                                          : const Color(0xFF64748B),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 28),
+
+                      // Submit Send OTP
+                      ElevatedButton(
+                        onPressed: _isLoading
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  _sendEmailOTP();
+                                }
+                              },
+                        child: _isLoading
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text('Send OTP to Email'),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+
+            // Footer Redirect
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Already a member? ',
+                    style: TextStyle(color: Color(0xFF64748B), fontSize: 13),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(
+                            onBackPressed: () => Navigator.pop(context),
+                            onRequestOtpPressed: () {},
+                            onCreateAccountPressed: () {},
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Sign in',
+                      style: TextStyle(
+                        color: Color(0xFF059669),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

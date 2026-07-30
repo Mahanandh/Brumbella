@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../main.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  final ConfirmationResult confirmationResult;
-  final String? phoneNumber;
+  final String generatedOtp;
+  final String email;
+  final String password;
 
   const OtpVerificationScreen({
     super.key,
-    required this.confirmationResult,
-    this.phoneNumber,
+    required this.generatedOtp,
+    required this.email,
+    required this.password,
   });
 
   @override
@@ -33,19 +36,55 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     });
 
     try {
-      UserCredential userCredential =
-          await widget.confirmationResult.confirm(smsCode);
-      if (userCredential.user != null) {
-        // TODO: Navigate to the main Dashboard/Home screen
-        print('SUCCESS: User logged in!');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('SUCCESS: User logged in!')),
-        );
+      bool result = (smsCode == widget.generatedOtp);
+      if (result) {
+        try {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: widget.email,
+            password: widget.password,
+          );
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text("Account verified and created!"),
+                  backgroundColor: Colors.green),
+            );
+            // Route the user to the Login Screen to sign in with their new credentials
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LoginScreen(
+                  onBackPressed: () => Navigator.pop(context),
+                  onRequestOtpPressed: () {},
+                  onCreateAccountPressed: () {},
+                ),
+              ),
+            );
+          }
+        } on FirebaseAuthException catch (e) {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(e.message ?? "Firebase Error"),
+                  backgroundColor: Colors.red),
+            );
+          }
+        }
+      } else {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text("Invalid OTP. Please try again."),
+                backgroundColor: Colors.red),
+          );
+        }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Invalid OTP. Please try again.')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
     } finally {
       if (mounted) {
         setState(() {
@@ -67,7 +106,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
         title: const Text(
-          'Verify Your Number',
+          'Verify Your Email',
           style: TextStyle(
             color: Color(0xFF0F172A),
             fontWeight: FontWeight.bold,
@@ -95,7 +134,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                'A 6-digit code has been sent to your phone number${widget.phoneNumber != null ? ' (${widget.phoneNumber})' : ''}.',
+                'A 6-digit code has been sent to your email (${widget.email}).',
                 style: const TextStyle(
                   color: Color(0xFF64748B),
                   fontSize: 14,
@@ -159,7 +198,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           ),
                         )
                       : const Text(
-                          'Verify & Sign In',
+                          'Verify & Create Account',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
